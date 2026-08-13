@@ -1,0 +1,12 @@
+# Configuration Netlify — Mission Poilus (site 100% statique, pas de build)
+[build]
+  command = ""
+  publish = "."
+
+# En-têtes de sécurité (X-Frame-Options impossible en <meta>, ici via hébergement)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
