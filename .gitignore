@@ -1,0 +1,16 @@
+# ─── SECRETS — NE JAMAIS COMMITTER ───────────────────────────────
+# reservation.gs contient les clés API (Stancer, Abby, Google).
+# Il vit UNIQUEMENT dans Google Apps Script, jamais dans ce dépôt.
+reservation.gs
+api.txt
+
+# ─── Documents internes de projet ────────────────────────────────
+MEMORY.md
+Clean_State*.md
+COMPTE-RENDU*.md
+GUIDE-*.md
+*.log
+
+# ─── Fichiers système ────────────────────────────────────────────
+.DS_Store
+Thumbs.db

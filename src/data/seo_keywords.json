@@ -1,0 +1,111 @@
+{
+  "updated_at": "2026-08-13",
+  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee.",
+  "keywords": [
+    {
+      "keyword": "taxi animalier",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes et 65 km autour (44)",
+      "page": "taxi-animalier.html"
+    },
+    {
+      "keyword": "taxi animalier Nantes",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes",
+      "page": "taxi-animalier.html"
+    },
+    {
+      "keyword": "ambulance animaliere urgence veterinaire",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "44 / Presqu'ile",
+      "page": "taxi-animalier.html"
+    },
+    {
+      "keyword": "garde d'animaux a domicile",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "index.html"
+    },
+    {
+      "keyword": "pet sitting Saint-Andre-des-Eaux",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Saint-Andre-des-Eaux (44117)",
+      "page": "index.html"
+    },
+    {
+      "keyword": "pet sitter presqu'ile guerandaise",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Presqu'ile de Guerande",
+      "page": "index.html"
+    },
+    {
+      "keyword": "promenade de chien",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes / Presqu'ile",
+      "page": "promenades.html"
+    },
+    {
+      "keyword": "visite a domicile chat",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "visites-chats-nac.html"
+    },
+    {
+      "keyword": "garde de chat pendant vacances",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "visites-chats-nac.html"
+    },
+    {
+      "keyword": "garde de NAC a domicile",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "visites-chats-nac.html"
+    },
+    {
+      "keyword": "livraison croquettes a domicile",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "44 / Presqu'ile",
+      "page": "livraison.html"
+    },
+    {
+      "keyword": "accompagnement avant apres hospitalisation veterinaire",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes (CHV Atlantia, Oniris)",
+      "page": "avant-apres-hospitalisation.html"
+    },
+    {
+      "keyword": "conseil assurance sante animale",
+      "volume": "estime",
+      "intent": "informationnel",
+      "location": "France",
+      "page": "assurance.html"
+    },
+    {
+      "keyword": "garde de chien a domicile tarif",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "tarifs.html"
+    },
+    {
+      "keyword": "transport animal clinique veterinaire",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes (Atlantia, Oniris, Grand Large)",
+      "page": "tarifs.html"
+    }
+  ]
+}
