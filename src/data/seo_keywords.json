@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-13",
+  "updated_at": "2026-08-18",
   "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee.",
   "keywords": [
     {
@@ -24,6 +24,13 @@
       "page": "taxi-animalier.html"
     },
     {
+      "keyword": "transport animal clinique veterinaire",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes (Atlantia, Oniris, Grand Large)",
+      "page": "taxi-animalier.html"
+    },
+    {
       "keyword": "garde d'animaux a domicile",
       "volume": "estime",
       "intent": "transactionnel",
@@ -42,6 +49,13 @@
       "volume": "estime",
       "intent": "transactionnel",
       "location": "Presqu'ile de Guerande",
+      "page": "index.html"
+    },
+    {
+      "keyword": "garde de chien La Baule",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "La Baule / Presqu'ile de Guerande",
       "page": "index.html"
     },
     {
@@ -87,24 +101,10 @@
       "page": "avant-apres-hospitalisation.html"
     },
     {
-      "keyword": "conseil assurance sante animale",
-      "volume": "estime",
-      "intent": "informationnel",
-      "location": "France",
-      "page": "assurance.html"
-    },
-    {
       "keyword": "garde de chien a domicile tarif",
       "volume": "estime",
       "intent": "transactionnel",
       "location": "France",
-      "page": "tarifs.html"
-    },
-    {
-      "keyword": "transport animal clinique veterinaire",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes (Atlantia, Oniris, Grand Large)",
       "page": "tarifs.html"
     }
   ]
