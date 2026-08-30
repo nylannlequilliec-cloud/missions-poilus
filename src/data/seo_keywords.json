@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-18",
+  "updated_at": "2026-08-30",
   "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee.",
   "keywords": [
     {
@@ -17,10 +17,10 @@
       "page": "taxi-animalier.html"
     },
     {
-      "keyword": "ambulance animaliere urgence veterinaire",
+      "keyword": "ambulance animaliere nantes",
       "volume": "estime",
       "intent": "transactionnel",
-      "location": "44 / Presqu'ile",
+      "location": "Nantes / 44",
       "page": "taxi-animalier.html"
     },
     {
@@ -45,10 +45,10 @@
       "page": "index.html"
     },
     {
-      "keyword": "pet sitter presqu'ile guerandaise",
+      "keyword": "garde de chien saint nazaire",
       "volume": "estime",
       "intent": "transactionnel",
-      "location": "Presqu'ile de Guerande",
+      "location": "Saint-Nazaire / Presqu'ile",
       "page": "index.html"
     },
     {
@@ -73,10 +73,10 @@
       "page": "visites-chats-nac.html"
     },
     {
-      "keyword": "garde de chat pendant vacances",
+      "keyword": "garde de chat la baule",
       "volume": "estime",
       "intent": "transactionnel",
-      "location": "France",
+      "location": "La Baule / Presqu'ile de Guerande",
       "page": "visites-chats-nac.html"
     },
     {
