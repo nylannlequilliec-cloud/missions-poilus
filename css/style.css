@@ -402,7 +402,7 @@
       height: 100%;
       background: var(--blanc);
       border-radius: 22px;
-      padding: 38px 28px;
+      padding: 0 28px 38px;
       border: 3px solid var(--bleu-nuit);
       box-shadow:
         0 0 0 6px var(--blanc),
@@ -413,6 +413,14 @@
       overflow: hidden;
     }
     .service-card .card-cta { margin-top: auto; align-self: flex-start; }
+    /* Toit en vague (bord ondulé comme les séparateurs de sections) */
+    .service-card .card-wave {
+      display: block;
+      width: calc(100% + 56px);
+      height: 52px;
+      margin: 0 -28px 30px -28px;
+      flex-shrink: 0;
+    }
     .service-card::before {
       content: '';
       position: absolute;
