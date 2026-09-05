@@ -247,12 +247,11 @@
     .hero h1 .ht-city {
       display: block;
       color: var(--orange);
-      font-size: clamp(1.15rem, 3.5vw, 1.9rem);
+      font-size: clamp(0.95rem, 2.6vw, 1.45rem);
       margin-top: 4px;
     }
     @media (min-width: 700px) {
-      .hero h1 .ht-main,
-      .hero h1 .ht-city { white-space: nowrap; }
+      .hero h1 .ht-main { white-space: nowrap; }
     }
     .hero .baseline {
       font-size: 1.05rem;
