@@ -2130,3 +2130,30 @@ nav.menu a.active::after { width: 60%; }
   .galerie-band { padding: 50px 0 60px; --gap: 14px; }
   .galerie-item { width: auto; height: 160px; }
 }
+
+/* ============================================================
+   Vagues décoratives multi-couches (DA bleu nuit / blanc)
+   Divider placé ENTRE deux sections. Les 4 couches B1..B4
+   s'étagent du haut (couleur de la section précédente) vers
+   le bas (couleur de la section suivante) : chaque path est
+   dessiné dans l'ordre B1 (plein) -> B4 (destination), et ses
+   crêtes dessinent des lignes de vagues successives.
+   ============================================================ */
+.wave-divider {
+  display: block;
+  width: 100%;
+  height: 92px;
+  line-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.wave-divider svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.wave-divider--sm { height: 58px; }
+@media (max-width: 600px) {
+  .wave-divider { height: 54px; }
+  .wave-divider--sm { height: 34px; }
+}
