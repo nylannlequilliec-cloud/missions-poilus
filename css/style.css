@@ -400,18 +400,20 @@
       text-decoration: none;
       color: inherit;
       height: 100%;
-      background: var(--blanc);
-      border-radius: 22px;
-      padding: 0 28px 38px;
-      border: 3px solid var(--bleu-nuit);
-      box-shadow:
-        0 0 0 6px var(--blanc),
-        0 0 0 9px var(--orange),
-        0 16px 32px rgba(35, 43, 69, 0.12);
-      transition: var(--transition);
+      padding: 36px 34px 42px;
       position: relative;
-      overflow: hidden;
     }
+    /* La forme ondulée (SVG) porte le fond blanc, le cadre orange+bleu et l'ombre */
+    .service-card .card-shape {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      filter: drop-shadow(0 14px 22px rgba(35, 43, 69, 0.16));
+      pointer-events: none;
+    }
+    .service-card > *:not(.card-shape) { position: relative; z-index: 1; }
     .service-card .card-cta { margin-top: auto; align-self: flex-start; }
     /* Empreinte de patte décorative en filigrane */
     .service-card::after {
@@ -419,24 +421,17 @@
       font-family: 'Font Awesome 6 Free';
       font-weight: 900;
       position: absolute;
-      right: 12px;
-      bottom: 6px;
-      font-size: 92px;
+      right: 26px;
+      bottom: 18px;
+      font-size: 88px;
       line-height: 1;
       color: rgba(35, 43, 69, 0.06);
       transform: rotate(-18deg);
       pointer-events: none;
       z-index: 0;
     }
-    .service-card > *:not(.card-wave) { position: relative; z-index: 1; }
-    /* Toit en vague (bord ondulé comme les séparateurs de sections) */
-    .service-card .card-wave {
-      display: block;
-      width: calc(100% + 56px);
-      height: 52px;
-      margin: 0 -28px 30px -28px;
-      flex-shrink: 0;
-    }
+    /* La barre supérieure animée n'a plus lieu d'être (contour ondulé) */
+    .service-card::before { display: none; }
     .service-card::before {
       content: '';
       position: absolute;
@@ -448,7 +443,7 @@
       transform-origin: left;
       transition: transform .4s ease;
     }
-    .service-card:hover { transform: translateY(-10px); box-shadow: 0 0 0 6px var(--blanc), 0 0 0 9px var(--orange-clair), 0 18px 38px rgba(35,43,69,0.18); }
+    .service-card:hover { transform: translateY(-10px); }
     .service-card:hover::before { transform: scaleX(1); }
     .service-card .service-icon {
       width: 70px;
@@ -1541,8 +1536,9 @@
     .float-call:hover { transform: scale(1.1); }
 
     /* Service card — gradient subtil au hover */
-    .service-card { transition: transform .45s cubic-bezier(0.22,1,0.36,1), box-shadow .45s ease, border-color .3s ease; }
-    .service-card:hover { border-color: var(--orange-fonce); }
+    .service-card { transition: transform .45s cubic-bezier(0.22,1,0.36,1); }
+    .service-card .card-shape { transition: filter .45s ease; }
+    .service-card:hover .card-shape { filter: drop-shadow(0 18px 30px rgba(35, 43, 69, 0.24)); }
 
     /* Hero CTA pulse subtil */
     .btn-primary {
