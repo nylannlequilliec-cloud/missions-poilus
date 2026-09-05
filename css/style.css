@@ -401,13 +401,16 @@
       color: inherit;
       height: 100%;
       background: var(--blanc);
-      border-radius: var(--radius-lg);
+      border-radius: 22px;
       padding: 38px 28px;
-      box-shadow: var(--shadow-sm);
+      border: 3px solid var(--bleu-nuit);
+      box-shadow:
+        0 0 0 6px var(--blanc),
+        0 0 0 9px var(--orange),
+        0 16px 32px rgba(35, 43, 69, 0.12);
       transition: var(--transition);
       position: relative;
       overflow: hidden;
-      border: 1px solid var(--gris-mid);
     }
     .service-card .card-cta { margin-top: auto; align-self: flex-start; }
     .service-card::before {
@@ -421,7 +424,7 @@
       transform-origin: left;
       transition: transform .4s ease;
     }
-    .service-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+    .service-card:hover { transform: translateY(-10px); box-shadow: 0 0 0 6px var(--blanc), 0 0 0 9px var(--orange-clair), 0 18px 38px rgba(35,43,69,0.18); }
     .service-card:hover::before { transform: scaleX(1); }
     .service-card .service-icon {
       width: 70px;
@@ -1515,7 +1518,7 @@
 
     /* Service card — gradient subtil au hover */
     .service-card { transition: transform .45s cubic-bezier(0.22,1,0.36,1), box-shadow .45s ease, border-color .3s ease; }
-    .service-card:hover { border-color: rgba(242,140,40,0.3); }
+    .service-card:hover { border-color: var(--orange-fonce); }
 
     /* Hero CTA pulse subtil */
     .btn-primary {
