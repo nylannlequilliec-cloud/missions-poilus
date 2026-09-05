@@ -413,6 +413,22 @@
       overflow: hidden;
     }
     .service-card .card-cta { margin-top: auto; align-self: flex-start; }
+    /* Empreinte de patte décorative en filigrane */
+    .service-card::after {
+      content: '\f1b0';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      right: 12px;
+      bottom: 6px;
+      font-size: 92px;
+      line-height: 1;
+      color: rgba(35, 43, 69, 0.06);
+      transform: rotate(-18deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .service-card > *:not(.card-wave) { position: relative; z-index: 1; }
     /* Toit en vague (bord ondulé comme les séparateurs de sections) */
     .service-card .card-wave {
       display: block;
