@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-30",
+  "updated_at": "2026-09-06",
   "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee.",
   "keywords": [
     {
@@ -21,13 +21,6 @@
       "volume": "estime",
       "intent": "transactionnel",
       "location": "Nantes / 44",
-      "page": "taxi-animalier.html"
-    },
-    {
-      "keyword": "transport animal clinique veterinaire",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes (Atlantia, Oniris, Grand Large)",
       "page": "taxi-animalier.html"
     },
     {
@@ -73,13 +66,6 @@
       "page": "visites-chats-nac.html"
     },
     {
-      "keyword": "garde de chat la baule",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "La Baule / Presqu'ile de Guerande",
-      "page": "visites-chats-nac.html"
-    },
-    {
       "keyword": "garde de NAC a domicile",
       "volume": "estime",
       "intent": "transactionnel",
@@ -106,6 +92,20 @@
       "intent": "transactionnel",
       "location": "France",
       "page": "tarifs.html"
+    },
+    {
+      "keyword": "pet sitter Nantes",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes",
+      "page": "index.html"
+    },
+    {
+      "keyword": "assurance sante animale",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "assurance.html"
     }
   ]
 }
