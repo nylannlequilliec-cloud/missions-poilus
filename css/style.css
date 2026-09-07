@@ -417,7 +417,9 @@
     .service-card .deco { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
     .service-card .deco svg, .service-card .deco i { position: absolute; }
     .service-card > *:not(.deco) { position: relative; z-index: 2; }
-    .service-card .cw { width: 140px; height: 140px; }
+    .service-card .cw { width: 170px; height: 170px; }
+    /* Carte 2 (Livraison) : vagues réduites pour ne pas gêner l'icône en-tête */
+    .service-card:nth-child(2) .cw { width: 115px; height: 115px; }
     .service-card .wm {
       color: #F4E8D8;
       opacity: 0.35;
