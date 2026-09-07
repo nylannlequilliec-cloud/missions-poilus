@@ -416,8 +416,8 @@
     /* Calque décoratif (vagues + filigranes), sous le contenu */
     .service-card .deco { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
     .service-card .deco svg, .service-card .deco i { position: absolute; }
-    .service-card > *:not(.deco) { position: relative; z-index: 1; }
-    .service-card .cw { width: 150px; height: 150px; }
+    .service-card > *:not(.deco) { position: relative; z-index: 2; }
+    .service-card .cw { width: 140px; height: 140px; }
     .service-card .wm {
       color: #F4E8D8;
       opacity: 0.35;
@@ -472,6 +472,7 @@
       justify-content: center;
       font-size: 1.7rem;
       margin-bottom: 22px;
+      box-shadow: 0 0 0 5px #FAF8F5;
       transition: transform .35s ease, background .35s ease;
     }
     .service-card:hover .service-icon { transform: translateY(-3px) rotate(-4deg); }
