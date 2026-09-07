@@ -416,42 +416,37 @@
     /* Calque décoratif (vagues + filigranes), sous le contenu */
     .service-card .deco { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
     .service-card .deco svg, .service-card .deco i { position: absolute; }
-    .service-card > *:not(.deco) { position: relative; z-index: 2; }
-    .service-card .cw { width: 170px; height: 170px; }
-    /* Carte 2 (Livraison) : vagues réduites pour ne pas gêner l'icône en-tête */
-    .service-card:nth-child(2) .cw { width: 115px; height: 115px; }
-    .service-card .wm {
-      color: #F4E8D8;
-      opacity: 0.35;
-      line-height: 1;
-    }
-    /* --- Carte 1 · Taxi & Ambulance : vagues sup-droit + inf-gauche, patte bas-droite --- */
+    /* Contenu (texte, icônes, boutons) toujours AU-DESSUS des vagues */
+    .service-card > *:not(.deco) { position: relative; z-index: 10; }
+    .service-card .cw { width: 130px; height: 130px; }
+    .service-card .wm { color: #F4E8D8; opacity: 0.35; line-height: 1; font-size: 96px; }
+    /* --- Carte 1 · Taxi : vagues sup-droit + inf-gauche, patte bas-droite --- */
     .service-card:nth-child(1) .cw-a { top: 0; right: 0; }
     .service-card:nth-child(1) .cw-b { bottom: 0; left: 0; transform: rotate(180deg); }
-    .service-card:nth-child(1) .wm { bottom: 8px; right: 14px; font-size: 128px; }
+    .service-card:nth-child(1) .wm { bottom: 10px; right: 12px; }
     /* --- Carte 2 · Livraison : vagues sup-gauche + inf-droit, colis bas-gauche --- */
     .service-card:nth-child(2) .cw-a { top: 0; left: 0; transform: scaleX(-1); }
     .service-card:nth-child(2) .cw-b { bottom: 0; right: 0; transform: scaleY(-1); }
-    .service-card:nth-child(2) .wm { bottom: 8px; left: 14px; font-size: 122px; }
-    /* --- Carte 3 · Promenades : bande de vagues couvrant le haut, traces bas-droite --- */
-    .service-card:nth-child(3) { padding-top: 92px; }
-    .service-card:nth-child(3) .cw-band { top: 0; left: 0; width: 100%; height: 60px; }
+    .service-card:nth-child(2) .wm { bottom: 10px; left: 12px; }
+    /* --- Carte 3 · Promenades : vague douce couvrant le haut, traces bas-droite --- */
+    .service-card:nth-child(3) { padding-top: 64px; }
+    .service-card:nth-child(3) .cw-a { top: 0; left: 0; width: 100%; height: 64px; }
     .service-card:nth-child(3) .tr { color: #F4E8D8; opacity: 0.4; line-height: 1; }
     .service-card:nth-child(3) .t1 { right: 26px; bottom: 18px; font-size: 42px; transform: rotate(-32deg); }
     .service-card:nth-child(3) .t2 { right: 78px; bottom: 36px; font-size: 35px; transform: rotate(-12deg); }
     .service-card:nth-child(3) .t3 { right: 126px; bottom: 48px; font-size: 29px; transform: rotate(6deg); }
-    /* --- Carte 4 · Visites : bande de vagues couvrant le bas, maison-cœur bas-droite --- */
-    .service-card:nth-child(4) { padding-bottom: 92px; }
-    .service-card:nth-child(4) .cw-band { bottom: 0; left: 0; width: 100%; height: 60px; }
-    .service-card:nth-child(4) .wm { bottom: 74px; right: 16px; font-size: 108px; }
+    /* --- Carte 4 · Visites : vague douce couvrant le bas, maison bas-droite --- */
+    .service-card:nth-child(4) { padding-bottom: 64px; }
+    .service-card:nth-child(4) .cw-a { bottom: 0; left: 0; width: 100%; height: 64px; transform: rotate(180deg); }
+    .service-card:nth-child(4) .wm { bottom: 74px; right: 14px; }
     /* --- Carte 5 · Assurance : vagues sup-droit + inf-droit, bouclier bas-gauche --- */
     .service-card:nth-child(5) .cw-a { top: 0; right: 0; }
     .service-card:nth-child(5) .cw-b { bottom: 0; right: 0; transform: scaleY(-1); }
-    .service-card:nth-child(5) .wm { bottom: 10px; left: 14px; font-size: 116px; }
+    .service-card:nth-child(5) .wm { bottom: 10px; left: 12px; }
     /* --- Carte 6 · Avant/après : vagues sup-gauche + inf-gauche, cœur bas-droite --- */
     .service-card:nth-child(6) .cw-a { top: 0; left: 0; transform: scaleX(-1); }
     .service-card:nth-child(6) .cw-b { bottom: 0; left: 0; transform: rotate(180deg); }
-    .service-card:nth-child(6) .wm { bottom: 10px; right: 14px; font-size: 112px; }
+    .service-card:nth-child(6) .wm { bottom: 10px; right: 12px; }
     /* Bouton pilule orange en bas */
     .service-card .card-cta {
       margin-top: auto;
