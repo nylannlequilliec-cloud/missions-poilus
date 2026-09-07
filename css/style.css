@@ -394,81 +394,118 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 28px;
     }
+    /* ============================================
+       CARTES SERVICES — style fluide & chaleureux
+       Fond crème, vagues bicolores, filigranes
+    ============================================ */
     .service-card {
       display: flex;
       flex-direction: column;
       text-decoration: none;
       color: inherit;
       height: 100%;
-      background: var(--blanc);
-      border-radius: var(--radius-lg);
-      padding: 38px 28px;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
+      background: #FAF8F5;
+      border-radius: 20px;
+      padding: 38px 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      transition: transform .4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .4s ease;
       position: relative;
       overflow: hidden;
-      border: 1px solid var(--gris-mid);
     }
-    .service-card .card-cta { margin-top: auto; align-self: flex-start; }
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--orange), var(--orange-clair));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .4s ease;
+    .service-card:hover { transform: translateY(-8px); box-shadow: 0 22px 44px rgba(0, 0, 0, 0.10); }
+    /* Calque décoratif (vagues + filigranes), sous le contenu */
+    .service-card .deco { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .service-card .deco svg, .service-card .deco i { position: absolute; }
+    .service-card > *:not(.deco) { position: relative; z-index: 1; }
+    .service-card .cw { width: 150px; height: 150px; }
+    .service-card .wm {
+      color: #F4E8D8;
+      opacity: 0.35;
+      line-height: 1;
     }
-    .service-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
-    .service-card:hover::before { transform: scaleX(1); }
+    /* --- Carte 1 · Taxi & Ambulance : vagues sup-droit + inf-gauche, patte bas-droite --- */
+    .service-card:nth-child(1) .cw-a { top: 0; right: 0; }
+    .service-card:nth-child(1) .cw-b { bottom: 0; left: 0; transform: rotate(180deg); }
+    .service-card:nth-child(1) .wm { bottom: 8px; right: 14px; font-size: 128px; }
+    /* --- Carte 2 · Livraison : vagues sup-gauche + inf-droit, colis bas-gauche --- */
+    .service-card:nth-child(2) .cw-a { top: 0; left: 0; transform: scaleX(-1); }
+    .service-card:nth-child(2) .cw-b { bottom: 0; right: 0; transform: scaleY(-1); }
+    .service-card:nth-child(2) .wm { bottom: 8px; left: 14px; font-size: 122px; }
+    /* --- Carte 3 · Promenades : bande de vagues couvrant le haut, traces bas-droite --- */
+    .service-card:nth-child(3) { padding-top: 92px; }
+    .service-card:nth-child(3) .cw-band { top: 0; left: 0; width: 100%; height: 60px; }
+    .service-card:nth-child(3) .tr { color: #F4E8D8; opacity: 0.4; line-height: 1; }
+    .service-card:nth-child(3) .t1 { right: 26px; bottom: 18px; font-size: 42px; transform: rotate(-32deg); }
+    .service-card:nth-child(3) .t2 { right: 78px; bottom: 36px; font-size: 35px; transform: rotate(-12deg); }
+    .service-card:nth-child(3) .t3 { right: 126px; bottom: 48px; font-size: 29px; transform: rotate(6deg); }
+    /* --- Carte 4 · Visites : bande de vagues couvrant le bas, maison-cœur bas-droite --- */
+    .service-card:nth-child(4) { padding-bottom: 92px; }
+    .service-card:nth-child(4) .cw-band { bottom: 0; left: 0; width: 100%; height: 60px; }
+    .service-card:nth-child(4) .wm { bottom: 74px; right: 16px; font-size: 108px; }
+    /* --- Carte 5 · Assurance : vagues sup-droit + inf-droit, bouclier bas-gauche --- */
+    .service-card:nth-child(5) .cw-a { top: 0; right: 0; }
+    .service-card:nth-child(5) .cw-b { bottom: 0; right: 0; transform: scaleY(-1); }
+    .service-card:nth-child(5) .wm { bottom: 10px; left: 14px; font-size: 116px; }
+    /* --- Carte 6 · Avant/après : vagues sup-gauche + inf-gauche, cœur bas-droite --- */
+    .service-card:nth-child(6) .cw-a { top: 0; left: 0; transform: scaleX(-1); }
+    .service-card:nth-child(6) .cw-b { bottom: 0; left: 0; transform: rotate(180deg); }
+    .service-card:nth-child(6) .wm { bottom: 10px; right: 14px; font-size: 112px; }
+    /* Bouton pilule orange en bas */
+    .service-card .card-cta {
+      margin-top: auto;
+      align-self: center;
+      border-radius: 999px;
+      padding: 13px 36px;
+      background: #E08A2A;
+      box-shadow: 0 10px 24px rgba(224, 138, 42, 0.30);
+    }
+    .service-card .card-cta:hover { background: #c9771d; }
+    /* Icône principale : carré arrondi bleu nuit, pictogramme orange */
     .service-card .service-icon {
-      width: 70px;
-      height: 70px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, var(--bleu-nuit), var(--bleu-nuit-2));
-      color: var(--orange);
+      width: 68px;
+      height: 68px;
+      border-radius: 17px;
+      background: #1E253B;
+      color: #E08A2A;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.7rem;
       margin-bottom: 22px;
-      transition: var(--transition);
+      transition: transform .35s ease, background .35s ease;
     }
-    .service-card:hover .service-icon {
-      background: linear-gradient(135deg, var(--orange), var(--orange-fonce));
-      color: var(--blanc);
-      transform: rotate(-6deg) scale(1.05);
-    }
+    .service-card:hover .service-icon { transform: translateY(-3px) rotate(-4deg); }
     .service-card h3 {
-      color: var(--bleu-nuit);
-      font-size: 1.25rem;
+      color: #1E253B;
+      font-size: 1.28rem;
       font-weight: 700;
       margin-bottom: 12px;
     }
     .service-card p {
-  color: #2d2d2d;
-  font-size: 0.93rem;
-  margin-bottom: 16px;
-}
+      color: #4b4b4b;
+      font-size: 0.93rem;
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
     .service-card ul {
       list-style: none;
+      margin-bottom: 18px;
     }
     .service-card ul li {
       font-size: 0.88rem;
-      color: var(--texte);
+      color: #4b4b4b;
       padding: 4px 0;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
     }
     .service-card ul li::before {
       content: '\f00c';
       font-family: 'Font Awesome 6 Free';
       font-weight: 900;
-      color: var(--orange);
-      font-size: 0.75rem;
+      color: #E08A2A;
+      font-size: 0.8rem;
+      flex-shrink: 0;
     }
 
     /* ============================================
@@ -1512,10 +1549,6 @@
       100% { transform: scale(1.4);  opacity: 0; }
     }
     .float-call:hover { transform: scale(1.1); }
-
-    /* Service card — gradient subtil au hover */
-    .service-card { transition: transform .45s cubic-bezier(0.22,1,0.36,1), box-shadow .45s ease, border-color .3s ease; }
-    .service-card:hover { border-color: rgba(242,140,40,0.3); }
 
     /* Hero CTA pulse subtil */
     .btn-primary {
