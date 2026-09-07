@@ -397,54 +397,32 @@
     .service-card {
       display: flex;
       flex-direction: column;
+      text-align: center;
       text-decoration: none;
       color: inherit;
       height: 100%;
-      padding: 36px 34px 42px;
+      padding: 46px 32px 38px;
+      background: #FDF8EF;
+      border-radius: 26px;
+      border: 1px solid rgba(222, 188, 145, 0.35);
+      box-shadow: 0 14px 34px rgba(128, 96, 60, 0.10);
       position: relative;
+      transition: transform .45s cubic-bezier(0.22,1,0.36,1), box-shadow .45s ease;
     }
-    /* La forme ondulée (SVG) porte le fond blanc, le cadre orange+bleu et l'ombre */
-    .service-card .card-shape {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      filter: drop-shadow(0 14px 22px rgba(35, 43, 69, 0.16));
-      pointer-events: none;
+    .service-card:hover { transform: translateY(-10px); box-shadow: 0 24px 48px rgba(128, 96, 60, 0.16); }
+    /* Contenu centré, liste alignée à gauche pour la lecture */
+    .service-card .card-cta {
+      margin: 28px auto 0;
+      border-radius: 999px;
+      padding: 15px 40px;
+      box-shadow: 0 10px 26px rgba(242, 140, 40, 0.35);
     }
-    .service-card > *:not(.card-shape) { position: relative; z-index: 1; }
-    .service-card .card-cta { margin-top: auto; align-self: flex-start; }
-    /* Empreinte de patte décorative en filigrane */
-    .service-card::after {
-      content: '\f1b0';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute;
-      right: 26px;
-      bottom: 18px;
-      font-size: 88px;
-      line-height: 1;
-      color: rgba(35, 43, 69, 0.06);
-      transform: rotate(-18deg);
-      pointer-events: none;
-      z-index: 0;
+    .service-card ul {
+      text-align: left;
+      max-width: 330px;
+      margin: 6px auto 0;
     }
-    /* La barre supérieure animée n'a plus lieu d'être (contour ondulé) */
-    .service-card::before { display: none; }
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--orange), var(--orange-clair));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .4s ease;
-    }
-    .service-card:hover { transform: translateY(-10px); }
-    .service-card:hover::before { transform: scaleX(1); }
+    .service-card ul li { justify-content: flex-start; }
     .service-card .service-icon {
       width: 70px;
       height: 70px;
@@ -455,7 +433,7 @@
       align-items: center;
       justify-content: center;
       font-size: 1.7rem;
-      margin-bottom: 22px;
+      margin: 0 auto 24px;
       transition: var(--transition);
     }
     .service-card:hover .service-icon {
@@ -486,7 +464,7 @@
       gap: 8px;
     }
     .service-card ul li::before {
-      content: '\f00c';
+      content: none;
       font-family: 'Font Awesome 6 Free';
       font-weight: 900;
       color: var(--orange);
