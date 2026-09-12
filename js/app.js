@@ -39,10 +39,10 @@
     function getTarifSpecialDestination(text) {
       const t = normaliser(text);
       if (!t) return null;
-      if (t.indexOf('atlantia') !== -1) return { nom: 'CHV Atlantia — Nantes', tarif: 130 };
-      if (t.indexOf('oniris') !== -1 || t.indexOf('chuv') !== -1) return { nom: 'CHUV Oniris — Nantes', tarif: 130 };
-      if (t.indexOf('vetoceane') !== -1) return { nom: 'Clinique Vétocéane — Vertou', tarif: 150 };
-      if (t.indexOf('grand large') !== -1 || t.indexOf('grand-large') !== -1) return { nom: 'Clinique du Grand Large — Pornic', tarif: 130 };
+      if (t.indexOf('atlantia') !== -1) return { nom: 'CHV Atlantia — Nantes', tarif: 150, tarifAR: 270 };
+      if (t.indexOf('oniris') !== -1 || t.indexOf('chuv') !== -1) return { nom: 'CHUV Oniris — Nantes', tarif: 150, tarifAR: 270 };
+      if (t.indexOf('vetoceane') !== -1) return { nom: 'Clinique Vétocéane — Vertou', tarif: 150, tarifAR: 270 };
+      if (t.indexOf('grand large') !== -1 || t.indexOf('grand-large') !== -1) return { nom: 'Clinique du Grand Large — Pornic', tarif: 150, tarifAR: 270 };
       if (t.indexOf('aeroport') !== -1 && (t.indexOf('nantes') !== -1 || t.indexOf('atlantique') !== -1)) return { nom: 'Aéroport de Nantes Atlantique — Bouguenais', tarif: 150, tarifAR: 270 };
       if (t.indexOf('gare') !== -1 && t.indexOf('nantes') !== -1) return { nom: 'Gare de Nantes', tarif: 150, tarifAR: 270 };
       return null;
@@ -532,7 +532,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         const isGare = normaliser(destText).indexOf('gare') !== -1;
 
         // Destination à tarif fixe (clinique, aéroport, Gare de Nantes) ?
-        let speDest = (villeArrivee && villeArrivee.special) ? { nom: villeArrivee.nom, tarif: villeArrivee.tarif } : null;
+        let speDest = (villeArrivee && villeArrivee.special) ? { nom: villeArrivee.nom, tarif: villeArrivee.tarif, tarifAR: villeArrivee.tarifAR } : null;
         if (!speDest) speDest = getTarifSpecialDestination(destText);
 
         if (speDest) {
