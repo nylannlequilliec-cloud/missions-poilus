@@ -667,12 +667,12 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         total += sousTotal;
         detailTexte.push(`Promenade ${fmt(parPassage)}/passage × ${nbPassages} = ${fmt(sousTotal)}`);
 
-        // Pack Privilège : -20% dès 10 promenades
+        // Pack Privilège : -10% dès 10 promenades
         if (nbPassages >= 10) {
-          const remise = Math.round(sousTotal * 0.20 * 100) / 100;
-          lignes.push({ label: 'Pack Privilège (-20% dès 10 promenades)', value: '-' + fmt(remise) });
+          const remise = Math.round(sousTotal * 0.10 * 100) / 100;
+          lignes.push({ label: 'Pack Privilège (-10% dès 10 promenades)', value: '-' + fmt(remise) });
           total -= remise;
-          detailTexte.push(`Pack Privilege -20%: -${fmt(remise)}`);
+          detailTexte.push(`Pack Privilege -10%: -${fmt(remise)}`);
         }
       }
 
@@ -697,12 +697,12 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         total += sousTotal;
         detailTexte.push(`Visite ${fmt(parVisite)}/visite × ${nbVisites} = ${fmt(sousTotal)}`);
 
-        // Pack Privilège : -20% dès 10 visites
+        // Pack Privilège : -10% dès 10 visites
         if (nbVisites >= 10) {
-          const remise = Math.round(sousTotal * 0.20 * 100) / 100;
-          lignes.push({ label: 'Pack Privilège (-20% dès 10 visites)', value: '-' + fmt(remise) });
+          const remise = Math.round(sousTotal * 0.10 * 100) / 100;
+          lignes.push({ label: 'Pack Privilège (-10% dès 10 visites)', value: '-' + fmt(remise) });
           total -= remise;
-          detailTexte.push(`Pack Privilege -20%: -${fmt(remise)}`);
+          detailTexte.push(`Pack Privilege -10%: -${fmt(remise)}`);
         }
       }
 
@@ -921,13 +921,13 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         ? "\n/!\\ Tarif estimatif -- Le temps d'attente sur place\n(+5,00 EUR / 15 min) sera ajoute selon duree reelle.\n"
         : '';
       const notePromoRecap = aPromo
-        ? "\n[BON PLAN] Tarif degressif : -20% (Pack Privilege) applique des 10 prestations.\n"
+        ? "\n[BON PLAN] Tarif degressif : -10% (Pack Privilege) applique des 10 prestations.\n"
         : '';
       const noteTempsPlaceClient = isTransport
         ? "\n/!\\ IMPORTANT : Ce tarif est estimatif. Le temps d'attente sur place (+5,00 EUR / 15 min) sera ajoute en fin de prestation selon la duree reelle.\n"
         : '';
       const notePromoClient = aPromo
-        ? "\n❤️ BON PLAN : grace a la quantite demandee, votre tarif est degressif ! A partir de 10 prestations, le Pack Privilege vous fait economiser 20% sur le total.\n"
+        ? "\n❤️ BON PLAN : grace a la quantite demandee, votre tarif est degressif ! A partir de 10 prestations, le Pack Privilege vous fait economiser 10% sur le total.\n"
         : '';
 
       // ============================================
