@@ -233,7 +233,8 @@
         { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, zoneA: true },
         { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 },
         { id: '45', nom: 'Visite 45 min (dont 30 min de balade)', duree: '45 min', prixA: 18, prixB: 23, balade: '30 min' },
-        { id: 'p10', nom: 'Pack Privilège 10 visites de 45 min', duree: '45 min', forfait: 180, zoneA: true, reco: true }
+        { id: 'v5', nom: '5 visites de 45 min', duree: '45 min', unites: 5, forfaitA: 85, forfaitB: 110, balade: '30 min' },
+        { id: 'v10', nom: '10 visites de 45 min', duree: '45 min', unites: 10, forfaitA: 170, forfaitB: 220, balade: '30 min', reco: true }
       ]
     };
 
@@ -258,7 +259,8 @@
       DOM.formule.innerHTML = '<option value="" disabled>Sélectionnez une formule</option>'
         + liste.map(f => {
             let prix;
-            if (f.forfait) prix = euro(f.forfait) + ' les 10 visites de 45 min — zone A';
+            if (f.forfaitA) prix = euro(f.forfaitA) + ' les ' + f.unites + ' visites (zone A) / '
+                + euro(f.forfaitB) + ' (zone B)';
             else if (f.zoneA) prix = euro(f.prixA) + ' — zone A uniquement';
             else if (f.prixB) prix = 'zone A ' + euro(f.prixA) + ' / zone B ' + euro(f.prixB);
             else prix = euro(f.prixA);
@@ -297,9 +299,11 @@
         texte += f.packs
           ? 'éligible aux Packs Privilège (-5 % dès 5 balades, -10 % dès 10 balades).'
           : 'formule recommandée — à l\'unité uniquement (sans Pack Privilège).';
-      } else if (f.forfait) {
-        texte = note + fmt(f.forfait) + ' les 10 visites de 45 min (zone A) — formule recommandée : '
-          + 'jusqu\'à 3 passages par jour à 18,00 € la visite, valable 3 mois.';
+      } else if (f.forfaitA) {
+        const prixPack = (zone === 'B' && f.forfaitB) ? f.forfaitB : f.forfaitA;
+        texte = note + fmt(prixPack) + ' les ' + f.unites + ' visites de 45 min'
+          + (zone ? ' (zone ' + zone + ')' : '') + ' — soit ' + fmt(prixPack / f.unites) + ' la visite, '
+          + 'valables 3 mois, 30 min minimum par passage.';
       } else {
         texte = note + fmt(prixFormule(f, zone)) + (zone ? ' (zone ' + zone + ')' : '') + ' — ';
         if (f.zoneA) {
@@ -318,7 +322,7 @@
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
       'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
-      'Visite à domicile': "Visites à domicile : la visite de 45 min (dont 30 min de balade) à 18 € — ou le Pack Privilège 10 visites de 45 min à 180 € (recommandé, zone A, jusqu'à 3 passages par jour). 30 minutes minimum par passage."
+      'Visite à domicile': "Visites à domicile : la visite de 45 min (dont 30 min de balade) à 18 €, ou en formules de 5 visites (85 €) et 10 visites (170 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
@@ -809,7 +813,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         let formule = getFormule('Visite à domicile', DOM.formule ? DOM.formule.value : '');
         if (zone === 'C') return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
 
-        // Express et pack de visites : réservés à la zone A
+        // Express : réservé à la zone A (les formules 5/10 visites existent dans les deux zones)
         if (formule.zoneA && zone !== 'A') {
           lignes.push({ label: `${formule.nom} : offre valable uniquement en zone A (1 à 15 km) — votre adresse est en zone ${zone}`, value: '', info: true });
           formule = getFormule('Visite à domicile', '30');
@@ -821,16 +825,17 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         // Animaux supplémentaires : +3 € par animal supplémentaire et par passage
         const suppPassage = nbAnimauxVal > 1 ? (nbAnimauxVal - 1) * 3 : 0;
 
-        if (formule.forfait) {
-          // Pack de 10 visites de 45 min : crédit forfaitaire, modulable dans la journée
+        if (formule.forfaitA) {
+          // Formule 5 ou 10 visites de 45 min : crédit, prix réévalué selon la zone
+          const prixPack = (zone === 'B' && formule.forfaitB) ? formule.forfaitB : formule.forfaitA;
           const nbVisites = nbJours * freq;
-          const nbPacks = Math.max(1, Math.ceil(nbVisites / 10));
+          const nbPacks = Math.max(1, Math.ceil(nbVisites / formule.unites));
           const supp = suppPassage * nbVisites;
-          const sousTotal = formule.forfait * nbPacks + supp;
-          lignes.push({ label: `${formule.nom} (zone A) — ${fmt(formule.forfait)} les 10 visites, 30 min minimum par passage, valable 3 mois`, value: '', info: true });
-          lignes.push({ label: `${nbPacks} pack(s) de 10 visites pour ${nbVisites} visite(s) prévue(s)${supp ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: fmt(sousTotal) });
+          const sousTotal = prixPack * nbPacks + supp;
+          lignes.push({ label: `${formule.nom} — ${fmt(prixPack)} (zone ${zone}), soit ${fmt(prixPack / formule.unites)} la visite · 30 min minimum par passage · valable 3 mois`, value: '', info: true });
+          lignes.push({ label: `${nbPacks} formule(s) de ${formule.unites} visites pour ${nbVisites} visite(s) prévue(s)${supp ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: fmt(sousTotal) });
           total += sousTotal;
-          detailTexte.push(`${formule.nom} x ${nbPacks} = ${fmt(formule.forfait * nbPacks)}${supp ? ' + supp. animaux ' + fmt(supp) : ''}`);
+          detailTexte.push(`${formule.nom} x ${nbPacks} = ${fmt(prixPack * nbPacks)}${supp ? ' + supp. animaux ' + fmt(supp) : ''}`);
         } else {
           // À la carte : Visite Express (15 min) / Visite Standard (30 min)
           const parVisite = prixFormule(formule, zone) + suppPassage;
