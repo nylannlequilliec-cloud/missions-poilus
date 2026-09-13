@@ -230,7 +230,7 @@
         { id: '60', nom: 'Grand Air & Exploration', duree: '60 min', prix: 25, packs: true }
       ],
       'Visite à domicile': [
-        { id: '15', nom: 'Visite Express / Chat', duree: '15 min', prix: 10 },
+        { id: '15', nom: 'Visite Express / Chat', duree: '15 min', prix: 10, zoneA: true },
         { id: '30', nom: 'Visite Standard', duree: '30 min', prix: 15 }
       ]
     };
@@ -250,27 +250,43 @@
       const ancienne = DOM.formule.value;
       DOM.formule.innerHTML = '<option value="" disabled>Sélectionnez une formule</option>'
         + liste.map(f => '<option value="' + f.id + '">' + f.nom + ' — ' + f.duree + ' — '
-            + euro(f.prix) + (f.reco ? ' (recommandée)' : '') + '</option>').join('');
+            + euro(f.prix) + (f.reco ? ' (recommandée)' : '')
+            + (f.zoneA ? ' — zone A uniquement' : '') + '</option>').join('');
       if (ancienne && liste.some(f => f.id === ancienne)) DOM.formule.value = ancienne;
       else if (liste.length) DOM.formule.value = liste[0].id;
       majNoteFormule();
     }
 
-    // Note sous le select : durée minimale, éligibilité aux packs…
+    // Zone du domicile client d'après la distance déjà calculée (null si inconnue)
+    function zoneCourante() {
+      if (typeof window.distanceCalculee !== 'number' || window.distanceCalculee < 0) return null;
+      return getZone(window.distanceCalculee);
+    }
+
+    // Note sous le select : durée minimale, éligibilité aux packs, restriction de zone…
     function majNoteFormule() {
       if (!DOM.formuleNote) return;
       const service = DOM.serviceSelect ? DOM.serviceSelect.value : '';
       const f = getFormule(service, DOM.formule ? DOM.formule.value : '');
       if (!f) { DOM.formuleNote.textContent = ''; return; }
+      let note;
       if (service === 'Promenades adaptées') {
-        DOM.formuleNote.textContent = f.nom + ' (' + f.duree + ') — ' + (f.packs
+        note = f.nom + ' (' + f.duree + ') — ' + (f.packs
           ? 'éligible aux Packs Privilège (-5 % dès 5 balades, -10 % dès 10 balades).'
           : 'formule recommandée — à l\'unité uniquement (sans Pack Privilège).');
       } else {
-        DOM.formuleNote.textContent = f.nom + ' (' + f.duree + ') — ' + (f.id === '15'
+        note = f.nom + ' (' + f.duree + ') — ' + (f.id === '15'
           ? 'exclusif chats et petits animaux de compagnie.'
           : 'chats, chiens et petits animaux à domicile.');
       }
+      if (f.zoneA) {
+        const zone = zoneCourante();
+        note += ' Offre valable uniquement en zone A (1 à 15 km)'
+          + (zone && zone !== 'A'
+              ? ' — votre adresse est en zone ' + zone + ' : merci de choisir la Visite Standard (30 min).'
+              : '.');
+      }
+      DOM.formuleNote.textContent = note;
     }
 
     function updateServiceLogic() {
@@ -580,6 +596,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       let total = 0;
       const detailTexte = [];
       window.packRemisePct = 0; // remise Pack Privilège appliquée à ce devis
+      majNoteFormule();         // la note « Formule » suit la zone calculée (ex. Visite Express : zone A)
 
       // ===== TAXI / URGENCE VÉTÉRINAIRE =====
       if (service === 'Taxi Animalier' || service === 'Urgence vétérinaire') {
@@ -747,8 +764,14 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
 
       // ===== VISITES À DOMICILE / CHATS (séjour sur une période) =====
       else if (service === 'Visite à domicile') {
-        const formule = getFormule('Visite à domicile', DOM.formule ? DOM.formule.value : '');
+        let formule = getFormule('Visite à domicile', DOM.formule ? DOM.formule.value : '');
         if (zone === 'C') return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
+        // Visite Express / Chat : offre réservée à la zone A (1 à 15 km)
+        if (formule.zoneA && zone !== 'A') {
+          lignes.push({ label: `Visite Express / Chat : offre valable uniquement en zone A (1 à 15 km) — votre adresse est en zone ${zone}`, value: '', info: true });
+          formule = getFormule('Visite à domicile', '30');
+          lignes.push({ label: 'Estimation établie sur la Visite Standard (30 min)', value: '', info: true });
+        }
         const base = formule.prix;
 
         // Tarif par visite = formule + animaux supplémentaires (+3 €/animal)
