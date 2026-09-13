@@ -147,8 +147,7 @@
 
     function updateAnimalOptions() {
       if (!DOM.serviceSelect) return;
-      // L'ancien select animal a ete remplace par des compteurs.
-      // Le bloc NAC est desormais affiche/masque ici selon le service.
+      // L'ancien select animal a ete remplace par des compteurs : Chien, Chat, Autre.
       const service = DOM.serviceSelect.value;
 
       // Libellé du bloc animal : « Animaux transportés » seulement pour les transports —
@@ -159,25 +158,8 @@
         labelAnimaux.innerHTML = (garde ? 'Animaux' : 'Animaux transportés')
           + ' <span class="required">*</span>';
       }
-
-      // NAC : plus proposé pour les visites à domicile (choix du client, 13/09/2026)
-      const servicesAvecNAC = ['Avant/après hospitalisation'];
-      const nacBlock = document.querySelector('.animal-counter-block[data-type="NAC"]');
-      if (!nacBlock) return;
-      if (servicesAvecNAC.includes(service)) {
-        nacBlock.style.display = '';
-      } else {
-        nacBlock.style.display = 'none';
-        // Reset NAC count si on quitte un service compatible
-        if (window.animalCounts && window.animalCounts.NAC > 0) {
-          window.animalCounts.NAC = 0;
-          const countEl = nacBlock.querySelector('.animal-count');
-          if (countEl) countEl.textContent = '0';
-          nacBlock.classList.remove('active');
-          // Retire les lignes de détails NAC générées
-          if (typeof window.renderAnimalDetails === 'function') window.renderAnimalDetails('NAC');
-        }
-      }
+      // « NAC » est supprimé du formulaire (13/09/2026) : les choix sont Chien, Chat et
+      // Autre (champ de précision libre) — plus aucun compteur ni détail NAC.
     }
 
     function updateRaceLogic() {
@@ -211,7 +193,7 @@
 
     function updateAnimalLogic() {
       if (!DOM.serviceSelect) return;
-      const counts = window.animalCounts || { Chien: 0, Chat: 0, NAC: 0, Autre: 0 };
+      const counts = window.animalCounts || { Chien: 0, Chat: 0, Autre: 0 };
       const service = DOM.serviceSelect.value;
       // Services qui affichent le champ animal (et donc taille/autre)
       const servicesAvecAnimal = ['Taxi Animalier', 'Urgence vétérinaire', 'Promenades adaptées', 'Visite à domicile', 'Avant/après hospitalisation'];
@@ -468,7 +450,7 @@
 
       // ====================================================
       // VISITE À DOMICILE
-      // Champs : animal (avec NAC), taille/race chien, nb animaux,
+      // Champs : animal (Chien / Chat / Autre), taille/race chien, nb animaux,
       //          date/heure, adresse client
       // PAS : cage, destination, urgence, départ, type transport
       // ====================================================
@@ -510,7 +492,6 @@
         updateAnimalLogic();
       }
 
-      // MAJ options NAC
       updateAnimalOptions();
       // MAJ races
       updateRaceLogic();
@@ -1018,10 +999,6 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
           if (har[i]) p.push('race ' + har[i]);
           if (hap[i]) p.push('poids ' + hap[i]);
           out.push('Chat ' + (i + 1) + (p.length ? ' : ' + p.join(', ') : ''));
-        }
-        const ne = d.getAll('nac_espece[]');
-        for (let i = 0; i < ne.length; i++) {
-          out.push('NAC ' + (i + 1) + (ne[i] ? ' : ' + ne[i] : ''));
         }
         const ap = d.getAll('autre_precision[]');
         for (let i = 0; i < ap.length; i++) {
@@ -1962,7 +1939,7 @@ function afficherInfoDistance(type, adresse) {
 // COMPTEURS ANIMAUX +/-
 // ============================================================
 (function() {
-  const counts = { Chien: 0, Chat: 0, NAC: 0, Autre: 0 };
+  const counts = { Chien: 0, Chat: 0, Autre: 0 };
   // Expose pour acces externe (updateAnimalLogic, reset apres submit)
   window.animalCounts = counts;
 
@@ -1998,10 +1975,6 @@ function afficherInfoDistance(type, adresse) {
           '<option value="Moyen (4-6 kg)">Moyen (4 \u00e0 6 kg)</option>' +
           '<option value="Lourd (&gt; 6 kg)">Lourd (plus de 6 kg)</option>' +
         '</select>';
-    } else if (type === 'NAC') {
-      inner =
-        '<span class="animal-detail-title">NAC n\u00b0' + index + '</span>' +
-        '<input type="text" name="nac_espece[]" placeholder="Esp\u00e8ce (ex: lapin, gecko...)" autocomplete="off" />';
     } else {
       inner =
         '<span class="animal-detail-title">Animal n\u00b0' + index + '</span>' +
