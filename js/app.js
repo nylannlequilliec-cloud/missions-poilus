@@ -230,7 +230,7 @@
         { id: '60', nom: 'Grand Air & Exploration', duree: '60 min', prixA: 25, prixB: 30, packs: true }
       ],
       'Visite à domicile': [
-        { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, zoneA: true },
+        { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, saintAndre: true },
         { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 },
         { id: '45', nom: 'Visite 45 min (dont 30 min de balade)', duree: '45 min', prixA: 18, prixB: 23, balade: '30 min' },
         { id: 'v5', nom: '5 visites de 45 min', duree: '45 min', unites: 5, forfaitA: 85, forfaitB: 110, balade: '30 min' },
@@ -278,6 +278,16 @@
       return getZone(window.distanceCalculee);
     }
 
+    // La Visite Express est un tarif local : réservé à Saint-André-des-Eaux (siège de l'entreprise)
+    function estSaintAndre() {
+      const txt = [
+        (DOM.villeClientHidden && DOM.villeClientHidden.value) || '',
+        (DOM.adresseClient && DOM.adresseClient.value) || ''
+      ].join(' ');
+      const t = normaliser(txt).replace(/[\s\-']/g, '');
+      return t.indexOf('saintandredeseaux') !== -1 || t.indexOf('standredeseaux') !== -1;
+    }
+
     // Note sous le select : tarif de la zone détectée, éligibilité aux packs, restriction de zone…
     function majNoteFormule() {
       if (!DOM.formuleNote) return;
@@ -306,11 +316,11 @@
           + 'valables 3 mois, 30 min minimum par passage.';
       } else {
         texte = note + fmt(prixFormule(f, zone)) + (zone ? ' (zone ' + zone + ')' : '') + ' — ';
-        if (f.zoneA) {
-          texte += 'chien, chat et petits animaux — offre valable uniquement en zone A (1 à 15 km)'
-            + (zone && zone !== 'A'
-                ? ' : votre adresse est en zone ' + zone + ', merci de choisir la Visite Standard (30 min).'
-                : '.');
+        if (f.saintAndre) {
+          texte += 'chien, chat et petits animaux — tarif local réservé à Saint-André-des-Eaux (commune de l\'entreprise)'
+            + (estSaintAndre()
+                ? '.'
+                : ' : votre adresse est hors commune, merci de choisir la Visite Standard (30 min).');
         } else {
           texte += 'chien, chat et petits animaux à domicile.';
         }
@@ -322,7 +332,7 @@
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
       'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
-      'Visite à domicile': "Visites à domicile : la visite de 45 min (dont 30 min de balade) à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage."
+      'Visite à domicile': "Visites à domicile : la Visite Express 15 min (10 €) est un tarif local réservé à Saint-André-des-Eaux. La visite de 45 min (dont 30 min de balade) est à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
@@ -813,9 +823,9 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         let formule = getFormule('Visite à domicile', DOM.formule ? DOM.formule.value : '');
         if (zone === 'C') return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
 
-        // Express : réservé à la zone A (les formules 5/10 visites existent dans les deux zones)
-        if (formule.zoneA && zone !== 'A') {
-          lignes.push({ label: `${formule.nom} : offre valable uniquement en zone A (1 à 15 km) — votre adresse est en zone ${zone}`, value: '', info: true });
+        // Express : tarif local réservé à Saint-André-des-Eaux (les formules 5/10 visites, elles, sont zonées A/B)
+        if (formule.saintAndre && !estSaintAndre()) {
+          lignes.push({ label: `${formule.nom} : tarif local réservé à Saint-André-des-Eaux — votre adresse est hors commune`, value: '', info: true });
           formule = getFormule('Visite à domicile', '30');
           lignes.push({ label: 'Estimation établie sur la Visite Standard (30 min)', value: '', info: true });
         }
