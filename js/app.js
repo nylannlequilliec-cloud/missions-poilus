@@ -150,7 +150,18 @@
       // L'ancien select animal a ete remplace par des compteurs.
       // Le bloc NAC est desormais affiche/masque ici selon le service.
       const service = DOM.serviceSelect.value;
-      const servicesAvecNAC = ['Visite à domicile', 'Avant/après hospitalisation'];
+
+      // Libellé du bloc animal : « Animaux transportés » seulement pour les transports —
+      // une visite à domicile ou une promenade n'est pas une prestation de transport.
+      const labelAnimaux = document.getElementById('label-animaux');
+      if (labelAnimaux) {
+        const garde = (service === 'Visite à domicile' || service === 'Promenades adaptées');
+        labelAnimaux.innerHTML = (garde ? 'Animaux' : 'Animaux transportés')
+          + ' <span class="required">*</span>';
+      }
+
+      // NAC : plus proposé pour les visites à domicile (choix du client, 13/09/2026)
+      const servicesAvecNAC = ['Avant/après hospitalisation'];
       const nacBlock = document.querySelector('.animal-counter-block[data-type="NAC"]');
       if (!nacBlock) return;
       if (servicesAvecNAC.includes(service)) {
