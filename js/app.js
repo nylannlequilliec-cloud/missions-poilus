@@ -731,29 +731,30 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       else if (service === 'Promenades adaptées') {
         const formule = getFormule('Promenades adaptées', DOM.formule ? DOM.formule.value : '');
         if (zone === 'C') return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
-        const base = formule.prix;
 
-        // Tarif par balade = formule + chiens supplémentaires (+7 €/chien)
-        const suppChiens = nbAnimauxVal > 1 ? (nbAnimauxVal - 1) * 7 : 0;
-        const parPassage = base + suppChiens;
+        // 1 balade = 1 chien : pas de supplément, chaque animal = une prestation
+        const nbAnimauxBalade = nbAnimauxVal;
+        const parBalade = formule.prix;
 
-        // Période × fréquence
+        // Période × fréquence × nombre de chiens
         const nbJours = nbJoursSejour();
         const freq = DOM.frequenceJour ? (parseInt(DOM.frequenceJour.value, 10) || 1) : 1;
-        const nbPassages = nbJours * freq;
-        const sousTotal = parPassage * nbPassages;
+        const nbBalades = nbJours * freq * nbAnimauxBalade;
+        const sousTotal = parBalade * nbBalades;
 
-        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parPassage)} / balade${suppChiens ? ' (dont ' + (nbAnimauxVal - 1) + ' chien(s) supp.)' : ''}`, value: '', info: true });
-        lignes.push({ label: `${nbJours} jour(s) × ${freq} balade(s)/jour = ${nbPassages} balade(s)`, value: fmt(sousTotal) });
+        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parBalade)} / balade et par chien`, value: '', info: true });
+        lignes.push({ label: nbAnimauxBalade > 1
+          ? `${nbAnimauxBalade} chiens × ${nbJours} jour(s) × ${freq} balade(s)/jour = ${nbBalades} balades`
+          : `${nbJours} jour(s) × ${freq} balade(s)/jour = ${nbBalades} balade(s)`, value: fmt(sousTotal) });
         total += sousTotal;
-        detailTexte.push(`Promenade ${formule.nom} ${formule.duree} a ${fmt(parPassage)}/balade x ${nbPassages} = ${fmt(sousTotal)}`);
+        detailTexte.push(`Promenade ${formule.nom} ${formule.duree} a ${fmt(parBalade)}/balade x ${nbBalades} = ${fmt(sousTotal)}`);
 
         // Packs Privilège : -5 % dès 5 balades, -10 % dès 10 balades (formules 30 & 60 min)
         if (!formule.packs) {
           lignes.push({ label: `Formule ${formule.duree} : à l'unité, non éligible aux Packs Privilège`, value: '', info: true });
-        } else if (nbPassages >= 5) {
-          const taux = nbPassages >= 10 ? 0.10 : 0.05;
-          const nomPack = nbPassages >= 10 ? 'Pack Privilège 10 balades (-10 %)' : 'Pack Privilège 5 balades (-5 %)';
+        } else if (nbBalades >= 5) {
+          const taux = nbBalades >= 10 ? 0.10 : 0.05;
+          const nomPack = nbBalades >= 10 ? 'Pack Privilège 10 balades (-10 %)' : 'Pack Privilège 5 balades (-5 %)';
           const remise = Math.round(sousTotal * taux * 100) / 100;
           lignes.push({ label: nomPack, value: '-' + fmt(remise) });
           total -= remise;
