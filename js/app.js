@@ -342,7 +342,7 @@
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
       'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade. Habitants de Saint-André-des-Eaux : tarif Andréannais de -10 % sur toutes les balades.",
-      'Visite à domicile': "Visites à domicile : la Visite Express 15 min (10 €) est un tarif local réservé à Saint-André-des-Eaux — hors zone A, aucune visite de moins de 30 minutes. La visite de 45 min (dont 30 min de balade) est à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage. Habitants de Saint-André-des-Eaux : tarif Andréannais de -10 % sur toutes les visites."
+      'Visite à domicile': "Visites à domicile : la Visite Express 15 min (10 €) est un tarif local réservé à Saint-André-des-Eaux — hors zone A, aucune visite de moins de 30 minutes. La visite de 45 min (dont 30 min de balade) est à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage. Habitants de Saint-André-des-Eaux : tarif Andréannais de -10 % sur toutes les visites. Plusieurs passages par jour (zone A, visite Standard 30 min ou Express 15 min) : -10 % pour 2 passages/jour et -15 % pour 3 passages/jour et plus, dès 10 passages sur la période — remises non cumulables, le taux le plus avantageux s'applique."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
@@ -662,6 +662,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       const detailTexte = [];
       window.packRemisePct = 0; // remise Pack Privilège appliquée à ce devis
       window.remiseAndrePct = 0; // remise Andréannais (-10 %) appliquée à ce devis
+      window.packJourPct = 0;    // remise « plusieurs passages par jour » appliquée à ce devis
       majNoteFormule();         // la note « Formule » suit la zone calculée (ex. Visite Express : zone A)
 
       // ===== TAXI / URGENCE VÉTÉRINAIRE =====
@@ -887,9 +888,28 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
           total += sousTotal;
           detailTexte.push(`Visite ${formule.nom} ${formule.duree} a ${fmt(parVisite)}/visite x ${nbVisites} = ${fmt(sousTotal)}`);
 
-          // Remise Andréannais (-10 %) sur la prestation (hors supplément animaux)
-          if (estAndreannais()) {
-            const remiseAndre = Math.round(prixFormule(formule, zone) * nbVisites * TAUX_ANDREANNAIS * 100) / 100;
+          // Remises sur la prestation (hors supplément animaux) : pack « plusieurs passages par
+          // jour » (zone A, visites courtes, dès 10 passages) et tarif Andréannais (-10 %).
+          // Jamais de cumul : on applique toujours le taux le plus avantageux.
+          const assiette = prixFormule(formule, zone) * nbVisites;
+          const eligPackJour = (zone === 'A' && freq >= 2 && nbVisites >= 10 && !formule.balade);
+          const tauxPackJour = eligPackJour ? (freq >= 3 ? 0.15 : 0.10) : 0;
+          const tauxAndre = estAndreannais() ? TAUX_ANDREANNAIS : 0;
+
+          if (tauxPackJour > 0 && tauxPackJour >= tauxAndre) {
+            const pct = Math.round(tauxPackJour * 100);
+            const remise = Math.round(assiette * tauxPackJour * 100) / 100;
+            lignes.push({ label: `Pack ${freq} passages/jour (-${pct} %) — zone A`, value: '-' + fmt(remise) });
+            total -= remise;
+            detailTexte.push(`Pack ${freq} passages/jour (-${pct}%): -${fmt(remise)}`);
+            window.packJourPct = pct;
+            if (tauxAndre > 0) {
+              lignes.push({ label: tauxAndre === tauxPackJour
+                ? 'Tarif Andréannais inclus : même remise de 10 %'
+                : 'Tarif Andréannais -10 % dépassé par le pack passages/jour (-15 %)', value: '', info: true });
+            }
+          } else if (tauxAndre > 0) {
+            const remiseAndre = Math.round(assiette * tauxAndre * 100) / 100;
             lignes.push({ label: 'Remise Andréannais -10 % (habitant de Saint-André-des-Eaux)', value: '-' + fmt(remiseAndre) });
             total -= remiseAndre;
             detailTexte.push(`Remise Andreannais -10% : -${fmt(remiseAndre)}`);
@@ -1129,6 +1149,9 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       const noteAndre = (window.remiseAndrePct || 0) > 0
         ? "\nTARIF ANDREANNAIS : remise de 10% appliquee (adresse situee a Saint-Andre-des-Eaux).\n"
         : '';
+      const notePackJour = (window.packJourPct || 0) > 0
+        ? "\nPACK PASSAGES QUOTIDIENS (zone A) : remise de " + window.packJourPct + "% appliquee (plusieurs passages par jour, des 10 passages sur la periode).\n"
+        : '';
       const notePromoClient = aPromo
         ? "\n❤️ BON PLAN : grace au nombre de balades demandees, le Pack Privilege vous fait economiser " + (window.packRemisePct || 5) + "% sur les balades (30 ou 60 min ; -5% des 5 balades, -10% des 10 balades).\n"
         : '';
@@ -1176,7 +1199,7 @@ ${DOM.devisDetail.value || '--'}
 
 - ZONE : ${DOM.devisZone.value || '--'} (${DOM.devisDistance.value || '--'})
 - TARIF ESTIME : ${totalPlein}
-${notePromoRecap}${noteAndre}${noteTempsPlaceRecap}===================================================`
+${notePromoRecap}${noteAndre}${notePackJour}${noteTempsPlaceRecap}===================================================`
       .replace(/\n\s*\n\s*\n/g, '\n\n').trim();
 
       // ============================================
@@ -1195,7 +1218,7 @@ ${dateAffichee ? '[DATE] ' + dateAffichee + (heureVal ? ' a ' + heureVal : '') :
 - Zone : ${DOM.devisZone.value} (${DOM.devisDistance.value})
 
 DETAIL : ${DOM.devisDetail.value}
-${notePromoClient}${noteAndre}${noteTempsPlaceClient}
+${notePromoClient}${noteAndre}${notePackJour}${noteTempsPlaceClient}
 Pour valider votre devis, merci de repondre a ce mail ou de me contacter au 06 80 99 99 96.
 
 ❤️ Mission Poilus -- Prendre soin des animaux... et de ceux qui les aiment.`.replace(/\n{3,}/g, '\n\n');
