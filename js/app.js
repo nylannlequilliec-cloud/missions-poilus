@@ -919,15 +919,17 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       }
 
       // Majoration dimanche / jour férié (+15 %) — règle révisée du 13/09/2026 : elle s'applique
-      // à TOUS les transports (taxi animalier et urgence vétérinaire), que la course soit
-      // planifiée à l'avance ou demandée dans l'urgence (2H / dans la journée).
-      // Aucune majoration sur les promenades, les visites à domicile et la livraison.
-      const estTransport = (service === 'Taxi Animalier' || service === 'Urgence vétérinaire');
+      // aux transports (taxi animalier, urgence vétérinaire) ET à la livraison à domicile, que la
+      // course soit planifiée à l'avance ou demandée dans l'urgence (2H / dans la journée).
+      // Aucune majoration sur les promenades et les visites à domicile.
+      const servicesMajores = ['Taxi Animalier', 'Urgence vétérinaire', 'Livraison à domicile'];
+      const estTransport = servicesMajores.indexOf(service) !== -1;
       if (estTransport && isJourMajore() && total > 0) {
         const major = Math.round(total * 0.15 * 100) / 100;
-        lignes.push({ label: 'Majoration dimanche / jour férié (+15 %) — transport', value: '+' + fmt(major) });
+        const nature = service === 'Livraison à domicile' ? 'livraison' : 'transport';
+        lignes.push({ label: 'Majoration dimanche / jour férié (+15 %) — ' + nature, value: '+' + fmt(major) });
         total += major;
-        detailTexte.push(`Majoration dimanche/férié (transport): +${fmt(major)}`);
+        detailTexte.push(`Majoration dimanche/férié (${nature}): +${fmt(major)}`);
       }
 
       DOM.devisZone.value = zone;
