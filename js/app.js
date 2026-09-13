@@ -232,7 +232,7 @@
       'Visite à domicile': [
         { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, zoneA: true },
         { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 },
-        { id: '45', nom: 'Visite 45 min (dont 30 min de balade)', duree: '45 min', prixA: 22.5, prixB: 27.5, balade: '30 min' },
+        { id: '45', nom: 'Visite 45 min (dont 30 min de balade)', duree: '45 min', prixA: 18, prixB: 23, balade: '30 min' },
         { id: 'p10', nom: 'Pack Privilège 10 visites de 45 min', duree: '45 min', forfait: 180, zoneA: true, reco: true }
       ]
     };
@@ -318,7 +318,7 @@
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
       'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
-      'Visite à domicile': "Visites à domicile : la visite de 45 min (dont 30 min de balade) à 22,50 € — ou le Pack Privilège 10 visites de 45 min à 180 € (recommandé, zone A, jusqu'à 3 passages par jour). 30 minutes minimum par passage."
+      'Visite à domicile': "Visites à domicile : la visite de 45 min (dont 30 min de balade) à 18 € — ou le Pack Privilège 10 visites de 45 min à 180 € (recommandé, zone A, jusqu'à 3 passages par jour). 30 minutes minimum par passage."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
