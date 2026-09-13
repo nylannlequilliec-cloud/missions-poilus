@@ -2052,6 +2052,9 @@
 .contact-form small {
   color: #4a5072 !important;
 }
+/* Le libellé « Total estimé » est posé sur la barre bleu nuit du devis :
+   il doit rester clair (sinon invisible) */
+.devis-panel .devis-total-row .label { color: rgba(255,255,255,0.92) !important; }
 .devis-info {
   color: #1f2540 !important;
 }
