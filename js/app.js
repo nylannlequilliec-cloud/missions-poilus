@@ -264,7 +264,9 @@
             else if (f.prixB) prix = 'zone A ' + euro(f.prixA) + ' / zone B ' + euro(f.prixB);
             else prix = euro(f.prixA);
             return '<option value="' + f.id + '">' + f.nom + ' — ' + f.duree + ' — '
-              + prix + (f.reco ? ' (recommandée)' : '') + '</option>';
+              + prix
+              + (f.saintAndre ? ' — exclusivement réservé aux Andréannais' : '')
+              + (f.reco ? ' (recommandée)' : '') + '</option>';
           }).join('');
       if (ancienne && liste.some(f => f.id === ancienne)) DOM.formule.value = ancienne;
       else if (liste.length) DOM.formule.value = liste[0].id;
