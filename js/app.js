@@ -918,18 +918,16 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         }
       }
 
-      // Majoration dimanche / jour férié — UNIQUEMENT sur les transports d'urgence
-      // (service « Urgence vétérinaire » ou taxi demandé en urgence : 2H / dans la journée).
-      // Promenades, visites à domicile, livraison et transport planifié : aucune majoration.
-      const delaiUrgence = DOM.urgenceDelai ? DOM.urgenceDelai.value : '';
-      const transportUrgent = (service === 'Urgence vétérinaire')
-        || (service === 'Taxi Animalier'
-            && (delaiUrgence === 'Urgent dans les 2H' || delaiUrgence === 'Dans la journée'));
-      if (transportUrgent && isJourMajore() && total > 0) {
+      // Majoration dimanche / jour férié (+15 %) — règle révisée du 13/09/2026 : elle s'applique
+      // à TOUS les transports (taxi animalier et urgence vétérinaire), que la course soit
+      // planifiée à l'avance ou demandée dans l'urgence (2H / dans la journée).
+      // Aucune majoration sur les promenades, les visites à domicile et la livraison.
+      const estTransport = (service === 'Taxi Animalier' || service === 'Urgence vétérinaire');
+      if (estTransport && isJourMajore() && total > 0) {
         const major = Math.round(total * 0.15 * 100) / 100;
-        lignes.push({ label: "Majoration dimanche / jour férié (+15%) — transport d'urgence", value: '+' + fmt(major) });
+        lignes.push({ label: 'Majoration dimanche / jour férié (+15 %) — transport', value: '+' + fmt(major) });
         total += major;
-        detailTexte.push(`Majoration dimanche/férié (transport d'urgence): +${fmt(major)}`);
+        detailTexte.push(`Majoration dimanche/férié (transport): +${fmt(major)}`);
       }
 
       DOM.devisZone.value = zone;
