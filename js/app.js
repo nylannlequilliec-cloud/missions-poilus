@@ -232,7 +232,7 @@
       'Visite à domicile': [
         { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, zoneA: true },
         { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 },
-        { id: 'j2', nom: 'Forfait 2 passages par jour', duree: '2 × 45 min / jour', jour: 25, passagesJour: 2, dureePassage: '45 min', zoneA: true },
+        { id: '45', nom: 'Visite 45 min (dont 30 min de balade)', duree: '45 min', prixA: 22.5, prixB: 27.5, balade: '30 min' },
         { id: 'p10', nom: 'Pack Privilège 10 visites de 45 min', duree: '45 min', forfait: 180, zoneA: true, reco: true }
       ]
     };
@@ -258,8 +258,7 @@
       DOM.formule.innerHTML = '<option value="" disabled>Sélectionnez une formule</option>'
         + liste.map(f => {
             let prix;
-            if (f.jour) prix = euro(f.jour) + ' / jour — zone A uniquement';
-            else if (f.forfait) prix = euro(f.forfait) + ' les 10 visites de 45 min — zone A';
+            if (f.forfait) prix = euro(f.forfait) + ' les 10 visites de 45 min — zone A';
             else if (f.zoneA) prix = euro(f.prixA) + ' — zone A uniquement';
             else if (f.prixB) prix = 'zone A ' + euro(f.prixA) + ' / zone B ' + euro(f.prixB);
             else prix = euro(f.prixA);
@@ -298,8 +297,6 @@
         texte += f.packs
           ? 'éligible aux Packs Privilège (-5 % dès 5 balades, -10 % dès 10 balades).'
           : 'formule recommandée — à l\'unité uniquement (sans Pack Privilège).';
-      } else if (f.jour) {
-        texte = note + fmt(f.jour) + ' / jour (zone A) — 2 passages de 45 min (1h30 de présence), 30 min minimum par passage.';
       } else if (f.forfait) {
         texte = note + fmt(f.forfait) + ' les 10 visites de 45 min (zone A) — formule recommandée : '
           + 'jusqu\'à 3 passages par jour à 18,00 € la visite, valable 3 mois.';
@@ -313,6 +310,7 @@
         } else {
           texte += 'chien, chat et petits animaux à domicile.';
         }
+        if (f.balade) texte += ' Chaque visite comprend une balade de ' + f.balade + ' + 15 min de soins à domicile.';
       }
       DOM.formuleNote.textContent = texte;
     }
@@ -320,7 +318,7 @@
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
       'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
-      'Visite à domicile': "Visites à domicile (zone A) : forfait 2 passages de 45 min par jour à 25 € ou Pack Privilège 10 visites de 45 min à 180 € (recommandé, jusqu'à 3 passages/jour). 30 minutes minimum par passage. En zone B : Visite Standard 30 min."
+      'Visite à domicile': "Visites à domicile : la visite de 45 min (dont 30 min de balade) à 22,50 € — ou le Pack Privilège 10 visites de 45 min à 180 € (recommandé, zone A, jusqu'à 3 passages par jour). 30 minutes minimum par passage."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
@@ -811,7 +809,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         let formule = getFormule('Visite à domicile', DOM.formule ? DOM.formule.value : '');
         if (zone === 'C') return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
 
-        // Express, forfait journée et pack de visites : réservés à la zone A
+        // Express et pack de visites : réservés à la zone A
         if (formule.zoneA && zone !== 'A') {
           lignes.push({ label: `${formule.nom} : offre valable uniquement en zone A (1 à 15 km) — votre adresse est en zone ${zone}`, value: '', info: true });
           formule = getFormule('Visite à domicile', '30');
@@ -823,16 +821,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         // Animaux supplémentaires : +3 € par animal supplémentaire et par passage
         const suppPassage = nbAnimauxVal > 1 ? (nbAnimauxVal - 1) * 3 : 0;
 
-        if (formule.jour) {
-          // Forfait journée : 2 passages de 30 min (30 min minimum par passage)
-          const passages = formule.passagesJour * nbJours;
-          const supp = suppPassage * passages;
-          const sousTotal = formule.jour * nbJours + supp;
-          lignes.push({ label: `${formule.nom} (zone A) — ${fmt(formule.jour)} / jour, 2 passages de ${formule.dureePassage} (1h30 de présence), 30 min minimum par passage`, value: '', info: true });
-          lignes.push({ label: `${nbJours} jour(s) × ${formule.passagesJour} passages = ${passages} passages${supp ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: fmt(sousTotal) });
-          total += sousTotal;
-          detailTexte.push(`${formule.nom} ${fmt(formule.jour)}/jour x ${nbJours} = ${fmt(formule.jour * nbJours)}${supp ? ' + supp. animaux ' + fmt(supp) : ''}`);
-        } else if (formule.forfait) {
+        if (formule.forfait) {
           // Pack de 10 visites de 45 min : crédit forfaitaire, modulable dans la journée
           const nbVisites = nbJours * freq;
           const nbPacks = Math.max(1, Math.ceil(nbVisites / 10));
