@@ -588,6 +588,54 @@
       gap: 10px;
     }
     .tarif-sub-title i { color: var(--orange); }
+    /* Trio de formules (promenades chiens) & mise en avant de la formule recommandée */
+    .tarifs-trio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 26px;
+    }
+    .tarif-sub--reco {
+      background: linear-gradient(160deg, #FFF6EA, #FAF8F5);
+      box-shadow: inset 0 0 0 2px var(--orange), 0 10px 24px rgba(224,138,42,0.16);
+    }
+    .tarif-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--orange);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .tarif-prix {
+      color: var(--orange-fonce);
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      margin: 0 0 12px;
+    }
+    .tarif-duree {
+      color: var(--bleu-nuit);
+      background: rgba(35,43,69,0.08);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .tarif-sub--reco .tarif-duree { background: rgba(224,138,42,0.18); }
+    .tarif-old {
+      color: var(--texte-muted);
+      font-size: 0.85rem;
+      text-decoration: line-through;
+      margin-left: 4px;
+    }
+    .tarif-note--sm { font-size: 0.85rem; margin: 4px 0 0; }
     .tarif-list {
       list-style: none;
       padding: 0;

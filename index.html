@@ -38,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css?v=61" />
+  <link rel="stylesheet" href="css/style.css?v=62" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -408,6 +408,15 @@
           </select>
         </div>
 
+        <!-- Formule / durée (conditionnel : Promenades chiens & Visites à domicile) -->
+        <div class="form-group conditional" id="cond-formule">
+          <label for="formule">Formule souhaitée <span class="required">*</span></label>
+          <select id="formule" name="formule">
+            <option value="" disabled selected>-- Sélectionnez d'abord une prestation --</option>
+          </select>
+          <small id="formule-note" style="color:var(--texte-muted);font-size:0.82rem;display:block;margin-top:6px;"></small>
+        </div>
+
         <!-- Type de prestation transport (conditionnel : Taxi & Ambulance) -->
         <div class="form-group conditional" id="cond-type-transport">
           <label for="type_transport">Type de prestation transport <span class="required">*</span></label>
@@ -521,7 +530,7 @@
           </div>
           <small style="color:var(--texte-muted);font-size:0.82rem;display:block;margin-top:6px;">
             <i class="fa-solid fa-circle-info" style="color:var(--orange);"></i>
-            Pack Privilège : à partir de 10 prestations (visites ou promenades), remise de -10 % appliquée automatiquement (valable 3 mois à compter de la 1ère prestation).
+            Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1ère balade.
           </small>
         </div>
 
@@ -746,7 +755,7 @@
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <script src="js/app.js?v=61"></script>
+  <script src="js/app.js?v=62"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR3PtVweGLX4xCOWzyrueDG9iJ-F4ADqE&libraries=places,geometry&callback=initGooglePlaces" async defer></script>
 </body>
 </html>

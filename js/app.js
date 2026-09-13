@@ -104,6 +104,9 @@
       dateDebut:        safeQs('date_debut'),
       dateFin:          safeQs('date_fin'),
       frequenceJour:    safeQs('frequence_jour'),
+      formule:          safeQs('formule'),
+      formuleNote:      safeQs('formule-note'),
+      condFormule:      safeQs('cond-formule'),
       estimationPrix:   safeQs('estimation_prix'),
       condHeureJournee: safeQs('cond-heure-journee'),
       condDatePlanifie: safeQs('cond-date-planifie'),
@@ -214,6 +217,62 @@
     // Expose pour appel depuis la closure compteurs
     window.updateAnimalLogic = updateAnimalLogic;
 
+    // ============================================
+    // 4bis. FORMULES (durée & tarif) — promenades chiens & visites à domicile
+    // ============================================
+    // Promenades chiens : 30 min 15 € · 45 min 18 € (à l'unité) · 60 min 25 €
+    // Visites à domicile (chats & petits animaux) : 15 min 10 € · 30 min 15 €
+    // Packs Privilège : uniquement promenades 30 & 60 min (-5 % dès 5 balades, -10 % dès 10)
+    const FORMULES = {
+      'Promenades adaptées': [
+        { id: '30', nom: 'Balade Découverte', duree: '30 min', prix: 15, packs: true },
+        { id: '45', nom: 'Balade Équilibre', duree: '45 min', prix: 18, packs: false, reco: true },
+        { id: '60', nom: 'Grand Air & Exploration', duree: '60 min', prix: 25, packs: true }
+      ],
+      'Visite à domicile': [
+        { id: '15', nom: 'Visite Express / Chat', duree: '15 min', prix: 10 },
+        { id: '30', nom: 'Visite Standard', duree: '30 min', prix: 15 }
+      ]
+    };
+
+    function getFormule(service, id) {
+      const liste = FORMULES[service];
+      if (!liste || !liste.length) return null;
+      const trouve = liste.filter(f => f.id === id)[0];
+      return trouve || liste[0];   // défaut : 1re formule (30 min)
+    }
+
+    // Remplit le select « Formule souhaitée » selon la prestation choisie
+    function updateFormuleOptions(service) {
+      if (!DOM.formule) return;
+      const liste = FORMULES[service] || [];
+      const euro = n => n.toFixed(2).replace('.', ',') + ' €';
+      const ancienne = DOM.formule.value;
+      DOM.formule.innerHTML = '<option value="" disabled>Sélectionnez une formule</option>'
+        + liste.map(f => '<option value="' + f.id + '">' + f.nom + ' — ' + f.duree + ' — '
+            + euro(f.prix) + (f.reco ? ' (recommandée)' : '') + '</option>').join('');
+      if (ancienne && liste.some(f => f.id === ancienne)) DOM.formule.value = ancienne;
+      else if (liste.length) DOM.formule.value = liste[0].id;
+      majNoteFormule();
+    }
+
+    // Note sous le select : durée minimale, éligibilité aux packs…
+    function majNoteFormule() {
+      if (!DOM.formuleNote) return;
+      const service = DOM.serviceSelect ? DOM.serviceSelect.value : '';
+      const f = getFormule(service, DOM.formule ? DOM.formule.value : '');
+      if (!f) { DOM.formuleNote.textContent = ''; return; }
+      if (service === 'Promenades adaptées') {
+        DOM.formuleNote.textContent = f.nom + ' (' + f.duree + ') — ' + (f.packs
+          ? 'éligible aux Packs Privilège (-5 % dès 5 balades, -10 % dès 10 balades).'
+          : 'formule recommandée — à l\'unité uniquement (sans Pack Privilège).');
+      } else {
+        DOM.formuleNote.textContent = f.nom + ' (' + f.duree + ') — ' + (f.id === '15'
+          ? 'exclusif chats et petits animaux de compagnie.'
+          : 'chats, chiens et petits animaux à domicile.');
+      }
+    }
+
     function updateServiceLogic() {
       if (!DOM.serviceSelect) return;
       const val = DOM.serviceSelect.value;
@@ -236,6 +295,7 @@
       if (DOM.tempsSurPlace) DOM.tempsSurPlace.value = '0';
       toggleField(DOM.condDateStandard, false, [DOM.dateInput, DOM.heureInput]);
       toggleField(DOM.condSejour, false, [DOM.dateDebut, DOM.dateFin]);
+      toggleField(DOM.condFormule, false, [DOM.formule]);
       toggleField(DOM.condHeureJournee, false, [DOM.heureJournee]);
       toggleField(DOM.condDatePlanifie, false, [DOM.datePlanifie, DOM.heurePlanifie]);
       toggleField(DOM.condAdresseClient, false, [DOM.adresseClient]);
@@ -308,6 +368,8 @@
       // PAS : cage, destination, urgence, départ, type transport
       // ====================================================
       else if (val === 'Promenades adaptées') {
+        updateFormuleOptions('Promenades adaptées');
+        toggleField(DOM.condFormule, true, [DOM.formule]);
         toggleField(DOM.condAnimalRow, true, [DOM.animalSelect]);
         toggleField(DOM.condSejour, true, [DOM.dateDebut, DOM.dateFin]);
         toggleField(DOM.condAdresseClient, true, [DOM.adresseClient]);
@@ -321,6 +383,8 @@
       // PAS : cage, destination, urgence, départ, type transport
       // ====================================================
       else if (val === 'Visite à domicile') {
+        updateFormuleOptions('Visite à domicile');
+        toggleField(DOM.condFormule, true, [DOM.formule]);
         toggleField(DOM.condAnimalRow, true, [DOM.animalSelect]);
         toggleField(DOM.condSejour, true, [DOM.dateDebut, DOM.dateFin]);
         toggleField(DOM.condAdresseClient, true, [DOM.adresseClient]);
@@ -515,6 +579,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       const lignes = [];
       let total = 0;
       const detailTexte = [];
+      window.packRemisePct = 0; // remise Pack Privilège appliquée à ce devis
 
       // ===== TAXI / URGENCE VÉTÉRINAIRE =====
       if (service === 'Taxi Animalier' || service === 'Urgence vétérinaire') {
@@ -645,14 +710,13 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         if (typeLivr) lignes.push({ label: `Type : ${typeLivr}`, value: '', info: true });
       }
 
-      // ===== PROMENADES (séjour sur une période) =====
+      // ===== PROMENADES CHIENS (séjour sur une période) =====
       else if (service === 'Promenades adaptées') {
-        let base;
-        if (zone === 'A') base = 15;
-        else if (zone === 'B') base = 20;
-        else return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
+        const formule = getFormule('Promenades adaptées', DOM.formule ? DOM.formule.value : '');
+        if (zone === 'C') return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
+        const base = formule.prix;
 
-        // Tarif par passage = base + chiens supplémentaires
+        // Tarif par balade = formule + chiens supplémentaires (+7 €/chien)
         const suppChiens = nbAnimauxVal > 1 ? (nbAnimauxVal - 1) * 7 : 0;
         const parPassage = base + suppChiens;
 
@@ -662,28 +726,32 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         const nbPassages = nbJours * freq;
         const sousTotal = parPassage * nbPassages;
 
-        lignes.push({ label: `Promenade Zone ${zone} — ${fmt(parPassage)} / passage${suppChiens ? ' (dont ' + (nbAnimauxVal - 1) + ' chien(s) supp.)' : ''}`, value: '', info: true });
-        lignes.push({ label: `${nbJours} jour(s) × ${freq} passage(s)/jour = ${nbPassages} passage(s)`, value: fmt(sousTotal) });
+        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parPassage)} / balade${suppChiens ? ' (dont ' + (nbAnimauxVal - 1) + ' chien(s) supp.)' : ''}`, value: '', info: true });
+        lignes.push({ label: `${nbJours} jour(s) × ${freq} balade(s)/jour = ${nbPassages} balade(s)`, value: fmt(sousTotal) });
         total += sousTotal;
-        detailTexte.push(`Promenade ${fmt(parPassage)}/passage × ${nbPassages} = ${fmt(sousTotal)}`);
+        detailTexte.push(`Promenade ${formule.nom} ${formule.duree} a ${fmt(parPassage)}/balade x ${nbPassages} = ${fmt(sousTotal)}`);
 
-        // Pack Privilège : -10% dès 10 promenades
-        if (nbPassages >= 10) {
-          const remise = Math.round(sousTotal * 0.10 * 100) / 100;
-          lignes.push({ label: 'Pack Privilège (-10% dès 10 promenades)', value: '-' + fmt(remise) });
+        // Packs Privilège : -5 % dès 5 balades, -10 % dès 10 balades (formules 30 & 60 min)
+        if (!formule.packs) {
+          lignes.push({ label: `Formule ${formule.duree} : à l'unité, non éligible aux Packs Privilège`, value: '', info: true });
+        } else if (nbPassages >= 5) {
+          const taux = nbPassages >= 10 ? 0.10 : 0.05;
+          const nomPack = nbPassages >= 10 ? 'Pack Privilège 10 balades (-10 %)' : 'Pack Privilège 5 balades (-5 %)';
+          const remise = Math.round(sousTotal * taux * 100) / 100;
+          lignes.push({ label: nomPack, value: '-' + fmt(remise) });
           total -= remise;
-          detailTexte.push(`Pack Privilege -10%: -${fmt(remise)}`);
+          detailTexte.push(`${nomPack}: -${fmt(remise)}`);
+          window.packRemisePct = Math.round(taux * 100);
         }
       }
 
-      // ===== VISITE À DOMICILE (séjour sur une période) =====
+      // ===== VISITES À DOMICILE / CHATS (séjour sur une période) =====
       else if (service === 'Visite à domicile') {
-        let base;
-        if (zone === 'A') base = 15;
-        else if (zone === 'B') base = 20;
-        else return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
+        const formule = getFormule('Visite à domicile', DOM.formule ? DOM.formule.value : '');
+        if (zone === 'C') return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
+        const base = formule.prix;
 
-        // Tarif par visite = base + animaux supplémentaires
+        // Tarif par visite = formule + animaux supplémentaires (+3 €/animal)
         const suppAnim = nbAnimauxVal > 1 ? (nbAnimauxVal - 1) * 3 : 0;
         const parVisite = base + suppAnim;
 
@@ -692,18 +760,10 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         const nbVisites = nbJours * freq;
         const sousTotal = parVisite * nbVisites;
 
-        lignes.push({ label: `Visite Zone ${zone} — ${fmt(parVisite)} / visite${suppAnim ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: '', info: true });
+        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parVisite)} / visite${suppAnim ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: '', info: true });
         lignes.push({ label: `${nbJours} jour(s) × ${freq} visite(s)/jour = ${nbVisites} visite(s)`, value: fmt(sousTotal) });
         total += sousTotal;
-        detailTexte.push(`Visite ${fmt(parVisite)}/visite × ${nbVisites} = ${fmt(sousTotal)}`);
-
-        // Pack Privilège : -10% dès 10 visites
-        if (nbVisites >= 10) {
-          const remise = Math.round(sousTotal * 0.10 * 100) / 100;
-          lignes.push({ label: 'Pack Privilège (-10% dès 10 visites)', value: '-' + fmt(remise) });
-          total -= remise;
-          detailTexte.push(`Pack Privilege -10%: -${fmt(remise)}`);
-        }
+        detailTexte.push(`Visite ${formule.nom} ${formule.duree} a ${fmt(parVisite)}/visite x ${nbVisites} = ${fmt(sousTotal)}`);
       }
 
       // Majoration dimanche / jour férié
@@ -887,6 +947,8 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       const typeTransportStr   = data.get('type_transport') || '';
       const messageStr         = data.get('message') || '';
       const infoMedStr         = data.get('info_medicale') || '';
+      const formuleChoisie     = getFormule(service, DOM.formule ? DOM.formule.value : '');
+      const formuleStr         = formuleChoisie ? formuleChoisie.nom + ' (' + formuleChoisie.duree + ')' : '';
 
       // Parser ville client (peut être JSON)
       let villeClientNom = villeClientStr;
@@ -914,20 +976,20 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
 
       // Notes conditionnelles pour les e-mails / récap
       // - temps d'attente sur place : UNIQUEMENT pour le transport (Taxi & Ambulance/Urgence)
-      // - tarif dégressif : mis en avant dès que le Pack Privilège s'applique (≥ 10 prestations)
+      // - tarif dégressif : mis en avant dès que le Pack Privilège s'applique (≥ 5 balades)
       const isTransport = (service === 'Taxi Animalier' || service === 'Urgence vétérinaire');
       const aPromo = /pack privil/i.test(DOM.devisDetail.value || '');
       const noteTempsPlaceRecap = isTransport
         ? "\n/!\\ Tarif estimatif -- Le temps d'attente sur place\n(+5,00 EUR / 15 min) sera ajoute selon duree reelle.\n"
         : '';
       const notePromoRecap = aPromo
-        ? "\n[BON PLAN] Tarif degressif : -10% (Pack Privilege) applique des 10 prestations.\n"
+        ? "\n[BON PLAN] Tarif degressif : Pack Privilege applique (-5% des 5 balades, -10% des 10 balades).\n"
         : '';
       const noteTempsPlaceClient = isTransport
         ? "\n/!\\ IMPORTANT : Ce tarif est estimatif. Le temps d'attente sur place (+5,00 EUR / 15 min) sera ajoute en fin de prestation selon la duree reelle.\n"
         : '';
       const notePromoClient = aPromo
-        ? "\n❤️ BON PLAN : grace a la quantite demandee, votre tarif est degressif ! A partir de 10 prestations, le Pack Privilege vous fait economiser 10% sur le total.\n"
+        ? "\n❤️ BON PLAN : grace au nombre de balades demandees, le Pack Privilege vous fait economiser " + (window.packRemisePct || 5) + "% sur les balades (30 ou 60 min ; -5% des 5 balades, -10% des 10 balades).\n"
         : '';
 
       // ============================================
@@ -939,6 +1001,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
 ═══════════════════════════════════════
 
 [PRESTATION] ${service}${typeTransportStr ? ' -- ' + typeTransportStr : ''}
+${formuleStr ? '[FORMULE] ' + formuleStr : ''}
 ${dateAffichee ? '[DATE] ' + dateAffichee : ''}${heureVal ? ' a ' + heureVal : ''}
 ${sejourStr ? '[PERIODE] ' + sejourStr : ''}
 ${urgDelaiStr ? '[URGENCE] Delai : ' + urgDelaiStr : ''}
@@ -983,6 +1046,7 @@ ${notePromoRecap}${noteTempsPlaceRecap}=========================================
 Suite à votre demande pour "${service}", voici la confirmation de votre devis :
 
 [PRESTATION] ${service}
+${formuleStr ? '[FORMULE] ' + formuleStr : ''}
 ${dateAffichee ? '[DATE] ' + dateAffichee + (heureVal ? ' a ' + heureVal : '') : ''}
 
 --- TARIF ESTIME ---
@@ -1037,6 +1101,7 @@ Pour valider votre devis, merci de repondre a ce mail ou de me contacter au 06 8
         date_fin: data.get('date_fin') || '',
         frequence: data.get('frequence_jour') || '',
         service: service,
+        formule: formuleStr,
         nom: clientName,
         tel: data.get('phone') || '',
         email: clientEmail,
@@ -1119,6 +1184,7 @@ Pour valider votre devis, merci de repondre a ce mail ou de me contacter au 06 8
         buildDevis();
       });
       if (DOM.typeLivraison) DOM.typeLivraison.addEventListener('change', buildDevis);
+      if (DOM.formule) DOM.formule.addEventListener('change', () => { majNoteFormule(); buildDevis(); });
       if (DOM.tempsSurPlace) DOM.tempsSurPlace.addEventListener('change', buildDevis);
 
       // Type de prestation transport (sous-menu taxi)
