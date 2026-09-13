@@ -807,12 +807,18 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         detailTexte.push(`Visite ${formule.nom} ${formule.duree} a ${fmt(parVisite)}/visite x ${nbVisites} = ${fmt(sousTotal)}`);
       }
 
-      // Majoration dimanche / jour férié
-      if (isJourMajore() && total > 0) {
+      // Majoration dimanche / jour férié — UNIQUEMENT sur les transports d'urgence
+      // (service « Urgence vétérinaire » ou taxi demandé en urgence : 2H / dans la journée).
+      // Promenades, visites à domicile, livraison et transport planifié : aucune majoration.
+      const delaiUrgence = DOM.urgenceDelai ? DOM.urgenceDelai.value : '';
+      const transportUrgent = (service === 'Urgence vétérinaire')
+        || (service === 'Taxi Animalier'
+            && (delaiUrgence === 'Urgent dans les 2H' || delaiUrgence === 'Dans la journée'));
+      if (transportUrgent && isJourMajore() && total > 0) {
         const major = Math.round(total * 0.15 * 100) / 100;
-        lignes.push({ label: 'Majoration dimanche / jour férié (+15%)', value: '+' + fmt(major) });
+        lignes.push({ label: "Majoration dimanche / jour férié (+15%) — transport d'urgence", value: '+' + fmt(major) });
         total += major;
-        detailTexte.push(`Majoration dimanche/férié: +${fmt(major)}`);
+        detailTexte.push(`Majoration dimanche/férié (transport d'urgence): +${fmt(major)}`);
       }
 
       DOM.devisZone.value = zone;
