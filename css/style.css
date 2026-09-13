@@ -636,6 +636,15 @@
       margin-left: 4px;
     }
     .tarif-note--sm { font-size: 0.85rem; margin: 4px 0 0; }
+    .tarif-zone-tag {
+      color: var(--texte-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
     .tarif-list {
       list-style: none;
       padding: 0;

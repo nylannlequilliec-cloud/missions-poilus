@@ -220,20 +220,25 @@
     // ============================================
     // 4bis. FORMULES (durée & tarif) — promenades chiens & visites à domicile
     // ============================================
-    // Promenades chiens : 30 min 15 € · 45 min 18 € (à l'unité) · 60 min 25 €
-    // Visites à domicile (chats & petits animaux) : 15 min 10 € · 30 min 15 €
+    // Promenades chiens (zone A / zone B) : 30 min 15/20 € · 45 min 18/23 € (à l'unité) · 60 min 25/30 €
+    // Visites à domicile : Visite Express (15 min) 10 € — zone A exclusivement ; Visite Standard 15/20 €
     // Packs Privilège : uniquement promenades 30 & 60 min (-5 % dès 5 balades, -10 % dès 10)
     const FORMULES = {
       'Promenades adaptées': [
-        { id: '30', nom: 'Balade Découverte', duree: '30 min', prix: 15, packs: true },
-        { id: '45', nom: 'Balade Équilibre', duree: '45 min', prix: 18, packs: false, reco: true },
-        { id: '60', nom: 'Grand Air & Exploration', duree: '60 min', prix: 25, packs: true }
+        { id: '30', nom: 'Balade Découverte', duree: '30 min', prixA: 15, prixB: 20, packs: true },
+        { id: '45', nom: 'Balade Équilibre', duree: '45 min', prixA: 18, prixB: 23, packs: false, reco: true },
+        { id: '60', nom: 'Grand Air & Exploration', duree: '60 min', prixA: 25, prixB: 30, packs: true }
       ],
       'Visite à domicile': [
-        { id: '15', nom: 'Visite Express / Chat', duree: '15 min', prix: 10, zoneA: true },
-        { id: '30', nom: 'Visite Standard', duree: '30 min', prix: 15 }
+        { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, zoneA: true },
+        { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 }
       ]
     };
+
+    // Tarif de la formule selon la zone du domicile (A par défaut)
+    function prixFormule(formule, zone) {
+      return (zone === 'B' && formule.prixB) ? formule.prixB : formule.prixA;
+    }
 
     function getFormule(service, id) {
       const liste = FORMULES[service];
@@ -249,9 +254,14 @@
       const euro = n => n.toFixed(2).replace('.', ',') + ' €';
       const ancienne = DOM.formule.value;
       DOM.formule.innerHTML = '<option value="" disabled>Sélectionnez une formule</option>'
-        + liste.map(f => '<option value="' + f.id + '">' + f.nom + ' — ' + f.duree + ' — '
-            + euro(f.prix) + (f.reco ? ' (recommandée)' : '')
-            + (f.zoneA ? ' — zone A uniquement' : '') + '</option>').join('');
+        + liste.map(f => {
+            let prix;
+            if (f.zoneA) prix = euro(f.prixA) + ' — zone A uniquement';
+            else if (f.prixB) prix = 'zone A ' + euro(f.prixA) + ' / zone B ' + euro(f.prixB);
+            else prix = euro(f.prixA);
+            return '<option value="' + f.id + '">' + f.nom + ' — ' + f.duree + ' — '
+              + prix + (f.reco ? ' (recommandée)' : '') + '</option>';
+          }).join('');
       if (ancienne && liste.some(f => f.id === ancienne)) DOM.formule.value = ancienne;
       else if (liste.length) DOM.formule.value = liste[0].id;
       majNoteFormule();
@@ -263,28 +273,33 @@
       return getZone(window.distanceCalculee);
     }
 
-    // Note sous le select : durée minimale, éligibilité aux packs, restriction de zone…
+    // Note sous le select : tarif de la zone détectée, éligibilité aux packs, restriction de zone…
     function majNoteFormule() {
       if (!DOM.formuleNote) return;
       const service = DOM.serviceSelect ? DOM.serviceSelect.value : '';
       const f = getFormule(service, DOM.formule ? DOM.formule.value : '');
       if (!f) { DOM.formuleNote.textContent = ''; return; }
-      let note;
-      if (service === 'Promenades adaptées') {
-        note = f.nom + ' (' + f.duree + ') — ' + (f.packs
-          ? 'éligible aux Packs Privilège (-5 % dès 5 balades, -10 % dès 10 balades).'
-          : 'formule recommandée — à l\'unité uniquement (sans Pack Privilège).');
-      } else {
-        note = f.nom + ' (' + f.duree + ') — ' + (f.id === '15'
-          ? 'exclusif chats et petits animaux de compagnie.'
-          : 'chats, chiens et petits animaux à domicile.');
+      const zone = zoneCourante();
+      let note = f.nom + ' (' + f.duree + ') — ';
+
+      // Zone C (au-delà de 30 km) : aucun tarif, devis personnalisé
+      if (zone === 'C') {
+        DOM.formuleNote.textContent = note + 'au-delà de 30 km (zone C) : devis personnalisé.';
+        return;
       }
-      if (f.zoneA) {
-        const zone = zoneCourante();
-        note += ' Offre valable uniquement en zone A (1 à 15 km)'
+
+      note += fmt(prixFormule(f, zone)) + (zone ? ' (zone ' + zone + ')' : '') + ' — ';
+      if (service === 'Promenades adaptées') {
+        note += f.packs
+          ? 'éligible aux Packs Privilège (-5 % dès 5 balades, -10 % dès 10 balades).'
+          : 'formule recommandée — à l\'unité uniquement (sans Pack Privilège).';
+      } else if (f.zoneA) {
+        note += 'chien, chat et petits animaux — offre valable uniquement en zone A (1 à 15 km)'
           + (zone && zone !== 'A'
-              ? ' — votre adresse est en zone ' + zone + ' : merci de choisir la Visite Standard (30 min).'
+              ? ' : votre adresse est en zone ' + zone + ', merci de choisir la Visite Standard (30 min).'
               : '.');
+      } else {
+        note += 'chien, chat et petits animaux à domicile.';
       }
       DOM.formuleNote.textContent = note;
     }
@@ -563,6 +578,8 @@
     function buildDevis() {
       if (!DOM.devisContent) return;
       const service = DOM.serviceSelect.value;
+      // Les libellés de formule portent le tarif de la zone détectée : on les rafraîchit
+      if (FORMULES[service] && DOM.formule) updateFormuleOptions(service);
       let villeClient = getVilleData(DOM.villeClientHidden);
 // Priorité à la distance Google Maps si disponible (0 km accepté : adresse = siège)
 if (typeof window.distanceCalculee === 'number' && window.distanceCalculee >= 0) {
@@ -734,7 +751,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
 
         // 1 balade = 1 chien : pas de supplément, chaque animal = une prestation
         const nbAnimauxBalade = nbAnimauxVal;
-        const parBalade = formule.prix;
+        const parBalade = prixFormule(formule, zone);
 
         // Période × fréquence × nombre de chiens
         const nbJours = nbJoursSejour();
@@ -742,7 +759,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         const nbBalades = nbJours * freq * nbAnimauxBalade;
         const sousTotal = parBalade * nbBalades;
 
-        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parBalade)} / balade et par chien`, value: '', info: true });
+        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parBalade)} / balade et par chien (zone ${zone})`, value: '', info: true });
         lignes.push({ label: nbAnimauxBalade > 1
           ? `${nbAnimauxBalade} chiens × ${nbJours} jour(s) × ${freq} balade(s)/jour = ${nbBalades} balades`
           : `${nbJours} jour(s) × ${freq} balade(s)/jour = ${nbBalades} balade(s)`, value: fmt(sousTotal) });
@@ -773,7 +790,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
           formule = getFormule('Visite à domicile', '30');
           lignes.push({ label: 'Estimation établie sur la Visite Standard (30 min)', value: '', info: true });
         }
-        const base = formule.prix;
+        const base = prixFormule(formule, zone);
 
         // Tarif par visite = formule + animaux supplémentaires (+3 €/animal)
         const suppAnim = nbAnimauxVal > 1 ? (nbAnimauxVal - 1) * 3 : 0;
@@ -784,7 +801,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         const nbVisites = nbJours * freq;
         const sousTotal = parVisite * nbVisites;
 
-        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parVisite)} / visite${suppAnim ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: '', info: true });
+        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parVisite)} / visite (zone ${zone})${suppAnim ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: '', info: true });
         lignes.push({ label: `${nbJours} jour(s) × ${freq} visite(s)/jour = ${nbVisites} visite(s)`, value: fmt(sousTotal) });
         total += sousTotal;
         detailTexte.push(`Visite ${formule.nom} ${formule.duree} a ${fmt(parVisite)}/visite x ${nbVisites} = ${fmt(sousTotal)}`);
