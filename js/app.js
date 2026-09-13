@@ -234,7 +234,7 @@
         { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 },
         { id: '45', nom: 'Visite 45 min (dont 30 min de balade)', duree: '45 min', prixA: 18, prixB: 23, balade: '30 min' },
         { id: 'v5', nom: '5 visites de 45 min', duree: '45 min', unites: 5, forfaitA: 85, forfaitB: 110, balade: '30 min' },
-        { id: 'v10', nom: '10 visites de 45 min', duree: '45 min', unites: 10, forfaitA: 170, forfaitB: 220, balade: '30 min', reco: true }
+        { id: 'v10', nom: '10 visites de 45 min', duree: '45 min', unites: 10, forfaitA: 160, forfaitB: 210, balade: '30 min', reco: true }
       ]
     };
 
@@ -322,7 +322,7 @@
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
       'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
-      'Visite à domicile': "Visites à domicile : la visite de 45 min (dont 30 min de balade) à 18 €, ou en formules de 5 visites (85 €) et 10 visites (170 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage."
+      'Visite à domicile': "Visites à domicile : la visite de 45 min (dont 30 min de balade) à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
