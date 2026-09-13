@@ -238,6 +238,12 @@
       ]
     };
 
+    // Remise Andréannais : -10 % sur les prestations de visite à domicile et de promenade pour les
+    // habitants de Saint-André-des-Eaux (commune du siège). Non cumulable avec les Packs Privilège
+    // balades : on retient systématiquement le taux de remise le plus avantageux.
+    const TAUX_ANDREANNAIS = 0.10;
+    function estAndreannais() { return estSaintAndre(); }
+
     // Tarif de la formule selon la zone du domicile (A par défaut)
     function prixFormule(formule, zone) {
       return (zone === 'B' && formule.prixB) ? formule.prixB : formule.prixA;
@@ -326,13 +332,17 @@
         }
         if (f.balade) texte += ' Chaque visite comprend une balade de ' + f.balade + ' + 15 min de soins à domicile.';
       }
+      // Rappel de la remise Andréannais dans la note de formule
+      if (estAndreannais() && (service === 'Promenades adaptées' || service === 'Visite à domicile')) {
+        texte += ' Tarif Andréannais : remise de 10 % appliquée (habitant de Saint-André-des-Eaux).';
+      }
       DOM.formuleNote.textContent = texte;
     }
 
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
-      'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
-      'Visite à domicile': "Visites à domicile : la Visite Express 15 min (10 €) est un tarif local réservé à Saint-André-des-Eaux — hors zone A, aucune visite de moins de 30 minutes. La visite de 45 min (dont 30 min de balade) est à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage."
+      'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade. Habitants de Saint-André-des-Eaux : tarif Andréannais de -10 % sur toutes les balades.",
+      'Visite à domicile': "Visites à domicile : la Visite Express 15 min (10 €) est un tarif local réservé à Saint-André-des-Eaux — hors zone A, aucune visite de moins de 30 minutes. La visite de 45 min (dont 30 min de balade) est à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage. Habitants de Saint-André-des-Eaux : tarif Andréannais de -10 % sur toutes les visites."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
@@ -651,6 +661,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       let total = 0;
       const detailTexte = [];
       window.packRemisePct = 0; // remise Pack Privilège appliquée à ce devis
+      window.remiseAndrePct = 0; // remise Andréannais (-10 %) appliquée à ce devis
       majNoteFormule();         // la note « Formule » suit la zone calculée (ex. Visite Express : zone A)
 
       // ===== TAXI / URGENCE VÉTÉRINAIRE =====
@@ -804,17 +815,28 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         total += sousTotal;
         detailTexte.push(`Promenade ${formule.nom} ${formule.duree} a ${fmt(parBalade)}/balade x ${nbBalades} = ${fmt(sousTotal)}`);
 
-        // Packs Privilège : -5 % dès 5 balades, -10 % dès 10 balades (formules 30 & 60 min)
+        // Remise Andréannais (-10 %) : habitants de Saint-André-des-Eaux.
+        // Elle remplace le Pack Privilège dès qu'elle est plus avantageuse (5 balades : -10 % > -5 %).
+        const remiseAndre = estAndreannais() ? Math.round(sousTotal * TAUX_ANDREANNAIS * 100) / 100 : 0;
+        const tauxPack = nbBalades >= 10 ? 0.10 : 0.05;
+        const remisePack = (formule.packs && nbBalades >= 5) ? Math.round(sousTotal * tauxPack * 100) / 100 : 0;
+
         if (!formule.packs) {
           lignes.push({ label: `Formule ${formule.duree} : à l'unité, non éligible aux Packs Privilège`, value: '', info: true });
-        } else if (nbBalades >= 5) {
-          const taux = nbBalades >= 10 ? 0.10 : 0.05;
+        }
+
+        if (remiseAndre > 0 && remiseAndre >= remisePack) {
+          lignes.push({ label: 'Remise Andréannais -10 % (habitant de Saint-André-des-Eaux)', value: '-' + fmt(remiseAndre) });
+          total -= remiseAndre;
+          detailTexte.push(`Remise Andreannais -10% : -${fmt(remiseAndre)}`);
+          window.remiseAndrePct = 10;
+          if (remisePack > 0) lignes.push({ label: 'Pack Privilège inclus : même remise de 10 %', value: '', info: true });
+        } else if (remisePack > 0) {
           const nomPack = nbBalades >= 10 ? 'Pack Privilège 10 balades (-10 %)' : 'Pack Privilège 5 balades (-5 %)';
-          const remise = Math.round(sousTotal * taux * 100) / 100;
-          lignes.push({ label: nomPack, value: '-' + fmt(remise) });
-          total -= remise;
-          detailTexte.push(`${nomPack}: -${fmt(remise)}`);
-          window.packRemisePct = Math.round(taux * 100);
+          lignes.push({ label: nomPack, value: '-' + fmt(remisePack) });
+          total -= remisePack;
+          detailTexte.push(`${nomPack}: -${fmt(remisePack)}`);
+          window.packRemisePct = Math.round(tauxPack * 100);
         }
       }
 
@@ -846,6 +868,15 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
           lignes.push({ label: `${nbPacks} formule(s) de ${formule.unites} visites pour ${nbVisites} visite(s) prévue(s)${supp ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: fmt(sousTotal) });
           total += sousTotal;
           detailTexte.push(`${formule.nom} x ${nbPacks} = ${fmt(prixPack * nbPacks)}${supp ? ' + supp. animaux ' + fmt(supp) : ''}`);
+
+          // Remise Andréannais (-10 %) sur la prestation (hors supplément animaux)
+          if (estAndreannais()) {
+            const remiseAndre = Math.round(prixPack * nbPacks * TAUX_ANDREANNAIS * 100) / 100;
+            lignes.push({ label: 'Remise Andréannais -10 % (habitant de Saint-André-des-Eaux)', value: '-' + fmt(remiseAndre) });
+            total -= remiseAndre;
+            detailTexte.push(`Remise Andreannais -10% : -${fmt(remiseAndre)}`);
+            window.remiseAndrePct = 10;
+          }
         } else {
           // À la carte : Visite Express (15 min) / Visite Standard (30 min)
           const parVisite = prixFormule(formule, zone) + suppPassage;
@@ -855,6 +886,15 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
           lignes.push({ label: `${nbJours} jour(s) × ${freq} visite(s)/jour = ${nbVisites} visite(s)`, value: fmt(sousTotal) });
           total += sousTotal;
           detailTexte.push(`Visite ${formule.nom} ${formule.duree} a ${fmt(parVisite)}/visite x ${nbVisites} = ${fmt(sousTotal)}`);
+
+          // Remise Andréannais (-10 %) sur la prestation (hors supplément animaux)
+          if (estAndreannais()) {
+            const remiseAndre = Math.round(prixFormule(formule, zone) * nbVisites * TAUX_ANDREANNAIS * 100) / 100;
+            lignes.push({ label: 'Remise Andréannais -10 % (habitant de Saint-André-des-Eaux)', value: '-' + fmt(remiseAndre) });
+            total -= remiseAndre;
+            detailTexte.push(`Remise Andreannais -10% : -${fmt(remiseAndre)}`);
+            window.remiseAndrePct = 10;
+          }
         }
       }
 
@@ -1086,6 +1126,9 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       const noteTempsPlaceClient = isTransport
         ? "\n/!\\ IMPORTANT : Ce tarif est estimatif. Le temps d'attente sur place (+5,00 EUR / 15 min) sera ajoute en fin de prestation selon la duree reelle.\n"
         : '';
+      const noteAndre = (window.remiseAndrePct || 0) > 0
+        ? "\nTARIF ANDREANNAIS : remise de 10% appliquee (adresse situee a Saint-Andre-des-Eaux).\n"
+        : '';
       const notePromoClient = aPromo
         ? "\n❤️ BON PLAN : grace au nombre de balades demandees, le Pack Privilege vous fait economiser " + (window.packRemisePct || 5) + "% sur les balades (30 ou 60 min ; -5% des 5 balades, -10% des 10 balades).\n"
         : '';
@@ -1133,7 +1176,7 @@ ${DOM.devisDetail.value || '--'}
 
 - ZONE : ${DOM.devisZone.value || '--'} (${DOM.devisDistance.value || '--'})
 - TARIF ESTIME : ${totalPlein}
-${notePromoRecap}${noteTempsPlaceRecap}===================================================`
+${notePromoRecap}${noteAndre}${noteTempsPlaceRecap}===================================================`
       .replace(/\n\s*\n\s*\n/g, '\n\n').trim();
 
       // ============================================
@@ -1152,7 +1195,7 @@ ${dateAffichee ? '[DATE] ' + dateAffichee + (heureVal ? ' a ' + heureVal : '') :
 - Zone : ${DOM.devisZone.value} (${DOM.devisDistance.value})
 
 DETAIL : ${DOM.devisDetail.value}
-${notePromoClient}${noteTempsPlaceClient}
+${notePromoClient}${noteAndre}${noteTempsPlaceClient}
 Pour valider votre devis, merci de repondre a ce mail ou de me contacter au 06 80 99 99 96.
 
 ❤️ Mission Poilus -- Prendre soin des animaux... et de ceux qui les aiment.`.replace(/\n{3,}/g, '\n\n');

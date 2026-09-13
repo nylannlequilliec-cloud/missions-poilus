@@ -567,6 +567,99 @@
       font-style: italic;
     }
     .tarif-note i { color: var(--orange); margin-right: 6px; }
+
+    /* ============================================
+       ENCART TARIF ANDRÉANNAIS (habitants de la commune)
+    ============================================ */
+    .encart-andreannais {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(140deg, #232B45 0%, #1a2038 100%);
+      color: var(--blanc);
+      border-left: none;
+      padding: 34px 32px;
+      margin-bottom: 34px;
+    }
+    /* Halos organiques (pas de cadre rectangulaire) */
+    .encart-andreannais::before,
+    .encart-andreannais::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .encart-andreannais::before {
+      width: 340px; height: 340px;
+      right: -100px; top: -150px;
+      background: radial-gradient(circle, rgba(242,140,40,0.32) 0%, rgba(242,140,40,0) 70%);
+    }
+    .encart-andreannais::after {
+      width: 280px; height: 280px;
+      left: -90px; bottom: -140px;
+      background: radial-gradient(circle, rgba(242,140,40,0.18) 0%, rgba(242,140,40,0) 72%);
+    }
+    .encart-andreannais > * { position: relative; z-index: 1; }
+    .encart-andreannais .tarif-title { color: var(--blanc); margin-bottom: 10px; }
+    .encart-andreannais .tarif-title i { background: rgba(242,140,40,0.22); }
+    .tarif-badge-local {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--orange);
+      color: var(--blanc);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .encart-andreannais__accroche {
+      color: rgba(255,255,255,0.88);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .encart-andreannais__accroche strong { color: var(--blanc); }
+    .encart-andreannais__liste {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+      display: grid;
+      gap: 12px;
+    }
+    .encart-andreannais__liste li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: rgba(255,255,255,0.9);
+      font-size: 0.97rem;
+      line-height: 1.6;
+    }
+    .encart-andreannais__liste li i { color: var(--orange); margin-top: 5px; flex-shrink: 0; }
+    .encart-andreannais__liste strong { color: var(--blanc); }
+    .encart-andreannais__exemples {
+      background: rgba(255,255,255,0.07);
+      border: 1px dashed rgba(242,140,40,0.45);
+      border-radius: 16px;
+      padding: 15px 18px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+    .encart-andreannais__exemples strong { color: #FFB067; }
+    .encart-andreannais__mentions {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.6);
+      font-style: italic;
+    }
+    .encart-andreannais--compact { padding: 28px 30px; margin-bottom: 0; }
+    .encart-andreannais--compact .tarif-title { font-size: 1.15rem; }
+    .encart-andreannais--compact .encart-andreannais__accroche { margin-bottom: 16px; }
+    .encart-local-section { max-width: none; padding: 10px 24px 34px; }
     /* Duo de tarifs côte à côte (ex. promenades 30 min / 1 h) */
     .tarifs-duo {
       display: grid;
@@ -708,6 +801,8 @@
 
     @media (max-width: 600px) {
       .tarif-block { padding: 24px 20px; }
+      .encart-andreannais { padding: 26px 20px; }
+      .encart-andreannais__exemples { font-size: 0.86rem; line-height: 1.7; }
       .tarif-table th,
       .tarif-table td { padding: 10px 12px; font-size: 0.85rem; }
   /* Désactivation animations hero sur mobile pour meilleure lisibilité */
