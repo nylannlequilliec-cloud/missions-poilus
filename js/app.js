@@ -232,7 +232,7 @@
       'Visite à domicile': [
         { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, zoneA: true },
         { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 },
-        { id: 'j2', nom: 'Forfait 2 passages par jour', duree: '2 × 30 min / jour', jour: 25, passagesJour: 2, zoneA: true },
+        { id: 'j2', nom: 'Forfait 2 passages par jour', duree: '2 × 45 min / jour', jour: 25, passagesJour: 2, dureePassage: '45 min', zoneA: true },
         { id: 'p10', nom: 'Pack Privilège 10 visites de 45 min', duree: '45 min', forfait: 180, zoneA: true, reco: true }
       ]
     };
@@ -299,7 +299,7 @@
           ? 'éligible aux Packs Privilège (-5 % dès 5 balades, -10 % dès 10 balades).'
           : 'formule recommandée — à l\'unité uniquement (sans Pack Privilège).';
       } else if (f.jour) {
-        texte = note + fmt(f.jour) + ' / jour (zone A) — 2 passages de 30 min, 30 min minimum par passage.';
+        texte = note + fmt(f.jour) + ' / jour (zone A) — 2 passages de 45 min (1h30 de présence), 30 min minimum par passage.';
       } else if (f.forfait) {
         texte = note + fmt(f.forfait) + ' les 10 visites de 45 min (zone A) — formule recommandée : '
           + 'jusqu\'à 3 passages par jour à 18,00 € la visite, valable 3 mois.';
@@ -320,7 +320,7 @@
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
       'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
-      'Visite à domicile': "Visites à domicile (zone A) : forfait 2 passages/jour à 25 € ou Pack Privilège 10 visites de 45 min à 180 € (recommandé, jusqu'à 3 passages/jour). 30 minutes minimum par passage. En zone B : Visite Standard 30 min."
+      'Visite à domicile': "Visites à domicile (zone A) : forfait 2 passages de 45 min par jour à 25 € ou Pack Privilège 10 visites de 45 min à 180 € (recommandé, jusqu'à 3 passages/jour). 30 minutes minimum par passage. En zone B : Visite Standard 30 min."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
@@ -828,7 +828,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
           const passages = formule.passagesJour * nbJours;
           const supp = suppPassage * passages;
           const sousTotal = formule.jour * nbJours + supp;
-          lignes.push({ label: `${formule.nom} (zone A) — ${fmt(formule.jour)} / jour, 2 passages de 30 min, 30 min minimum par passage`, value: '', info: true });
+          lignes.push({ label: `${formule.nom} (zone A) — ${fmt(formule.jour)} / jour, 2 passages de ${formule.dureePassage} (1h30 de présence), 30 min minimum par passage`, value: '', info: true });
           lignes.push({ label: `${nbJours} jour(s) × ${formule.passagesJour} passages = ${passages} passages${supp ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: fmt(sousTotal) });
           total += sousTotal;
           detailTexte.push(`${formule.nom} ${fmt(formule.jour)}/jour x ${nbJours} = ${fmt(formule.jour * nbJours)}${supp ? ' + supp. animaux ' + fmt(supp) : ''}`);
