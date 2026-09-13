@@ -332,7 +332,7 @@
     // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
     const NOTE_SEJOUR = {
       'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
-      'Visite à domicile': "Visites à domicile : la Visite Express 15 min (10 €) est un tarif local réservé à Saint-André-des-Eaux. La visite de 45 min (dont 30 min de balade) est à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage."
+      'Visite à domicile': "Visites à domicile : la Visite Express 15 min (10 €) est un tarif local réservé à Saint-André-des-Eaux — hors zone A, aucune visite de moins de 30 minutes. La visite de 45 min (dont 30 min de balade) est à 18 €, ou en formules de 5 visites (85 €) et 10 visites (160 €) — tarifs réévalués selon la zone. 30 minutes minimum par passage."
     };
     function majNoteSejour(service) {
       const el = safeQs('note-sejour');
