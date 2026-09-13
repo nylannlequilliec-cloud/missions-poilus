@@ -223,7 +223,7 @@
         { id: '60', nom: 'Grand Air & Exploration', duree: '60 min', prixA: 25, prixB: 30, packs: true }
       ],
       'Visite à domicile': [
-        { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, saintAndre: true },
+        { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', nomCourt: 'Visite Express', duree: '15 min', prixA: 10, saintAndre: true },
         { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 },
         { id: '45', nom: 'Visite 45 min (dont 30 min de balade)', duree: '45 min', prixA: 18, prixB: 23, balade: '30 min' },
         { id: 'v5', nom: '5 visites de 45 min', duree: '45 min', unites: 5, forfaitA: 85, forfaitB: 110, balade: '30 min' },
@@ -263,7 +263,7 @@
             else if (f.zoneA) prix = euro(f.prixA) + ' — zone A uniquement';
             else if (f.prixB) prix = 'zone A ' + euro(f.prixA) + ' / zone B ' + euro(f.prixB);
             else prix = euro(f.prixA);
-            return '<option value="' + f.id + '">' + f.nom + ' — ' + f.duree + ' — '
+            return '<option value="' + f.id + '">' + (f.nomCourt || f.nom) + ' — ' + f.duree + ' — '
               + prix
               + (f.saintAndre ? ' — exclusivement réservé aux Andréannais' : '')
               + (f.reco ? ' (recommandée)' : '') + '</option>';
