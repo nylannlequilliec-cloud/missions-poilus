@@ -231,7 +231,9 @@
       ],
       'Visite à domicile': [
         { id: '15', nom: 'Visite Express Chien, Chat & Petits Animaux', duree: '15 min', prixA: 10, zoneA: true },
-        { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 }
+        { id: '30', nom: 'Visite Standard', duree: '30 min', prixA: 15, prixB: 20 },
+        { id: 'j2', nom: 'Forfait 2 passages par jour', duree: '2 × 30 min / jour', jour: 25, passagesJour: 2, zoneA: true },
+        { id: 'p10', nom: 'Pack Privilège 10 visites de 45 min', duree: '45 min', forfait: 180, zoneA: true, reco: true }
       ]
     };
 
@@ -256,7 +258,9 @@
       DOM.formule.innerHTML = '<option value="" disabled>Sélectionnez une formule</option>'
         + liste.map(f => {
             let prix;
-            if (f.zoneA) prix = euro(f.prixA) + ' — zone A uniquement';
+            if (f.jour) prix = euro(f.jour) + ' / jour — zone A uniquement';
+            else if (f.forfait) prix = euro(f.forfait) + ' les 10 visites de 45 min — zone A';
+            else if (f.zoneA) prix = euro(f.prixA) + ' — zone A uniquement';
             else if (f.prixB) prix = 'zone A ' + euro(f.prixA) + ' / zone B ' + euro(f.prixB);
             else prix = euro(f.prixA);
             return '<option value="' + f.id + '">' + f.nom + ' — ' + f.duree + ' — '
@@ -280,7 +284,7 @@
       const f = getFormule(service, DOM.formule ? DOM.formule.value : '');
       if (!f) { DOM.formuleNote.textContent = ''; return; }
       const zone = zoneCourante();
-      let note = f.nom + ' (' + f.duree + ') — ';
+      const note = f.nom + ' (' + f.duree + ') — ';
 
       // Zone C (au-delà de 30 km) : aucun tarif, devis personnalisé
       if (zone === 'C') {
@@ -288,20 +292,41 @@
         return;
       }
 
-      note += fmt(prixFormule(f, zone)) + (zone ? ' (zone ' + zone + ')' : '') + ' — ';
+      let texte;
       if (service === 'Promenades adaptées') {
-        note += f.packs
+        texte = note + fmt(prixFormule(f, zone)) + (zone ? ' (zone ' + zone + ')' : '') + ' — ';
+        texte += f.packs
           ? 'éligible aux Packs Privilège (-5 % dès 5 balades, -10 % dès 10 balades).'
           : 'formule recommandée — à l\'unité uniquement (sans Pack Privilège).';
-      } else if (f.zoneA) {
-        note += 'chien, chat et petits animaux — offre valable uniquement en zone A (1 à 15 km)'
-          + (zone && zone !== 'A'
-              ? ' : votre adresse est en zone ' + zone + ', merci de choisir la Visite Standard (30 min).'
-              : '.');
+      } else if (f.jour) {
+        texte = note + fmt(f.jour) + ' / jour (zone A) — 2 passages de 30 min, 30 min minimum par passage.';
+      } else if (f.forfait) {
+        texte = note + fmt(f.forfait) + ' les 10 visites de 45 min (zone A) — formule recommandée : '
+          + 'jusqu\'à 3 passages par jour à 18,00 € la visite, valable 3 mois.';
       } else {
-        note += 'chien, chat et petits animaux à domicile.';
+        texte = note + fmt(prixFormule(f, zone)) + (zone ? ' (zone ' + zone + ')' : '') + ' — ';
+        if (f.zoneA) {
+          texte += 'chien, chat et petits animaux — offre valable uniquement en zone A (1 à 15 km)'
+            + (zone && zone !== 'A'
+                ? ' : votre adresse est en zone ' + zone + ', merci de choisir la Visite Standard (30 min).'
+                : '.');
+        } else {
+          texte += 'chien, chat et petits animaux à domicile.';
+        }
       }
-      DOM.formuleNote.textContent = note;
+      DOM.formuleNote.textContent = texte;
+    }
+
+    // Note du bloc « séjour » : elle change selon la prestation (balades / visites)
+    const NOTE_SEJOUR = {
+      'Promenades adaptées': "Pack Privilège balades : remise de 5 % dès 5 balades et de 10 % dès 10 balades (promenades de 30 ou 60 min — la formule 45 min est à l'unité), appliquée automatiquement. Valable 3 mois à compter de la 1re balade.",
+      'Visite à domicile': "Visites à domicile (zone A) : forfait 2 passages/jour à 25 € ou Pack Privilège 10 visites de 45 min à 180 € (recommandé, jusqu'à 3 passages/jour). 30 minutes minimum par passage. En zone B : Visite Standard 30 min."
+    };
+    function majNoteSejour(service) {
+      const el = safeQs('note-sejour');
+      if (!el || !NOTE_SEJOUR[service]) return;
+      el.innerHTML = '<i class="fa-solid fa-circle-info" style="color:var(--orange);"></i> '
+        + NOTE_SEJOUR[service];
     }
 
     function updateServiceLogic() {
@@ -337,6 +362,7 @@
       if (DOM.messageField) DOM.messageField.placeholder = "Précisions utiles : comportement, état de santé, besoins particuliers...";
 
       if (!val) return;
+      majNoteSejour(val);
 
       // ====================================================
       // TAXI ANIMALIER
@@ -780,31 +806,52 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
         }
       }
 
-      // ===== VISITES À DOMICILE / CHATS (séjour sur une période) =====
+      // ===== VISITES À DOMICILE (séjour sur une période) =====
       else if (service === 'Visite à domicile') {
         let formule = getFormule('Visite à domicile', DOM.formule ? DOM.formule.value : '');
         if (zone === 'C') return renderSurDevis(`Distance ${distance} km — Zone C, devis personnalisé.`);
-        // Visite Express / Chat : offre réservée à la zone A (1 à 15 km)
+
+        // Express, forfait journée et pack de visites : réservés à la zone A
         if (formule.zoneA && zone !== 'A') {
-          lignes.push({ label: `Visite Express / Chat : offre valable uniquement en zone A (1 à 15 km) — votre adresse est en zone ${zone}`, value: '', info: true });
+          lignes.push({ label: `${formule.nom} : offre valable uniquement en zone A (1 à 15 km) — votre adresse est en zone ${zone}`, value: '', info: true });
           formule = getFormule('Visite à domicile', '30');
           lignes.push({ label: 'Estimation établie sur la Visite Standard (30 min)', value: '', info: true });
         }
-        const base = prixFormule(formule, zone);
-
-        // Tarif par visite = formule + animaux supplémentaires (+3 €/animal)
-        const suppAnim = nbAnimauxVal > 1 ? (nbAnimauxVal - 1) * 3 : 0;
-        const parVisite = base + suppAnim;
 
         const nbJours = nbJoursSejour();
         const freq = DOM.frequenceJour ? (parseInt(DOM.frequenceJour.value, 10) || 1) : 1;
-        const nbVisites = nbJours * freq;
-        const sousTotal = parVisite * nbVisites;
+        // Animaux supplémentaires : +3 € par animal supplémentaire et par passage
+        const suppPassage = nbAnimauxVal > 1 ? (nbAnimauxVal - 1) * 3 : 0;
 
-        lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parVisite)} / visite (zone ${zone})${suppAnim ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: '', info: true });
-        lignes.push({ label: `${nbJours} jour(s) × ${freq} visite(s)/jour = ${nbVisites} visite(s)`, value: fmt(sousTotal) });
-        total += sousTotal;
-        detailTexte.push(`Visite ${formule.nom} ${formule.duree} a ${fmt(parVisite)}/visite x ${nbVisites} = ${fmt(sousTotal)}`);
+        if (formule.jour) {
+          // Forfait journée : 2 passages de 30 min (30 min minimum par passage)
+          const passages = formule.passagesJour * nbJours;
+          const supp = suppPassage * passages;
+          const sousTotal = formule.jour * nbJours + supp;
+          lignes.push({ label: `${formule.nom} (zone A) — ${fmt(formule.jour)} / jour, 2 passages de 30 min, 30 min minimum par passage`, value: '', info: true });
+          lignes.push({ label: `${nbJours} jour(s) × ${formule.passagesJour} passages = ${passages} passages${supp ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: fmt(sousTotal) });
+          total += sousTotal;
+          detailTexte.push(`${formule.nom} ${fmt(formule.jour)}/jour x ${nbJours} = ${fmt(formule.jour * nbJours)}${supp ? ' + supp. animaux ' + fmt(supp) : ''}`);
+        } else if (formule.forfait) {
+          // Pack de 10 visites de 45 min : crédit forfaitaire, modulable dans la journée
+          const nbVisites = nbJours * freq;
+          const nbPacks = Math.max(1, Math.ceil(nbVisites / 10));
+          const supp = suppPassage * nbVisites;
+          const sousTotal = formule.forfait * nbPacks + supp;
+          lignes.push({ label: `${formule.nom} (zone A) — ${fmt(formule.forfait)} les 10 visites, 30 min minimum par passage, valable 3 mois`, value: '', info: true });
+          lignes.push({ label: `${nbPacks} pack(s) de 10 visites pour ${nbVisites} visite(s) prévue(s)${supp ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: fmt(sousTotal) });
+          total += sousTotal;
+          detailTexte.push(`${formule.nom} x ${nbPacks} = ${fmt(formule.forfait * nbPacks)}${supp ? ' + supp. animaux ' + fmt(supp) : ''}`);
+        } else {
+          // À la carte : Visite Express (15 min) / Visite Standard (30 min)
+          const parVisite = prixFormule(formule, zone) + suppPassage;
+          const nbVisites = nbJours * freq;
+          const sousTotal = parVisite * nbVisites;
+          lignes.push({ label: `${formule.nom} (${formule.duree}) — ${fmt(parVisite)} / visite (zone ${zone})${suppPassage ? ' (dont ' + (nbAnimauxVal - 1) + ' animal(aux) supp.)' : ''}`, value: '', info: true });
+          lignes.push({ label: `${nbJours} jour(s) × ${freq} visite(s)/jour = ${nbVisites} visite(s)`, value: fmt(sousTotal) });
+          total += sousTotal;
+          detailTexte.push(`Visite ${formule.nom} ${formule.duree} a ${fmt(parVisite)}/visite x ${nbVisites} = ${fmt(sousTotal)}`);
+        }
       }
 
       // Majoration dimanche / jour férié — UNIQUEMENT sur les transports d'urgence
