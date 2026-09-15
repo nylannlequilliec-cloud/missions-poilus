@@ -657,6 +657,24 @@
     .local-seo-signature__name { font-weight: 700; color: var(--bleu-nuit); font-size: 1.02rem; }
     .local-seo-signature__valeurs { color: var(--orange); font-weight: 600; letter-spacing: 0.04em; font-size: 0.9rem; }
 
+    /* Bandeau de clarté du hero : « garde et visites chez vous » */
+    .hero-scope {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 18px auto 0;
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--blanc);
+      font-size: 0.88rem;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+    }
+    .hero-scope i { color: var(--orange); }
+    .hero-scope strong { color: var(--blanc); }
+
     /* ============================================
        TARIFICATION
     ============================================ */

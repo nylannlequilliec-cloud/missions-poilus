@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-09-06",
-  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee.",
+  "updated_at": "2026-09-13",
+  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee. Controle autocomplete Google FR (13/09/2026) : « garde d'animaux a domicile », « garde chien a domicile », « garde d'animaux autour de moi », « garde de chien a domicile tarif » et « pet sitting a domicile » sont des requetes reellement completees ; « garde d'animaux chez vous » et « garde chez vous » n'ont AUCUNE suggestion -> volume negligeable : a utiliser comme phrase de clarte dans les textes, pas comme mot-cle principal.",
   "keywords": [
     {
       "keyword": "taxi animalier",
@@ -106,6 +106,41 @@
       "intent": "transactionnel",
       "location": "France",
       "page": "assurance.html"
+    },
+    {
+      "keyword": "garde chien a domicile",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes / Presqu'ile",
+      "page": "index.html"
+    },
+    {
+      "keyword": "pet sitting a domicile",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes / Presqu'ile",
+      "page": "index.html"
+    },
+    {
+      "keyword": "garde d'animaux a domicile tarif",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "tarifs.html"
+    },
+    {
+      "keyword": "garde d'animaux autour de moi",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes / Presqu'ile",
+      "page": "index.html"
+    },
+    {
+      "keyword": "garde d'animaux chez vous",
+      "volume": "estime (faible)",
+      "intent": "clarification / locale",
+      "location": "France",
+      "page": "index.html"
     }
   ]
 }
