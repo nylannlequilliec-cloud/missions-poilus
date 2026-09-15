@@ -517,6 +517,147 @@
     /* (vehicule cards CSS supprime - non utilise dans le HTML actuel) */
 
     /* ============================================
+       SEO LOCAL (accueil) : présentation, prestations, zones & transport
+    ============================================ */
+    .local-seo-section {
+      position: relative;
+      overflow: hidden;
+      padding: 74px 24px 84px;
+      background:
+        radial-gradient(900px 380px at 10% 0%, rgba(242,140,40,0.08), transparent 70%),
+        radial-gradient(700px 320px at 92% 100%, rgba(35,43,69,0.06), transparent 72%),
+        linear-gradient(180deg, #ffffff 0%, #f7f5f1 100%);
+    }
+    .local-seo-inner { max-width: 1080px; margin: 0 auto; }
+    .local-seo-text { max-width: 920px; margin: 0 auto 6px; }
+    .local-seo-text p { color: var(--texte); font-size: 1rem; line-height: 1.75; margin: 0 0 14px; }
+    .local-seo-text p.local-seo-lead { font-size: 1.08rem; font-weight: 500; color: var(--bleu-nuit); }
+    .local-seo-h3 {
+      margin: 40px 0 12px;
+      font-size: 1.28rem;
+      color: var(--bleu-nuit);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .local-seo-h3 i { color: var(--orange); }
+    .local-seo-intro { color: var(--texte); font-size: 1rem; line-height: 1.7; margin: 0 0 16px; }
+    .local-seo-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 10px 26px;
+    }
+    .local-seo-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--texte);
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+    .local-seo-list li i { color: var(--orange); font-size: 0.78rem; margin-top: 5px; flex-shrink: 0; }
+    .local-seo-zones {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 22px;
+      margin-top: 4px;
+    }
+    .local-seo-zone {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(35,43,69,0.06);
+      border-radius: 26px;
+      padding: 22px 24px;
+      box-shadow: 0 10px 30px rgba(35,43,69,0.07);
+    }
+    .local-seo-zone h4 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      color: var(--bleu-nuit);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .local-seo-zone h4 i { color: var(--orange); }
+    .local-seo-zone p { color: var(--texte); font-size: 0.95rem; line-height: 1.7; margin: 0 0 10px; }
+    .local-seo-zone p.local-seo-communes { color: var(--bleu-nuit); font-weight: 500; }
+    .local-seo-zone p.local-seo-note { color: var(--texte-muted); font-size: 0.9rem; margin-bottom: 0; }
+    .local-seo-section .local-seo-intro,
+    .local-seo-section .local-seo-list { max-width: 1080px; }
+    .local-seo-section .local-seo-text + .local-seo-list,
+    .local-seo-section .local-seo-intro + .local-seo-list { margin-bottom: 4px; }
+    .local-seo-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 36px;
+    }
+
+    /* ============================================
+       FAQ (accueil) : accordéon questions fréquentes + signature
+    ============================================ */
+    .faq-section {
+      position: relative;
+      overflow: hidden;
+      padding: 70px 24px 76px;
+      background:
+        radial-gradient(800px 340px at 86% 0%, rgba(242,140,40,0.07), transparent 72%),
+        linear-gradient(180deg, #f7f5f1 0%, #ffffff 100%);
+    }
+    .faq-section .section-header { margin-bottom: 28px; }
+    .faq-list { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+    .faq-item {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(35,43,69,0.07);
+      border-radius: 20px;
+      padding: 18px 22px;
+      box-shadow: 0 8px 24px rgba(35,43,69,0.05);
+      transition: box-shadow .25s ease, border-color .25s ease;
+    }
+    .faq-item[open] { border-color: rgba(242,140,40,0.35); box-shadow: 0 12px 30px rgba(35,43,69,0.09); }
+    .faq-item summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      font-weight: 600;
+      color: var(--bleu-nuit);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "\f067";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      color: var(--orange);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      transition: transform .25s ease;
+    }
+    .faq-item[open] summary::after { content: "\f068"; }
+    .faq-item p { color: var(--texte); font-size: 0.96rem; line-height: 1.75; margin: 12px 0 0; }
+
+    .local-seo-signature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+      margin: 30px auto 0;
+      padding-top: 22px;
+      max-width: 620px;
+      border-top: 1px solid rgba(35,43,69,0.12);
+    }
+    .local-seo-signature__name { font-weight: 700; color: var(--bleu-nuit); font-size: 1.02rem; }
+    .local-seo-signature__valeurs { color: var(--orange); font-weight: 600; letter-spacing: 0.04em; font-size: 0.9rem; }
+
+    /* ============================================
        TARIFICATION
     ============================================ */
     /* Engagements & avantages : deux colonnes, une icône orange par argument */
