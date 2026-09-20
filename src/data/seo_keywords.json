@@ -1,7 +1,49 @@
 {
-  "updated_at": "2026-09-13",
-  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee. Controle autocomplete Google FR (13/09/2026) : « garde d'animaux a domicile », « garde chien a domicile », « garde d'animaux autour de moi », « garde de chien a domicile tarif » et « pet sitting a domicile » sont des requetes reellement completees ; « garde d'animaux chez vous » et « garde chez vous » n'ont AUCUNE suggestion -> volume negligeable : a utiliser comme phrase de clarte dans les textes, pas comme mot-cle principal.",
+  "updated_at": "2026-09-20",
+  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee ; Google Trends renvoie une erreur 429 depuis la machine d'audit, aucun indice de volume n'a donc pu etre recupere. Controle autocomplete Google FR (20/09/2026) : « garde de chien a domicile », « garde de chien a domicile tarif », « garde de chien a domicile autour de moi », « garde d'animaux a domicile », « garde d'animaux autour de moi », « garde de chien saint nazaire », « garde de chien la baule », « garde d'animaux saint nazaire », « pet sitter nantes », « cat sitter nantes », « dog sitter nantes », « pet sitter saint nazaire », « garde de chat a domicile », « garde de chat a domicile tarif », « garde nac a domicile », « garde lapin a domicile », « visite a domicile chat », « tarif visite a domicile chat », « promenade de chien », « promeneur de chien nantes », « taxi animalier », « taxi animalier nantes », « taxi animalier tarif », « transport chat veterinaire », « livraison croquettes a domicile », « assurance sante animale » sont des requetes reellement completees par Google. A l'inverse « pet sitting Saint-Andre-des-Eaux », « garde d'animaux Saint-Andre-des-Eaux » et « garde d'animaux chez vous » ne declenchent AUCUNE suggestion -> volume negligeable : a utiliser comme phrase de clarte dans les textes, pas comme mot-cle. « ambulance animaliere » n'a aucune variante nantaise completee (seule « ambulance animaliere belgique » ressort) : mot-cle retire, la page taxi-animalier.html reste portee par « taxi animalier » et « taxi animalier Nantes ».",
   "keywords": [
+    {
+      "keyword": "garde de chien a domicile",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "index.html"
+    },
+    {
+      "keyword": "garde de chien a domicile tarif",
+      "volume": "estime",
+      "intent": "transactionnel (prix)",
+      "location": "France",
+      "page": "tarifs.html"
+    },
+    {
+      "keyword": "garde d'animaux a domicile",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "index.html"
+    },
+    {
+      "keyword": "garde d'animaux autour de moi",
+      "volume": "estime",
+      "intent": "transactionnel / local",
+      "location": "Nantes / Presqu'ile",
+      "page": "index.html"
+    },
+    {
+      "keyword": "garde de chien saint nazaire",
+      "volume": "estime",
+      "intent": "transactionnel / local",
+      "location": "Saint-Nazaire / Presqu'ile",
+      "page": "index.html"
+    },
+    {
+      "keyword": "pet sitter Nantes",
+      "volume": "estime",
+      "intent": "transactionnel / local",
+      "location": "Nantes",
+      "page": "index.html"
+    },
     {
       "keyword": "taxi animalier",
       "volume": "estime",
@@ -12,44 +54,16 @@
     {
       "keyword": "taxi animalier Nantes",
       "volume": "estime",
-      "intent": "transactionnel",
+      "intent": "transactionnel / local",
       "location": "Nantes",
       "page": "taxi-animalier.html"
     },
     {
-      "keyword": "ambulance animaliere nantes",
+      "keyword": "transport chat veterinaire",
       "volume": "estime",
       "intent": "transactionnel",
-      "location": "Nantes / 44",
-      "page": "taxi-animalier.html"
-    },
-    {
-      "keyword": "garde d'animaux a domicile",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "France",
-      "page": "index.html"
-    },
-    {
-      "keyword": "pet sitting Saint-Andre-des-Eaux",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Saint-Andre-des-Eaux (44117)",
-      "page": "index.html"
-    },
-    {
-      "keyword": "garde de chien saint nazaire",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Saint-Nazaire / Presqu'ile",
-      "page": "index.html"
-    },
-    {
-      "keyword": "garde de chien La Baule",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "La Baule / Presqu'ile de Guerande",
-      "page": "index.html"
+      "location": "Nantes (CHV Atlantia, Oniris) / 44",
+      "page": "avant-apres-hospitalisation.html"
     },
     {
       "keyword": "promenade de chien",
@@ -60,6 +74,13 @@
     },
     {
       "keyword": "visite a domicile chat",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "visites-chats-nac.html"
+    },
+    {
+      "keyword": "garde de chat a domicile",
       "volume": "estime",
       "intent": "transactionnel",
       "location": "France",
@@ -80,67 +101,11 @@
       "page": "livraison.html"
     },
     {
-      "keyword": "accompagnement avant apres hospitalisation veterinaire",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes (CHV Atlantia, Oniris)",
-      "page": "avant-apres-hospitalisation.html"
-    },
-    {
-      "keyword": "garde de chien a domicile tarif",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "France",
-      "page": "tarifs.html"
-    },
-    {
-      "keyword": "pet sitter Nantes",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes",
-      "page": "index.html"
-    },
-    {
       "keyword": "assurance sante animale",
       "volume": "estime",
       "intent": "transactionnel",
       "location": "France",
       "page": "assurance.html"
-    },
-    {
-      "keyword": "garde chien a domicile",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes / Presqu'ile",
-      "page": "index.html"
-    },
-    {
-      "keyword": "pet sitting a domicile",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes / Presqu'ile",
-      "page": "index.html"
-    },
-    {
-      "keyword": "garde d'animaux a domicile tarif",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "France",
-      "page": "tarifs.html"
-    },
-    {
-      "keyword": "garde d'animaux autour de moi",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes / Presqu'ile",
-      "page": "index.html"
-    },
-    {
-      "keyword": "garde d'animaux chez vous",
-      "volume": "estime (faible)",
-      "intent": "clarification / locale",
-      "location": "France",
-      "page": "index.html"
     }
   ]
 }
