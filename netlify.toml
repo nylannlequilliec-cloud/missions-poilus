@@ -10,3 +10,231 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Images : cache long (fichiers versionnés par nom de prise de vue, contenu stable)
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# ============================================================
+# URL canoniques — une seule forme : /page.html
+# Constat du 21/09/2026 : Netlify sert AUSSI les variantes sans extension (Pretty URLs) en 200,
+# donc /taxi-animalier ET /taxi-animalier.html répondaient tous les deux (contenu dupliqué).
+# Ces redirections 301 renvoient chaque variante vers la forme déclarée en canonical, au sitemap
+# et dans les liens internes. Ne pas modifier sans mettre à jour canonical et sitemap.
+# ============================================================
+
+[[redirects]]
+  from = "/assurance"
+  to = "/assurance.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assurance/"
+  to = "/assurance.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/avant-apres-hospitalisation"
+  to = "/avant-apres-hospitalisation.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/avant-apres-hospitalisation/"
+  to = "/avant-apres-hospitalisation.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cgu"
+  to = "/cgu.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cgu/"
+  to = "/cgu.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact/"
+  to = "/contact.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/garde-animaux-la-baule"
+  to = "/garde-animaux-la-baule.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/garde-animaux-la-baule/"
+  to = "/garde-animaux-la-baule.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/garde-animaux-saint-nazaire"
+  to = "/garde-animaux-saint-nazaire.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/garde-animaux-saint-nazaire/"
+  to = "/garde-animaux-saint-nazaire.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/livraison"
+  to = "/livraison.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/livraison/"
+  to = "/livraison.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pet-sitter-pornichet"
+  to = "/pet-sitter-pornichet.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pet-sitter-pornichet/"
+  to = "/pet-sitter-pornichet.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/promenades"
+  to = "/promenades.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/promenades/"
+  to = "/promenades.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tarifs"
+  to = "/tarifs.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tarifs/"
+  to = "/tarifs.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi-animalier"
+  to = "/taxi-animalier.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi-animalier/"
+  to = "/taxi-animalier.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi-animalier-guerande"
+  to = "/taxi-animalier-guerande.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi-animalier-guerande/"
+  to = "/taxi-animalier-guerande.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi-animalier-la-baule"
+  to = "/taxi-animalier-la-baule.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi-animalier-la-baule/"
+  to = "/taxi-animalier-la-baule.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi-animalier-saint-nazaire"
+  to = "/taxi-animalier-saint-nazaire.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi-animalier-saint-nazaire/"
+  to = "/taxi-animalier-saint-nazaire.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/transport-animalier-veterinaire-nantes"
+  to = "/transport-animalier-veterinaire-nantes.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/transport-animalier-veterinaire-nantes/"
+  to = "/transport-animalier-veterinaire-nantes.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/visites-chats-nac"
+  to = "/visites-chats-nac.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/visites-chats-nac/"
+  to = "/visites-chats-nac.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/visites-chats-nac-saint-nazaire"
+  to = "/visites-chats-nac-saint-nazaire.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/visites-chats-nac-saint-nazaire/"
+  to = "/visites-chats-nac-saint-nazaire.html"
+  status = 301
+  force = true

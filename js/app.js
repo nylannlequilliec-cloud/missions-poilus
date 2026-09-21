@@ -2190,3 +2190,35 @@ function afficherInfoDistance(type, adresse) {
   window.addEventListener('load', mesurer); // re-mesure une fois tout chargé
   requestAnimationFrame(boucle);
 })();
+
+/* ============================================================
+   ÉVÉNEMENTS GA4 (une seule fois par action — ne pas dupliquer)
+   click_phone · click_email · click_quote · click_map · click_social
+   form_start · form_submit
+============================================================ */
+(function () {
+  function envoyer(nom, params) {
+    if (typeof window.gtag === 'function') window.gtag('event', nom, params || {});
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    var txt = (a.getAttribute('aria-label') || a.textContent || '').toLowerCase();
+    if (href.indexOf('tel:') === 0) envoyer('click_phone', { emplacement: txt.slice(0, 40) });
+    else if (href.indexOf('mailto:') === 0) envoyer('click_email');
+    else if (href.indexOf('contact.html') !== -1 || href.indexOf('#contact') !== -1) envoyer('click_quote', { page: location.pathname });
+    else if (/google\.[a-z.]+\/maps|maps\.app\.goo\.gl|openstreetmap/.test(href)) envoyer('click_map');
+    else if (/facebook|instagram|tiktok|linkedin|youtube/.test(href)) envoyer('click_social', { reseau: href });
+  }, true);
+  var debut = false;
+  document.addEventListener('focusin', function (e) {
+    if (debut || !e.target || !e.target.closest || !e.target.closest('form')) return;
+    debut = true;
+    envoyer('form_start', { formulaire: 'devis' });
+  });
+  document.addEventListener('submit', function (e) {
+    var f = e.target;
+    if (f && f.tagName === 'FORM') envoyer('form_submit', { formulaire: f.id || 'devis', page: location.pathname });
+  }, true);
+})();

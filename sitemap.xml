@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://mission-poilus.com/</loc><priority>1.0</priority></url>
-  <url><loc>https://mission-poilus.com/taxi-animalier.html</loc><priority>0.9</priority></url>
-  <url><loc>https://mission-poilus.com/promenades.html</loc><priority>0.8</priority></url>
-  <url><loc>https://mission-poilus.com/visites-chats-nac.html</loc><priority>0.8</priority></url>
-  <url><loc>https://mission-poilus.com/livraison.html</loc><priority>0.8</priority></url>
-  <url><loc>https://mission-poilus.com/assurance.html</loc><priority>0.7</priority></url>
-  <url><loc>https://mission-poilus.com/avant-apres-hospitalisation.html</loc><priority>0.7</priority></url>
-  <url><loc>https://mission-poilus.com/tarifs.html</loc><priority>0.8</priority></url>
-  <url><loc>https://mission-poilus.com/contact.html</loc><priority>0.9</priority></url>
-  <url><loc>https://mission-poilus.com/cgu.html</loc><priority>0.3</priority></url>
+  <url><loc>https://mission-poilus.com/assurance.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/avant-apres-hospitalisation.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/cgu.html</loc><lastmod>2026-09-21</lastmod><priority>0.3</priority></url>
+  <url><loc>https://mission-poilus.com/contact.html</loc><lastmod>2026-09-21</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mission-poilus.com/garde-animaux-la-baule.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/garde-animaux-saint-nazaire.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/</loc><lastmod>2026-09-21</lastmod><priority>1.0</priority></url>
+  <url><loc>https://mission-poilus.com/livraison.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/pet-sitter-pornichet.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/promenades.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/tarifs.html</loc><lastmod>2026-09-21</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mission-poilus.com/taxi-animalier-guerande.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/taxi-animalier-la-baule.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/taxi-animalier-saint-nazaire.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/taxi-animalier.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/transport-animalier-veterinaire-nantes.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/visites-chats-nac-saint-nazaire.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
+  <url><loc>https://mission-poilus.com/visites-chats-nac.html</loc><lastmod>2026-09-21</lastmod><priority>0.8</priority></url>
 </urlset>
