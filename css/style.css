@@ -2887,3 +2887,55 @@ nav.menu a.active::after { width: 60%; }
   .service-card:nth-child(n)::after { font-size: 96px; bottom: 84px; }
   .service-card:nth-child(n) h3 { font-size: 1.12rem; }
 }
+
+/* ============================================================
+   CARTES DE SERVICE — v3 : six compositions distinctes (haut + bas)
+   Chaque carte a sa propre déco ; le bandeau bas reste AU-DESSUS du bouton.
+============================================================ */
+.service-card:nth-child(n) .deco {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  z-index: 0;
+  opacity: 1;
+}
+.service-card:nth-child(n) .deco .d { position: absolute; }
+.service-card:nth-child(n) .deco .d-top { top: 0; right: 0; width: 168px; height: 168px; }
+.service-card:nth-child(n) .deco .d-mirror { transform: scaleX(-1); }
+.service-card:nth-child(n) .deco .d-top.d-mirror { right: auto; left: 0; }
+.service-card:nth-child(n) .deco .d-band { top: 0; left: 0; width: 100%; height: 96px; }
+.service-card:nth-child(n) .deco .d-band.d-mirror { transform: scaleX(-1); }
+.service-card:nth-child(n) .deco .d-bot { left: 0; bottom: 60px; width: 100%; height: 84px; }
+.service-card:nth-child(n) .deco .pm {
+  position: absolute;
+  color: rgba(35, 43, 69, 0.05);
+  line-height: 1;
+  font-size: 84px;
+  bottom: 150px;
+  right: 16px;
+  transform: rotate(-14deg);
+}
+.service-card:nth-child(n) .deco .pm-big { font-size: 132px; bottom: 120px; right: -14px; }
+.service-card:nth-child(n) .deco .pm2 { font-size: 62px; bottom: 214px; right: 62px; transform: rotate(-30deg); }
+.service-card:nth-child(n) .deco .pm3 { font-size: 46px; bottom: 288px; right: 26px; transform: rotate(8deg); }
+
+/* --- variations par carte ------------------------------------------- */
+/* 2 · Livraison : haut à gauche, empreintes le long du bord droit */
+.service-card:nth-child(2) .deco .pm { bottom: 210px; right: 24px; }
+.service-card:nth-child(2) .deco .pm2 { bottom: 300px; right: 58px; }
+/* 3 · Promenades : empreintes en trio bas-droite + un peu plus haut */
+.service-card:nth-child(3) .deco .pm { bottom: 158px; right: 26px; font-size: 92px; }
+.service-card:nth-child(3) .deco .pm2 { bottom: 240px; right: 74px; font-size: 66px; }
+.service-card:nth-child(3) .deco .pm3 { bottom: 312px; right: 34px; font-size: 50px; }
+/* 4 · Visites : une seule empreinte, en haut à droite */
+.service-card:nth-child(4) .deco .pm { bottom: 300px; right: 20px; font-size: 96px; transform: rotate(-22deg); }
+/* 5 · Assurance : empreintes à gauche */
+.service-card:nth-child(5) .deco .pm { bottom: 176px; left: 18px; right: auto; transform: rotate(16deg); }
+.service-card:nth-child(5) .deco .pm2 { bottom: 258px; left: 56px; right: auto; font-size: 58px; transform: rotate(-10deg); }
+/* 6 · Avant / après : trio resserré près du bord droit */
+.service-card:nth-child(6) .deco .pm { bottom: 150px; right: 20px; font-size: 88px; }
+.service-card:nth-child(6) .deco .pm2 { bottom: 228px; right: 66px; font-size: 60px; }
+.service-card:nth-child(6) .deco .pm3 { bottom: 296px; right: 22px; font-size: 44px; }
+
+/* le numéro reste lisible au-dessus des décos */
+.service-card:nth-child(n)::before { z-index: 4; }
