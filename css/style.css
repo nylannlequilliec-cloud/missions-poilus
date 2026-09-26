@@ -3093,3 +3093,32 @@ nav.menu a.active::after { width: 60%; }
   .service-card:nth-child(n) p { padding-right: 26px; }
   .service-card:nth-child(n) ul { padding-right: 16px; }
 }
+
+/* ============================================================
+   CARTES v6 : variations par carte (orientation, taille, côté, empreinte)
+============================================================ */
+/* tailles pilotées par variables (surchargées carte par carte) */
+.service-card:nth-child(n) .deco .d-top { height: var(--h-top, 42%); }
+.service-card:nth-child(n) .deco .d-bot { height: var(--h-bot, 42%); }
+
+/* orientation : vague haute retournée à gauche, vague basse retournée à droite */
+.service-card:nth-child(n) .deco.flip-top .d-top { transform: scaleX(-1); }
+.service-card:nth-child(n) .deco.flip-bot .d-bot { transform: rotate(180deg) scaleX(-1); }
+
+/* les cartes dont la vague haute est à gauche dégagent le haut (icône + titre hors de la masse) */
+.service-card:nth-child(2) { padding-top: 152px; --h-top: 30%; --h-bot: 38%; }
+.service-card:nth-child(5) { padding-top: 168px; --h-top: 33%; --h-bot: 34%; }
+
+/* tailles */
+.service-card:nth-child(1) { --h-top: 40%; --h-bot: 42%; }
+.service-card:nth-child(3) { --h-top: 33%; --h-bot: 31%; }
+.service-card:nth-child(4) { --h-top: 52%; --h-bot: 44%; }
+.service-card:nth-child(6) { --h-top: 44%; --h-bot: 36%; }
+
+/* empreintes : taille / rotation / position propres à chaque carte */
+.service-card:nth-child(1) .deco .pm { font-size: 176px; bottom: 96px;  right: 18px; transform: rotate(-16deg); }
+.service-card:nth-child(2) .deco .pm { font-size: 128px; bottom: 118px; right: 8px;  transform: rotate(-30deg); }
+.service-card:nth-child(3) .deco .pm { font-size: 212px; bottom: 66px;  right: 24px; transform: rotate(-6deg); }
+.service-card:nth-child(4) .deco .pm { font-size: 150px; bottom: 104px; right: 30px; transform: rotate(-22deg); }
+.service-card:nth-child(5) .deco .pm { font-size: 196px; bottom: 82px;  right: 2px;  transform: rotate(-14deg); }
+.service-card:nth-child(6) .deco .pm { font-size: 138px; bottom: 128px; right: 12px; transform: rotate(-34deg); }
