@@ -2597,3 +2597,109 @@ nav.menu a.active::after { width: 60%; }
   .wave-divider { height: 54px; }
   .wave-divider--sm { height: 34px; }
 }
+
+/* ============================================================
+   CARTES DE SERVICE — refonte visuelle (une seule vague discrète,
+   pastille d'icône, liste resserrée, bouton ancré en bas).
+   Les règles sont posées ici pour primer sur les anciennes
+   (même spécificité avec :nth-child(n), déclarées plus bas).
+============================================================ */
+#services .service-card:nth-child(n),
+.service-card:nth-child(n) {
+  background: #FFFFFF;
+  border: 1px solid rgba(35, 43, 69, 0.07);
+  border-radius: 24px;
+  padding: 32px 30px 28px;
+  box-shadow: 0 12px 30px rgba(35, 43, 69, 0.07);
+}
+
+/* Décorations : une seule vague, dans le coin haut droit ; miroir sur les cartes paires */
+.service-card:nth-child(n) .deco { opacity: 1; }
+.service-card:nth-child(n) .deco .cw {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 170px;
+  height: 170px;
+}
+.service-card:nth-child(even) .deco { transform: scaleX(-1); }
+/* anciennes décorations retirées */
+.service-card:nth-child(n) .deco .cw-b,
+.service-card:nth-child(n) .deco .wm,
+.service-card:nth-child(n) .deco .tr { display: none !important; }
+
+/* Pastille d'icône */
+.service-card:nth-child(n) .service-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(140deg, #2C3659 0%, #1A2038 100%);
+  color: #F28C28;
+  box-shadow: 0 10px 22px rgba(26, 32, 56, 0.26);
+  margin-bottom: 20px;
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.service-card:nth-child(n) .service-icon i { font-size: 1.3rem; }
+.service-card:nth-child(n):hover .service-icon {
+  transform: translateY(-3px) rotate(-4deg);
+  box-shadow: 0 16px 28px rgba(26, 32, 56, 0.32);
+}
+
+/* Textes resserrés */
+.service-card:nth-child(n) h3 {
+  color: #232B45;
+  font-size: 1.16rem;
+  line-height: 1.32;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+.service-card:nth-child(n) p {
+  color: #4A5072;
+  font-size: 0.95rem;
+  line-height: 1.62;
+  margin: 0 0 16px;
+}
+.service-card:nth-child(n) ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.service-card:nth-child(n) ul li {
+  font-size: 0.93rem;
+  line-height: 1.45;
+  color: #33395A;
+  padding: 0;
+  align-items: flex-start;
+}
+.service-card:nth-child(n) ul li::before {
+  color: #F28C28;
+  font-size: 0.76rem;
+  margin-top: 4px;
+}
+
+/* Bouton : ancré en bas, pleine largeur, aligné sur toutes les cartes */
+.service-card:nth-child(n) .card-cta {
+  margin-top: auto;
+  align-self: stretch;
+  justify-content: center;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: #F28C28;
+  box-shadow: 0 10px 24px rgba(242, 140, 40, 0.28);
+  transition: background .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+.service-card:nth-child(n) .card-cta:hover {
+  background: #D97A17;
+  box-shadow: 0 14px 30px rgba(242, 140, 40, 0.34);
+  transform: translateY(-1px);
+}
+
+/* Sur petit écran : carte un peu plus compacte */
+@media (max-width: 600px) {
+  .service-card:nth-child(n) { padding: 26px 22px 24px; }
+  .service-card:nth-child(n) .deco .cw { width: 132px; height: 132px; top: -12px; right: -12px; }
+  .service-card:nth-child(n) h3 { font-size: 1.1rem; }
+}
