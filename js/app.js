@@ -1315,8 +1315,23 @@ Pour valider votre devis, merci de repondre a ce mail ou de me contacter au 06 8
     function attachListeners() {
       // Burger menu
       if (DOM.burger && DOM.menu) {
-        DOM.burger.addEventListener('click', () => DOM.menu.classList.toggle('open'));
-        DOM.menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => DOM.menu.classList.remove('open')));
+        // Ouverture/fermeture du menu : à la fermeture, on replie aussi les sous-menus
+        // (sinon le sous-menu « Services » restait déplié et recouvrait « Tarifs » à la réouverture).
+        DOM.burger.addEventListener('click', () => {
+          DOM.menu.classList.toggle('open');
+          if (!DOM.menu.classList.contains('open')) {
+            DOM.menu.querySelectorAll('.has-dropdown.open').forEach(li => li.classList.remove('open'));
+          }
+        });
+        // Un clic sur un lien ferme le menu… SAUF le bouton qui ouvre un sous-menu en mobile
+        // (sinon « Services » refermait le menu au lieu d'afficher ses rubriques).
+        DOM.menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+          const estBoutonSousMenu = a.parentElement
+            && a.parentElement.classList.contains('has-dropdown')
+            && window.matchMedia('(max-width: 900px)').matches;
+          if (estBoutonSousMenu) return;
+          DOM.menu.classList.remove('open');
+        }));
       }
 
       // Service / animal / urgence

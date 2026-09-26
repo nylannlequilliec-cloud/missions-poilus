@@ -1659,7 +1659,7 @@
     @media (max-width: 900px) {
       nav.menu ul { display: none; }
       .burger { display: block; }
-      nav.menu.open ul {
+      nav.menu.open > ul {
         display: flex;
         flex-direction: column;
         position: absolute;
@@ -1670,6 +1670,10 @@
         padding: 20px;
         gap: 4px;
         box-shadow: var(--shadow-md);
+        /* le panneau peut défiler sur petit écran (menu long une fois le sous-menu ouvert) */
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       .form-row { grid-template-columns: 1fr; }
       .footer-inner { grid-template-columns: 1fr; gap: 30px; }
@@ -2419,7 +2423,8 @@ nav.menu a.active::after { width: 60%; }
   nav.menu .has-dropdown { width: 100%; }
   nav.menu .dropdown {
     display: none;
-    position: static;
+    position: static !important;   /* ne doit jamais passer par-dessus « Tarifs » / « Réserver » */
+    top: auto;
     box-shadow: none;
     padding: 4px 0 4px 14px;
     min-width: 0;
