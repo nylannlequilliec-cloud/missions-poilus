@@ -2703,3 +2703,187 @@ nav.menu a.active::after { width: 60%; }
   .service-card:nth-child(n) .deco .cw { width: 132px; height: 132px; top: -12px; right: -12px; }
   .service-card:nth-child(n) h3 { font-size: 1.1rem; }
 }
+
+/* ============================================================
+   CARTES DE SERVICE — composition travaillée (v2)
+   Bandeau de vagues organiques à 3 couches + icône posée sur la vague,
+   numéro de service en filigrane, empreinte discrète, puces en pastille,
+   bouton dégradé. Rien ne passe derrière le bouton.
+============================================================ */
+#services .services-grid { counter-reset: sc; }
+
+#services .service-card:nth-child(n),
+.service-card:nth-child(n) {
+  background: #FFFFFF;
+  border: 1px solid rgba(35, 43, 69, 0.08);
+  border-radius: 26px;
+  padding: 0 30px 28px;
+  box-shadow: 0 14px 34px rgba(35, 43, 69, 0.09);
+  overflow: hidden;
+}
+
+/* --- bandeau de vagues ------------------------------------------------ */
+.service-card:nth-child(n) .deco {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 118px;
+  z-index: 0;
+  opacity: 1;
+}
+.service-card:nth-child(n) .deco .band {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform .5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service-card:nth-child(n):hover .deco .band { transform: translateY(-4px) scale(1.02); }
+/* anciennes décorations */
+.service-card:nth-child(n) .deco .cw,
+.service-card:nth-child(n) .deco .cw-b,
+.service-card:nth-child(n) .deco .wm,
+.service-card:nth-child(n) .deco .tr { display: none !important; }
+
+/* --- numéro de service en filigrane ---------------------------------- */
+.service-card:nth-child(n)::before {
+  counter-increment: sc;
+  content: "0" counter(sc);
+  position: absolute;
+  top: 12px;
+  right: 22px;
+  z-index: 3;
+  font-size: 2.35rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: rgba(26, 32, 56, 0.26);
+}
+
+/* --- empreinte discrète derrière la liste ---------------------------- */
+.service-card:nth-child(n)::after {
+  content: "\f1b0";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: -10px;
+  bottom: 92px;
+  z-index: 0;
+  font-size: 120px;
+  line-height: 1;
+  color: rgba(35, 43, 69, 0.045);
+  transform: rotate(-16deg);
+  pointer-events: none;
+}
+
+/* --- pastille d'icône posée sur la vague ----------------------------- */
+.service-card:nth-child(n) .service-icon {
+  position: relative;
+  z-index: 4;
+  width: 60px;
+  height: 60px;
+  margin-top: 82px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #2E3A61 0%, #1A2038 78%);
+  color: #F28C28;
+  box-shadow: 0 12px 26px rgba(26, 32, 56, 0.30), 0 0 0 6px #FFFFFF;
+  transition: transform .4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow .4s ease;
+}
+.service-card:nth-child(n) .service-icon i { font-size: 1.32rem; }
+.service-card:nth-child(n):hover .service-icon {
+  transform: translateY(-4px) rotate(-6deg);
+  box-shadow: 0 18px 32px rgba(26, 32, 56, 0.34), 0 0 0 6px #FFFFFF;
+}
+
+/* --- textes ----------------------------------------------------------- */
+.service-card:nth-child(n) h3 {
+  color: #1A2038;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+.service-card:nth-child(n) p {
+  color: #4A5072;
+  font-size: 0.95rem;
+  line-height: 1.62;
+  margin: 0 0 18px;
+}
+
+/* --- liste : puces en pastille orange -------------------------------- */
+.service-card:nth-child(n) ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.service-card:nth-child(n) ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.93rem;
+  line-height: 1.45;
+  color: #33395A;
+  padding: 0;
+}
+.service-card:nth-child(n) ul li::before {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #E07C12;
+  font-size: 0.58rem;
+  width: 19px;
+  height: 19px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: rgba(242, 140, 40, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* --- bouton : dégradé + flèche dans une pastille --------------------- */
+.service-card:nth-child(n) .card-cta {
+  margin-top: auto;
+  align-self: stretch;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, #F79A3C 0%, #E07C12 100%);
+  box-shadow: 0 12px 26px rgba(224, 124, 18, 0.30);
+  transition: box-shadow .35s ease, transform .35s ease, filter .35s ease;
+}
+.service-card:nth-child(n) .card-cta i {
+  order: 2;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.24);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.66rem;
+  transition: transform .35s ease, background .35s ease;
+}
+.service-card:nth-child(n) .card-cta:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.06);
+  box-shadow: 0 18px 34px rgba(224, 124, 18, 0.36);
+}
+.service-card:nth-child(n) .card-cta:hover i { transform: translateX(4px); background: rgba(255, 255, 255, 0.36); }
+
+/* --- petit écran ------------------------------------------------------ */
+@media (max-width: 600px) {
+  .service-card:nth-child(n) { padding: 0 22px 24px; }
+  .service-card:nth-child(n) .deco { height: 100px; }
+  .service-card:nth-child(n) .service-icon { margin-top: 68px; width: 56px; height: 56px; }
+  .service-card:nth-child(n)::before { font-size: 2rem; top: 10px; right: 18px; }
+  .service-card:nth-child(n)::after { font-size: 96px; bottom: 84px; }
+  .service-card:nth-child(n) h3 { font-size: 1.12rem; }
+}
