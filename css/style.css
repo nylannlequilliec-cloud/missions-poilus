@@ -988,6 +988,35 @@
     .tarif-table td:nth-child(3) { color: var(--bleu-nuit); font-weight: 700; }
     .tarif-table td:nth-child(4) { color: var(--orange-fonce); font-weight: 700; }
 
+
+    /* ============================================================
+       Tableaux tarifaires sur mobile (constat du 21/09/2026) :
+       avec width:100 % et 4 colonnes, le tableau se comprimait dans ~300 px
+       -> colonnes écrasées et prix coupés (illisible). On impose une largeur
+       minimale lisible, on laisse le conteneur défiler horizontalement et on
+       affiche un indicateur. Les prix ne se coupent plus jamais.
+    ============================================================ */
+    .tarif-scroll-hint {
+      display: none;
+      color: var(--texte-muted);
+      font-size: 0.85rem;
+      font-style: italic;
+      margin: 8px 0 0;
+    }
+    @media (max-width: 700px) {
+      .tarif-table { min-width: 540px; }
+      .tarif-table th,
+      .tarif-table td { white-space: nowrap; }
+      .tarif-table th:first-child,
+      .tarif-table td:first-child { white-space: normal; min-width: 140px; }
+      .tarif-table td:last-child { text-align: right; }
+      .tarif-table-wrap {
+        -webkit-overflow-scrolling: touch;
+        box-shadow: inset -14px 0 12px -12px rgba(35,43,69,0.25);
+      }
+      .tarif-scroll-hint { display: block; }
+    }
+
     @media (max-width: 600px) {
       .tarif-block { padding: 24px 20px; }
       .encart-andreannais { padding: 26px 20px; }
@@ -1604,7 +1633,16 @@
       gap: 14px;
       margin-bottom: 14px;
     }
-    .footer-brand img { height: 56px; }
+    /* Le fichier du logo est sur fond blanc : on l'assume dans une pastille arrondie
+       (sinon il apparaît comme un rectangle blanc brut sur le fond bleu nuit du pied de page) */
+    .footer-brand img {
+      height: 44px;
+      width: auto;              /* indispensable : sans cela l'attribut width="337" écrase le logo */
+      background: #fff;
+      border-radius: 10px;
+      padding: 6px 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    }
     .footer-brand strong { font-size: 1.2rem; color: var(--blanc); }
     .footer-bottom {
       max-width: 1240px;
