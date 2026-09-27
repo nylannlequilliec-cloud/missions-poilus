@@ -1,9 +1,16 @@
 {
-  "updated_at": "2026-09-20",
-  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee ; Google Trends renvoie une erreur 429 depuis la machine d'audit, aucun indice de volume n'a donc pu etre recupere. Controle autocomplete Google FR (20/09/2026) : « garde de chien a domicile », « garde de chien a domicile tarif », « garde de chien a domicile autour de moi », « garde d'animaux a domicile », « garde d'animaux autour de moi », « garde de chien saint nazaire », « garde de chien la baule », « garde d'animaux saint nazaire », « pet sitter nantes », « cat sitter nantes », « dog sitter nantes », « pet sitter saint nazaire », « garde de chat a domicile », « garde de chat a domicile tarif », « garde nac a domicile », « garde lapin a domicile », « visite a domicile chat », « tarif visite a domicile chat », « promenade de chien », « promeneur de chien nantes », « taxi animalier », « taxi animalier nantes », « taxi animalier tarif », « transport chat veterinaire », « livraison croquettes a domicile », « assurance sante animale » sont des requetes reellement completees par Google. A l'inverse « pet sitting Saint-Andre-des-Eaux », « garde d'animaux Saint-Andre-des-Eaux » et « garde d'animaux chez vous » ne declenchent AUCUNE suggestion -> volume negligeable : a utiliser comme phrase de clarte dans les textes, pas comme mot-cle. « ambulance animaliere » n'a aucune variante nantaise completee (seule « ambulance animaliere belgique » ressort) : mot-cle retire, la page taxi-animalier.html reste portee par « taxi animalier » et « taxi animalier Nantes ».",
+  "updated_at": "2026-09-27",
+  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee ; Google Trends renvoie une erreur 429 depuis la machine d'audit. Controle autocomplete Google FR (27/09/2026) : les requetes retenues sont toutes reellement completees par Google, ex. « garde de chien a domicile », « garde de chien a domicile tarif », « garde d'animaux a domicile », « garde d'animaux autour de moi », « garde chien saint nazaire », « garde d'animaux saint nazaire », « garde chien la baule », « garde de chat saint nazaire », « pet sitter nantes », « cat sitter nantes », « dog sitter nantes », « pet sitter saint nazaire », « pet sitter la baule », « visite a domicile chat », « tarif visite a domicile chat », « garde de chat a domicile », « garde nac a domicile », « garde lapin a domicile », « promenade de chien », « promeneur de chien nantes », « taxi animalier », « taxi animalier nantes », « taxi animalier tarif », « transport chat veterinaire », « livraison croquettes a domicile », « assurance sante animale ». Releve du 27/09 : cette semaine le site a gagne 8 pages locales (garde-animaux-la-baule, garde-animaux-saint-nazaire, visites-chats-nac-saint-nazaire, transport-animalier-veterinaire-nantes, pet-sitter-pornichet, taxi-animalier-la-baule, taxi-animalier-guerande, taxi-animalier-saint-nazaire) : les mots-cles locaux pointent desormais vers ces pages dediees plutot que vers l'accueil. Requetes locales SANS suggestion Google -> volume negligeable, a traiter en texte, pas en mot-cle : « garde d'animaux la baule » (seule « garde animaux la baule » ressort), « taxi animalier la baule / guerande / saint nazaire », « pet sitter pornichet », « garde nac saint nazaire », « livraison croquettes la baule ». A l'inverse « pet sitting Saint-Andre-des-Eaux » et « garde d'animaux chez vous » ne declenchent aucune suggestion : a utiliser comme phrase de clarte dans les textes. « ambulance animaliere » n'a aucune variante nantaise completee : mot-cle ecarte, la page taxi reste portee par « taxi animalier » et « taxi animalier Nantes ».",
   "keywords": [
     {
       "keyword": "garde de chien a domicile",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "France",
+      "page": "index.html"
+    },
+    {
+      "keyword": "garde d'animaux a domicile",
       "volume": "estime",
       "intent": "transactionnel",
       "location": "France",
@@ -17,27 +24,6 @@
       "page": "tarifs.html"
     },
     {
-      "keyword": "garde d'animaux a domicile",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "France",
-      "page": "index.html"
-    },
-    {
-      "keyword": "garde d'animaux autour de moi",
-      "volume": "estime",
-      "intent": "transactionnel / local",
-      "location": "Nantes / Presqu'ile",
-      "page": "index.html"
-    },
-    {
-      "keyword": "garde de chien saint nazaire",
-      "volume": "estime",
-      "intent": "transactionnel / local",
-      "location": "Saint-Nazaire / Presqu'ile",
-      "page": "index.html"
-    },
-    {
       "keyword": "pet sitter Nantes",
       "volume": "estime",
       "intent": "transactionnel / local",
@@ -45,42 +31,42 @@
       "page": "index.html"
     },
     {
-      "keyword": "taxi animalier",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes et 65 km autour (44)",
-      "page": "taxi-animalier.html"
-    },
-    {
-      "keyword": "taxi animalier Nantes",
+      "keyword": "garde d'animaux Saint-Nazaire",
       "volume": "estime",
       "intent": "transactionnel / local",
-      "location": "Nantes",
-      "page": "taxi-animalier.html"
+      "location": "Saint-Nazaire / agglomeration nazairienne",
+      "page": "garde-animaux-saint-nazaire.html"
+    },
+    {
+      "keyword": "garde d'animaux La Baule",
+      "volume": "estime",
+      "intent": "transactionnel / local",
+      "location": "La Baule / CapAtlantique",
+      "page": "garde-animaux-la-baule.html"
+    },
+    {
+      "keyword": "garde de chat Saint-Nazaire",
+      "volume": "estime",
+      "intent": "transactionnel / local",
+      "location": "Saint-Nazaire",
+      "page": "visites-chats-nac-saint-nazaire.html"
+    },
+    {
+      "keyword": "pet sitter Saint-Nazaire",
+      "volume": "estime",
+      "intent": "transactionnel / local",
+      "location": "Saint-Nazaire / Presqu'ile guerlandaise",
+      "page": "index.html"
     },
     {
       "keyword": "transport chat veterinaire",
       "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes (CHV Atlantia, Oniris) / 44",
-      "page": "avant-apres-hospitalisation.html"
-    },
-    {
-      "keyword": "promenade de chien",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "Nantes / Presqu'ile",
-      "page": "promenades.html"
+      "intent": "transactionnel / local",
+      "location": "Nantes (CHV Atlantia, Oniris, Vetocene) / 44",
+      "page": "transport-animalier-veterinaire-nantes.html"
     },
     {
       "keyword": "visite a domicile chat",
-      "volume": "estime",
-      "intent": "transactionnel",
-      "location": "France",
-      "page": "visites-chats-nac.html"
-    },
-    {
-      "keyword": "garde de chat a domicile",
       "volume": "estime",
       "intent": "transactionnel",
       "location": "France",
@@ -94,10 +80,24 @@
       "page": "visites-chats-nac.html"
     },
     {
+      "keyword": "taxi animalier Nantes",
+      "volume": "estime",
+      "intent": "transactionnel / local",
+      "location": "Nantes et 65 km autour (44)",
+      "page": "taxi-animalier.html"
+    },
+    {
+      "keyword": "promenade de chien",
+      "volume": "estime",
+      "intent": "transactionnel",
+      "location": "Nantes / Presqu'ile guerlandaise",
+      "page": "promenades.html"
+    },
+    {
       "keyword": "livraison croquettes a domicile",
       "volume": "estime",
       "intent": "transactionnel",
-      "location": "44 / Presqu'ile",
+      "location": "44 / Presqu'ile guerlandaise",
       "page": "livraison.html"
     },
     {
