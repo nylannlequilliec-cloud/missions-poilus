@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
 <!-- Google tag (gtag.js) GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HLPW91858"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -38,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css?v=104" />
+  <link rel="stylesheet" href="css/style.css?v=105" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -128,8 +127,14 @@
 }
 
   </script>
+<script>try{if(!sessionStorage.getItem('mp-visited'))document.documentElement.classList.add('mp-first-visit');}catch(e){}</script>
 </head>
 <body>
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="page-loader__logo"><img src="1000006754-removebg-preview.png" alt="" width="74" height="88" loading="eager" decoding="async" fetchpriority="high" /></div>
+    <div class="page-loader__pattes"><i class="fa-solid fa-paw"></i><i class="fa-solid fa-paw"></i><i class="fa-solid fa-paw"></i></div>
+    <div class="page-loader__barre"><span></span></div>
+  </div>
 
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
@@ -167,6 +172,7 @@
           <li><a href="contact.html" class="cta-nav"><i class="fa-solid fa-paw"></i> Réserver</a></li>
         </ul>
       </nav>
+      <button class="search-btn" id="searchBtn" type="button" aria-label="Rechercher sur le site" title="Rechercher (raccourci : /)"><i class="fa-solid fa-magnifying-glass"></i></button>
       <button class="burger" id="burger" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
     </div>
   </header>
@@ -981,7 +987,28 @@
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <script src="js/app.js?v=104"></script>
+  <script src="js/app.js?v=105"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR3PtVweGLX4xCOWzyrueDG9iJ-F4ADqE&libraries=places,geometry&callback=initGooglePlaces" async defer></script>
+  <div class="search-panel" id="searchPanel" hidden>
+    <div class="recherche-boite" role="dialog" aria-label="Recherche sur le site">
+      <div class="recherche-haut">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="searchInput" type="text" role="searchbox" placeholder="Rechercher une page, un service, une commune…" autocomplete="off" />
+        <button class="recherche-fermer" id="searchClose" type="button" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="recherche-resultats" id="searchResults"></div>
+    </div>
+  </div>
+
+  <div class="cookie-bar" id="cookieBar" role="region" aria-label="Cookies" hidden>
+    <p class="cookie-texte"><i class="fa-solid fa-cookie-bite"></i> Nous utilisons des cookies pour mesurer l’audience du site et améliorer votre expérience. Aucun n’est déposé avant votre choix. <a href="cgu.html">En savoir plus</a></p>
+    <div class="cookie-actions">
+      <button class="cookie-btn cookie-btn--ok" id="cookieAccept" type="button">Accepter</button>
+      <button class="cookie-btn cookie-btn--non" id="cookieRefuse" type="button">Refuser</button>
+    </div>
+  </div>
+
+  <script src="search-index.js?v=105"></script>
+  <script src="js/ui-extras.js?v=105"></script>
 </body>
 </html>
