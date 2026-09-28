@@ -3191,12 +3191,23 @@ html.mp-first-visit .page-loader.loader-out .page-loader__barre span { transform
 
 /* --- 3bis. ARRIVÉE DE L'EN-TÊTE, quand le site apparaît ---
    le bandeau orange descend du haut, puis la barre blanche suit */
-@keyframes mpArriveeHaut { from { transform: translateY(-104%); } to { transform: translateY(0); } }
+/* pendant l'attente la barre est INVISIBLE et entièrement hors écran (elle ne doit pas être vue
+   avant de descendre) ; elle devient visible dès que la descente commence */
+@keyframes mpArriveeHaut {
+  0%   { transform: translateY(calc(-100% - 90px)); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes mpArriveeHautOrange {
+  0%   { transform: translateY(calc(-100% - 90px)); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
 html.mp-apparition .urgence-bar {
-  animation: mpArriveeHaut .55s cubic-bezier(0.22, 1, 0.36, 1) .52s both;
+  animation: mpArriveeHautOrange .55s cubic-bezier(0.22, 1, 0.36, 1) .52s both;
 }
 html.mp-apparition header.main-header {
-  animation: mpArriveeHaut .62s cubic-bezier(0.22, 1, 0.36, 1) .76s both;
+  animation: mpArriveeHaut .62s cubic-bezier(0.22, 1, 0.36, 1) .8s both;
 }
 @media (prefers-reduced-motion: reduce) {
   html.mp-apparition .urgence-bar,
