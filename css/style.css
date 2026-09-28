@@ -3189,6 +3189,20 @@ html.mp-first-visit .page-loader.loader-out .page-loader__barre span { transform
   .page-loader__logo, .page-loader__pattes i, .page-loader__barre span { animation: none; }
 }
 
+/* --- 3bis. ARRIVÉE DE L'EN-TÊTE, quand le site apparaît ---
+   le bandeau orange descend du haut, puis la barre blanche suit */
+@keyframes mpArriveeHaut { from { transform: translateY(-104%); } to { transform: translateY(0); } }
+html.mp-apparition .urgence-bar {
+  animation: mpArriveeHaut .55s cubic-bezier(0.22, 1, 0.36, 1) .52s both;
+}
+html.mp-apparition header.main-header {
+  animation: mpArriveeHaut .62s cubic-bezier(0.22, 1, 0.36, 1) .76s both;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.mp-apparition .urgence-bar,
+  html.mp-apparition header.main-header { animation: none; }
+}
+
 /* --- 2. RECHERCHE SUR TOUT LE SITE --- */
 .search-btn {
   display: inline-flex;

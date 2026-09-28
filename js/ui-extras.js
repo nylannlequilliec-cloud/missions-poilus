@@ -17,6 +17,11 @@
       if (termine) { return; }
       termine = true;
       loader.classList.add('loader-out');
+      // le bandeau orange puis la barre blanche descendent du haut pendant que le site apparaît
+      document.documentElement.classList.add('mp-apparition');
+      window.setTimeout(function () {
+        document.documentElement.classList.remove('mp-apparition');
+      }, 2200);
       // on laisse l'animation de sortie se jouer (détails qui grossissent + fondu)
       window.setTimeout(function () { loader.style.display = 'none'; }, 880);
       document.documentElement.classList.remove('mp-first-visit');
