@@ -51,6 +51,8 @@
     };
   });
 
+  function sansAutre(phrase, mot) { return sansAccent(phrase).indexOf(mot) !== -1 && phrase.length > 40; }
+
   function chercher(requete) {
     var mots = sansAccent(requete).split(/\s+/).filter(function (m) { return m.length > 1; });
     if (!mots.length) { return []; }
@@ -66,13 +68,15 @@
         if (partiel === 0) { ok = false; }
         score += partiel;
         if (!meilleurExtrait) {
-          var phrases = p.x.split(/[.!?]\s+/);
-          for (var i = 0; i < phrases.length; i++) {
-            if (sansAccent(phrases[i]).indexOf(mot) !== -1) { meilleurExtrait = phrases[i]; break; }
+          // on privilégie la description (phrase rédigée) quand elle contient le mot cherché
+          if (p.nd.indexOf(mot) !== -1) { meilleurExtrait = p.d; }
+          if (!meilleurExtrait) {
+            var phrases = p.x.split(/[.!?]\s+/);
+            for (var i = 0; i < phrases.length; i++) {
+              if (sansAutre(phrases[i], mot)) { meilleurExtrait = phrases[i]; break; }
+            }
           }
-          if (!meilleurExtrait && p.nh.indexOf(mot) !== -1) {
-            meilleurExtrait = p.h.join(' · ');
-          }
+          if (!meilleurExtrait && p.nh.indexOf(mot) !== -1) { meilleurExtrait = p.h.join(' · '); }
         }
       });
       if (ok && score > 0) {
