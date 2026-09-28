@@ -3207,7 +3207,7 @@ html.mp-apparition .urgence-bar {
   animation: mpArriveeHautOrange .55s cubic-bezier(0.22, 1, 0.36, 1) .52s both;
 }
 html.mp-apparition header.main-header {
-  animation: mpArriveeHaut .62s cubic-bezier(0.22, 1, 0.36, 1) .8s both;
+  animation: mpArriveeHaut .62s cubic-bezier(0.22, 1, 0.36, 1) .92s both;
 }
 @media (prefers-reduced-motion: reduce) {
   html.mp-apparition .urgence-bar,
