@@ -3139,9 +3139,33 @@ html.mp-first-visit .page-loader {
   justify-content: center;
   gap: 26px;
   background: linear-gradient(160deg, #232B45 0%, #1A2038 100%);
-  transition: opacity .42s ease, visibility .42s ease;
+  /* le voile s'efface légèrement après : on voit d'abord les détails grossir (0,14 s),
+     puis l'opacité révèle le site */
+  transition: opacity .78s ease .14s, visibility .78s ease .14s;
 }
 html.mp-first-visit .page-loader.loader-out { opacity: 0; visibility: hidden; }
+/* sortie animée : les détails du chargement grossissent pendant que le voile s'efface
+   et laisse apparaître le site (l'animation continue est coupée pour laisser passer la transition) */
+.page-loader__logo,
+.page-loader__pattes i,
+.page-loader__pattes,
+.page-loader__barre span {
+  transition: transform .8s cubic-bezier(0.22, 1, 0.36, 1), opacity .55s ease;
+}
+html.mp-first-visit .page-loader.loader-out .page-loader__logo {
+  animation: none;
+  transform: scale(2.6);
+  opacity: 0;
+}
+html.mp-first-visit .page-loader.loader-out .page-loader__pattes i {
+  animation: none;
+  transform: scale(2.8) translateY(-30px);
+  opacity: 0;
+}
+html.mp-first-visit .page-loader.loader-out .page-loader__pattes i:nth-child(2) { transition-delay: .05s; }
+html.mp-first-visit .page-loader.loader-out .page-loader__pattes i:nth-child(3) { transition-delay: .1s; }
+html.mp-first-visit .page-loader.loader-out .page-loader__barre { transform: scaleX(1.35); opacity: 0; }
+html.mp-first-visit .page-loader.loader-out .page-loader__barre span { transform: scaleX(1.9); }
 .page-loader__logo {
   background: #fff;
   border-radius: 22px;

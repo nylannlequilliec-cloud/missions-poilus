@@ -17,7 +17,8 @@
       if (termine) { return; }
       termine = true;
       loader.classList.add('loader-out');
-      window.setTimeout(function () { loader.style.display = 'none'; }, 450);
+      // on laisse l'animation de sortie se jouer (détails qui grossissent + fondu)
+      window.setTimeout(function () { loader.style.display = 'none'; }, 880);
       document.documentElement.classList.remove('mp-first-visit');
       try { sessionStorage.setItem('mp-visited', '1'); } catch (e) {}
     };
