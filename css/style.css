@@ -3150,17 +3150,19 @@ html.mp-first-visit .page-loader.loader-out { opacity: 0; visibility: hidden; }
 .page-loader__pattes i,
 .page-loader__pattes,
 .page-loader__barre span {
-  transition: transform .8s cubic-bezier(0.22, 1, 0.36, 1), opacity .55s ease;
+  transition: transform .8s cubic-bezier(0.22, 1, 0.36, 1), opacity .7s ease;
 }
 html.mp-first-visit .page-loader.loader-out .page-loader__logo {
   animation: none;
   transform: scale(2.6);
   opacity: 0;
 }
+/* les pattes grandissent et RESTENT visibles : leur animation d'opacité est coupée, on ne touche
+   pas à leur opacité (sinon le navigateur saute directement à 0 sans transition) */
 html.mp-first-visit .page-loader.loader-out .page-loader__pattes i {
   animation: none;
+  opacity: 1;
   transform: scale(2.8) translateY(-30px);
-  opacity: 0;
 }
 html.mp-first-visit .page-loader.loader-out .page-loader__pattes i:nth-child(2) { transition-delay: .05s; }
 html.mp-first-visit .page-loader.loader-out .page-loader__pattes i:nth-child(3) { transition-delay: .1s; }
