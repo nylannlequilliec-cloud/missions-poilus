@@ -3312,3 +3312,192 @@ html.cookies-visibles .back-top { bottom: 118px; }
   html.cookies-visibles .float-call { bottom: 178px; }
   html.cookies-visibles .back-top { bottom: 178px; }
 }
+
+/* ============================================================
+   CARTE ORGANIQUE DES PAGES DE SERVICE (maquette client)
+   Forme « blob » asymétrique, couches de vagues empilées derrière,
+   vagues devant (haut droite + bas gauche), empreinte en filigrane,
+   pastille d'icône carrée, liste à coches orange, bouton dégradé.
+============================================================ */
+.carte-org {
+  position: relative;
+  max-width: 780px;
+  margin: 8px auto 46px;
+  isolation: isolate;
+}
+/* les couches derrière : effet de papier empilé (bleu nuit, orange, crème) */
+.carte-org__couche {
+  position: absolute;
+  inset: 14px -10px -16px 12px;
+  border-radius: 96px 150px 92px 138px;
+  z-index: 0;
+  pointer-events: none;
+}
+.carte-org__couche--3 { background: #232B45; transform: rotate(2.4deg) translate(16px, 10px); }
+.carte-org__couche--2 { background: linear-gradient(150deg, #F7A046, #E07C12); transform: rotate(1.2deg) translate(8px, 5px); }
+.carte-org__couche--1 { background: #FDFAF4; transform: translate(2px, 2px); }
+.carte-org__corps {
+  position: relative;
+  z-index: 3;
+  background: #FDFAF4;
+  border-radius: 96px 150px 92px 138px;
+  padding: 52px 72px 48px 62px;
+  box-shadow: 0 22px 50px rgba(35, 43, 69, 0.12);
+  overflow: hidden;
+}
+/* vagues devant */
+.carte-org__vagues { position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; overflow: hidden; }
+.carte-org__vague { position: absolute; width: 100%; height: 44%; }
+.carte-org__vague--haut { top: -1px; right: 0; }
+.carte-org__vague--bas { bottom: -1px; left: 0; transform: rotate(180deg); }
+/* empreinte en filigrane, en bas à droite */
+.carte-org__patte {
+  position: absolute;
+  right: 26px;
+  bottom: 26px;
+  z-index: 2;
+  font-size: 168px;
+  line-height: 1;
+  color: rgba(242, 140, 40, 0.16);
+  transform: rotate(-18deg);
+  pointer-events: none;
+}
+/* contenu */
+.carte-org__icone {
+  position: relative;
+  z-index: 4;
+  width: 84px;
+  height: 84px;
+  border-radius: 22px;
+  background: #2A3356;
+  color: #F28C28;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 12px 26px rgba(26, 32, 56, 0.24);
+  margin-bottom: 30px;
+}
+.carte-org__titre {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  color: #232B45;
+  font-size: 1.62rem;
+  line-height: 1.24;
+  font-weight: 800;
+  margin: 0 0 18px;
+  padding-right: 120px;
+}
+.carte-org__titre i { color: #E07C12; font-size: 1.05rem; flex-shrink: 0; }
+.carte-org__texte {
+  position: relative;
+  z-index: 4;
+  color: #3A4160;
+  font-size: 1.02rem;
+  line-height: 1.72;
+  margin: 0 0 22px;
+  padding-right: 90px;
+}
+.carte-org__question {
+  position: relative;
+  z-index: 4;
+  color: #232B45;
+  font-weight: 700;
+  font-size: 1.02rem;
+  margin: 0 0 12px;
+}
+.carte-org__liste {
+  position: relative;
+  z-index: 4;
+  list-style: none;
+  padding: 0 90px 0 0;
+  margin: 0 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.carte-org__liste li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #2A3356;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.carte-org__liste li::before {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #E07C12;
+  font-size: 0.95rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.carte-org__cta {
+  position: relative;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 38px;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #F7A046 0%, #E07C12 100%);
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(224, 124, 18, 0.30);
+  text-decoration: none;
+  transition: transform .3s ease, box-shadow .3s ease, filter .3s ease;
+}
+.carte-org__cta:hover { transform: translateY(-2px); filter: saturate(1.06); box-shadow: 0 18px 34px rgba(224, 124, 18, 0.36); }
+.carte-org__cta i { transition: transform .3s ease; }
+.carte-org__cta:hover i { transform: translateX(4px); }
+
+/* petit écran : forme moins marquée, marges réduites */
+@media (max-width: 700px) {
+  .carte-org__corps { border-radius: 64px 96px 60px 88px; padding: 34px 30px 34px 28px; }
+  .carte-org__couche { inset: 10px -6px -12px 8px; border-radius: 64px 96px 60px 88px; }
+  .carte-org__icone { width: 68px; height: 68px; font-size: 1.6rem; border-radius: 18px; margin-bottom: 22px; }
+  .carte-org__titre { font-size: 1.32rem; padding-right: 60px; }
+  .carte-org__texte { font-size: 0.98rem; padding-right: 40px; }
+  .carte-org__liste { padding-right: 40px; }
+  .carte-org__patte { font-size: 118px; right: 10px; bottom: 18px; }
+  .carte-org__cta { width: 100%; padding: 15px 22px; }
+}
+
+/* ============================================================
+   L'ENCART D'EN-TÊTE DES PAGES DE SERVICE devient la carte organique
+   (le bandeau bleu nuit plein écran est remplacé par la carte crème)
+============================================================ */
+.page-intro {
+  background: none;
+  color: var(--bleu-nuit);
+  text-align: left;
+  padding: 26px 20px 4px;
+}
+.page-intro h1.carte-org__titre {
+  display: block;              /* pas de flex ici : le titre s'écoule normalement */
+  font-size: 1.95rem;
+  line-height: 1.22;
+  color: #232B45;
+  text-align: left;
+  margin: 0 0 18px;
+  padding-right: 90px;
+}
+.page-intro h1.carte-org__titre > i { margin-right: 9px; vertical-align: 2px; font-size: 1.1rem; }
+.page-intro h1.carte-org__titre span { color: #E07C12; }
+.page-intro p.carte-org__texte {
+  max-width: none;
+  margin: 0 0 22px;
+  font-size: 1.02rem;
+  color: #3A4160;
+}
+@media (max-width: 700px) {
+  .page-intro { padding: 16px 12px 2px; }
+  .page-intro h1.carte-org__titre { font-size: 1.4rem; padding-right: 34px; }
+  .page-intro h1.carte-org__titre > i { font-size: 0.9rem; }
+}
