@@ -1,4 +1,17 @@
 # Configuration Netlify — Mission Poilus (site 100% statique, pas de build)
+# Forcer le HTTPS et supprimer les www (en plus du réglage « Force HTTPS » de Netlify)
+[[redirects]]
+  from = "http://mission-poilus.com/*"
+  to = "https://mission-poilus.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.mission-poilus.com/*"
+  to = "https://mission-poilus.com/:splat"
+  status = 301
+  force = true
+
 [build]
   command = ""
   publish = "."

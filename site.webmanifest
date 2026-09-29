@@ -1,0 +1,14 @@
+{
+  "name": "Mission Poilus",
+  "short_name": "Mission Poilus",
+  "description": "Multi-services animaliers : visites à domicile, promenades, taxi animalier à Saint-André-des-Eaux et 65 km alentour.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDFAF4",
+  "theme_color": "#232B45",
+  "lang": "fr",
+  "icons": [
+    { "src": "favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
