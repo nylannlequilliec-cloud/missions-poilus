@@ -38,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css?v=112" />
+  <link rel="stylesheet" href="css/style.css?v=113" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -146,26 +146,37 @@
     <a href="./">Accueil</a> &rsaquo; <a href="./#services">Services</a> &rsaquo; Avant / après hospitalisation
   </nav>
 
-  <section>
-    <div class="prose">
-      <p>Lorsqu'un propriétaire est hospitalisé, opéré ou en convalescence, ses animaux se retrouvent sans garde. Mission Poilus intervient rapidement pour <strong>prendre le relais à Saint-André-des-Eaux, La Baule, Guérande, Saint-Nazaire et dans un rayon de 65 km</strong>, que ce soit en urgence ou de façon planifiée.</p>
-
-      <h2>Avant l'hospitalisation</h2>
-      <ul>
+  <div class="carte-org">
+    <span class="carte-org__couche carte-org__couche--3" aria-hidden="true"></span>
+    <span class="carte-org__couche carte-org__couche--2" aria-hidden="true"></span>
+    <span class="carte-org__couche carte-org__couche--1" aria-hidden="true"></span>
+    <div class="carte-org__corps">
+        <div class="carte-org__vagues" aria-hidden="true"><svg class="carte-org__vague carte-org__vague--haut" viewBox="0 0 400 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M400 0H150C225 35 285 80 320 130 350 172 375 205 400 228V0Z" fill="#F28C28" fill-opacity=".92"/><path d="M400 0H195C258 38 300 82 328 128 352 168 378 200 400 220V0Z" fill="#232B45"/></svg><svg class="carte-org__vague carte-org__vague--bas" viewBox="0 0 400 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M400 0H150C225 35 285 80 320 130 350 172 375 205 400 228V0Z" fill="#F28C28" fill-opacity=".92"/><path d="M400 0H195C258 38 300 82 328 128 352 168 378 200 400 220V0Z" fill="#232B45"/></svg></div>
+      <i class="fa-solid fa-paw carte-org__patte" aria-hidden="true"></i>
+      <div class="carte-org__icone"><i class="fa-solid fa-hand-holding-heart"></i></div>
+      <h2 class="carte-org__titre"><i class="fa-solid fa-paw"></i> Avant / après hospitalisation</h2>
+      <p class="carte-org__texte">Lorsqu'un propriétaire est hospitalisé, opéré ou en convalescence, ses animaux se retrouvent sans garde. Mission Poilus intervient rapidement pour <strong>prendre le relais à Saint-André-des-Eaux, La Baule, Guérande, Saint-Nazaire et dans un rayon de 65 km</strong>, que ce soit en urgence ou de façon planifiée.</p>
+      <p class="carte-org__question">Avant l'hospitalisation</p>
+      <ul class="carte-org__liste">
         <li>Prise en charge de votre animal dès l'annonce de votre admission</li>
         <li>Transport vers une pension de confiance ou visite à domicile</li>
         <li>Récupération des médicaments, croquettes et accessoires chez vous</li>
         <li>Coordination avec votre famille ou vos proches si nécessaire</li>
       </ul>
+      <a href="contact.html" class="btn btn-primary carte-org__cta"><i class="fa-solid fa-arrow-right"></i> Demander un devis gratuit</a>
+    </div>
+  </div>
 
-      <h2>Pendant l'hospitalisation</h2>
+
+  <section>
+    <div class="prose">
+<h2>Pendant l'hospitalisation</h2>
       <ul>
         <li>Visites quotidiennes à domicile pour chats, NAC et animaux peu mobiles</li>
         <li>Promenades régulières pour les chiens dans la Presqu'île de Guérande et alentours</li>
         <li>Compte-rendu photo et message à chaque passage pour vous rassurer</li>
         <li>Livraison de nourriture ou médicaments si besoin</li>
       </ul>
-
       <h2>Après l'hospitalisation</h2>
       <ul>
         <li>Transport de retour de l'animal à votre domicile</li>
@@ -173,15 +184,11 @@
         <li>Passages de soutien pendant votre convalescence</li>
         <li>Coordination avec votre vétérinaire si suivi post-opératoire nécessaire</li>
       </ul>
-
       <p>Ce service s'adresse aussi aux personnes âgées, aux personnes en situation de handicap temporaire, ou à toute famille qui ne peut temporairement plus s'occuper de son animal. Nous intervenons sur <strong>La Baule, Guérande, Saint-Nazaire, Pornic, Saint-Brévin, la Presqu'île de Guérande et tout le secteur Loire-Atlantique (44)</strong> dans un rayon de 65 km.</p>
-
       <p>Besoin d'un transport vétérinaire en urgence ? Consultez notre service de <a href="taxi-animalier.html">taxi &amp; ambulance animalière</a>. Pour les visites régulières, découvrez nos <a href="visites-chats-nac.html">visites à domicile pour chats et NAC</a>.</p>
+
     </div>
 
-    <div class="page-cta">
-      <a href="contact.html" class="btn btn-primary"><i class="fa-solid fa-calendar-check"></i> Demander un devis gratuit</a>
-    </div>
   </section>
 
   <section style="padding-top:0;">
@@ -264,7 +271,7 @@
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <script src="js/app.js?v=112"></script>
+  <script src="js/app.js?v=113"></script>
   <div class="search-panel" id="searchPanel" hidden>
     <div class="recherche-boite" role="dialog" aria-label="Recherche sur le site">
       <div class="recherche-haut">
@@ -284,7 +291,7 @@
     </div>
   </div>
 
-  <script src="search-index.js?v=112"></script>
-  <script src="js/ui-extras.js?v=112"></script>
+  <script src="search-index.js?v=113"></script>
+  <script src="js/ui-extras.js?v=113"></script>
 </body>
 </html>
