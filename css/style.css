@@ -204,7 +204,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(35,43,69,0.7) 0%, rgba(35,43,69,0.55) 100%);
+      background: linear-gradient(135deg, rgba(35,43,69,0.82) 0%, rgba(35,43,69,0.7) 100%);
       backdrop-filter: blur(3px);
       -webkit-backdrop-filter: blur(3px);
       pointer-events: none;
@@ -3312,3 +3312,56 @@ html.cookies-visibles .back-top { bottom: 118px; }
   html.cookies-visibles .float-call { bottom: 178px; }
   html.cookies-visibles .back-top { bottom: 178px; }
 }
+
+/* ============================================================
+   CONTRASTE WCAG AA (corrigé après mesure des rapports réels)
+   L'orange de charte #F28C28 reste pour les fonds, vagues et décors.
+   · orange utilisé comme TEXTE sur fond clair → #B2560A  (4,97:1)
+   · texte posé sur un fond orange           → bleu nuit #232B45 (5,69:1)
+============================================================ */
+:root { --orange-texte: #A94F05; }
+
+/* --- orange en texte sur fond clair --- */
+.logo-text span,
+nav.menu a:hover,
+nav.menu a.active,
+nav.menu a.active::after,
+.nav a:hover,
+.nav a.active,
+.section-eyebrow,
+.local-seo-signature__valeurs,
+.form-group label .required,
+.section-header .section-eyebrow,
+.section-eyebrow.reveal,
+span.section-eyebrow { color: var(--orange-texte) !important; }
+
+/* --- texte sur fond orange : bleu nuit --- */
+.btn-primary,
+.btn.btn-primary,
+.btn-submit,
+button.btn-submit,
+nav.menu a.cta-nav,
+a.cta-nav,
+.cookie-btn--ok { color: #232B45; }
+nav.menu a.cta-nav:hover { color: #fff; background: var(--bleu-nuit); }
+.btn-primary i,
+.btn-submit i,
+nav.menu a.cta-nav i { color: #232B45; }
+nav.menu a.cta-nav:hover i { color: #fff; }
+
+/* bandeau d'urgence : texte et lien en bleu nuit sur l'orange */
+.urgence-bar,
+.urgence-bar span,
+.urgence-line,
+.urgence-bar a,
+.urgence-bar a:hover { color: #1A2038; }
+.urgence-bar a { border-bottom-color: rgba(35, 43, 69, 0.55); }
+.urgence-bar i { color: #1A2038; animation: none; }
+
+/* pastille du hero : fond bleu nuit translucide pour garantir la lisibilité du blanc sur la photo */
+.hero-scope { background: rgba(26, 32, 56, 0.55) !important; border-color: rgba(255, 255, 255, 0.34) !important; }
+.hero .baseline { color: #fff !important; }
+
+/* pastilles de tarif */
+.tarif-badge,
+.tarif-badge-local { color: #232B45; }
