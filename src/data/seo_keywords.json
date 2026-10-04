@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-09-27",
-  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee ; Google Trends renvoie une erreur 429 depuis la machine d'audit. Controle autocomplete Google FR (27/09/2026) : les requetes retenues sont toutes reellement completees par Google, ex. « garde de chien a domicile », « garde de chien a domicile tarif », « garde d'animaux a domicile », « garde d'animaux autour de moi », « garde chien saint nazaire », « garde d'animaux saint nazaire », « garde chien la baule », « garde de chat saint nazaire », « pet sitter nantes », « cat sitter nantes », « dog sitter nantes », « pet sitter saint nazaire », « pet sitter la baule », « visite a domicile chat », « tarif visite a domicile chat », « garde de chat a domicile », « garde nac a domicile », « garde lapin a domicile », « promenade de chien », « promeneur de chien nantes », « taxi animalier », « taxi animalier nantes », « taxi animalier tarif », « transport chat veterinaire », « livraison croquettes a domicile », « assurance sante animale ». Releve du 27/09 : cette semaine le site a gagne 8 pages locales (garde-animaux-la-baule, garde-animaux-saint-nazaire, visites-chats-nac-saint-nazaire, transport-animalier-veterinaire-nantes, pet-sitter-pornichet, taxi-animalier-la-baule, taxi-animalier-guerande, taxi-animalier-saint-nazaire) : les mots-cles locaux pointent desormais vers ces pages dediees plutot que vers l'accueil. Requetes locales SANS suggestion Google -> volume negligeable, a traiter en texte, pas en mot-cle : « garde d'animaux la baule » (seule « garde animaux la baule » ressort), « taxi animalier la baule / guerande / saint nazaire », « pet sitter pornichet », « garde nac saint nazaire », « livraison croquettes la baule ». A l'inverse « pet sitting Saint-Andre-des-Eaux » et « garde d'animaux chez vous » ne declenchent aucune suggestion : a utiliser comme phrase de clarte dans les textes. « ambulance animaliere » n'a aucune variante nantaise completee : mot-cle ecarte, la page taxi reste portee par « taxi animalier » et « taxi animalier Nantes ».",
+  "updated_at": "2026-10-04",
+  "note": "Volumes marques 'estime' tant qu'aucune source verifiable (Keyword Planner, GSC) n'est connectee (GSC non configure : 'No google accounts found'). Source du releve du 04/10/2026 : autocomplete Google FR (suggestqueries.google.com, hl=fr&gl=fr), toutes les requetes retenues sont reellement completees par Google. Nouveautes de la semaine : on remplace « pet sitter Saint-Nazaire » (recouvre « garde d'animaux Saint-Nazaire ») par « garde de chat Nantes » (suggestions « garde chat nantes », « gardiennage chat nantes », « garderie chat nantes », « garde chat a domicile nantes ») et « promenade de chien » (generique national) par « promeneur de chien Nantes » (« promeneur de chien nantes », « promenade chien nantes ») pour capter l'intention locale. Confirmes cette semaine : « garde de chien a domicile tarif/prix », « garde de chat a domicile prix », « tarif garde chat a domicile », « prix pet sitter chat/chien/domicile », « garde nac a domicile », « garde lapin a domicile », « transport animaux veterinaire », « taxi animalier tarif », « promeneur de chien tarif », « livraison croquettes a domicile », « assurance sante animale », « assurance chien tarif/comparatif », « assurance chat prix ». Cote pet-sitting Nantes : « pet sitter nantes chat », « dog sitter nantes », « cat sitter nantes », « dog walker nantes », « dog sitting nantes », « cat sitting nantes ». Cote local : « dog sitter saint nazaire », « pet sitter saint nazaire », « cat sitter la baule », « pet sitter la baule », « garde chat la baule » et « balade chien saint nazaire » sont completes par Google ; les pages locales ont donc bien une demande. Requetes locales SANS suggestion Google -> volume negligeable, a traiter en texte et non en mot-cle : « taxi animalier saint nazaire / la baule », « garde d'animaux la baule » (seule « garde de chien la baule » ressort), « garde chien pornichet », « pet sitter pornichet », « livraison croquettes nantes », « garde animal apres hospitalisation », « garde chien apres operation » (autour de la page avant-apres-hospitalisation.html, a travailler en contenu : « convalescence chien », « recupration chien apres operation » ressortent en generique). « ambulance animaliere » toujours sans variante locale : page portee par « taxi animalier » et « taxi animalier Nantes ».",
   "keywords": [
     {
       "keyword": "garde de chien a domicile",
@@ -31,6 +31,13 @@
       "page": "index.html"
     },
     {
+      "keyword": "garde de chat Nantes",
+      "volume": "estime",
+      "intent": "transactionnel / local",
+      "location": "Nantes",
+      "page": "visites-chats-nac.html"
+    },
+    {
       "keyword": "garde d'animaux Saint-Nazaire",
       "volume": "estime",
       "intent": "transactionnel / local",
@@ -50,13 +57,6 @@
       "intent": "transactionnel / local",
       "location": "Saint-Nazaire",
       "page": "visites-chats-nac-saint-nazaire.html"
-    },
-    {
-      "keyword": "pet sitter Saint-Nazaire",
-      "volume": "estime",
-      "intent": "transactionnel / local",
-      "location": "Saint-Nazaire / Presqu'ile guerlandaise",
-      "page": "index.html"
     },
     {
       "keyword": "transport chat veterinaire",
@@ -87,9 +87,9 @@
       "page": "taxi-animalier.html"
     },
     {
-      "keyword": "promenade de chien",
+      "keyword": "promeneur de chien Nantes",
       "volume": "estime",
-      "intent": "transactionnel",
+      "intent": "transactionnel / local",
       "location": "Nantes / Presqu'ile guerlandaise",
       "page": "promenades.html"
     },
