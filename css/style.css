@@ -3420,3 +3420,24 @@ nav.menu a.cta-nav:hover i { color: #fff; }
 /* pastilles de tarif */
 .tarif-badge,
 .tarif-badge-local { color: #232B45; }
+
+/* Secteurs : deux périmètres lisibles, sans annuaire de communes ouvert par défaut. */
+.zones-compact { padding: 54px 24px; }
+.zones-compact .section-header { margin-bottom: 28px; }
+.zones-services { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.zone-service { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 26px; border-radius: 20px; background: #fff; border: 1px solid #e3e5ed; border-top: 4px solid #F28C28; box-shadow: 0 8px 24px rgba(35,43,69,.05); }
+.zone-service-icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 13px; background: #232B45; color: #F28C28; font-size: 1.2rem; margin-bottom: 15px; }
+.zone-service h3 { margin: 0 0 8px; color: #232B45; font-size: 1.2rem; line-height: 1.4; }
+.zone-service p { color: #41475b; line-height: 1.65; margin: 0 0 13px; font-size: .94rem; }
+.zone-service .zone-service-territoire { color: #A94F05; font-weight: 600; font-size: .85rem; }
+.zone-service .zone-service-note { font-size: .85rem; }
+.zone-service-link { display: inline-block; margin-top: auto; color: #232B45; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.zone-service-link i { margin-left: 6px; color: #A94F05; }
+.zones-liens { margin-top: 22px; border-bottom: 1px solid #dfe2eb; }
+.zones-liens summary { cursor: pointer; padding: 12px 0; color: #232B45; font-weight: 600; font-size: .9rem; }
+.zones-liens nav { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 8px 0 20px; }
+.zones-liens a { color: #41475b; font-size: .86rem; text-decoration: underline; text-underline-offset: 3px; }
+.zones-demande { text-align: center; margin: 20px auto 0; max-width: 740px; color: #41475b; font-size: .9rem; line-height: 1.6; }
+.zones-compact .local-seo-cta { margin-top: 18px; }
+.zones-compact a:focus-visible, .zones-liens summary:focus-visible { outline: 3px solid #A94F05; outline-offset: 4px; }
+@media(max-width:700px) { .zones-services { grid-template-columns: 1fr; gap: 18px; } .zones-compact { padding: 36px 20px; } .zone-service { padding: 22px; } .zone-service h3 { font-size: 1.12rem; } }
