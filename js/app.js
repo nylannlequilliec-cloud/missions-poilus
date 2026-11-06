@@ -107,6 +107,8 @@
       formule:          safeQs('formule'),
       formuleNote:      safeQs('formule-note'),
       condFormule:      safeQs('cond-formule'),
+      condOptionsPrestations: safeQs('cond-options-prestations'),
+      optionsPrestationsList: safeQs('options-prestations-list'),
       estimationPrix:   safeQs('estimation_prix'),
       condHeureJournee: safeQs('cond-heure-journee'),
       condDatePlanifie: safeQs('cond-date-planifie'),
@@ -160,6 +162,74 @@
       }
       // « NAC » est supprimé du formulaire (13/09/2026) : les choix sont Chien, Chat et
       // Autre (champ de précision libre) — plus aucun compteur ni détail NAC.
+    }
+
+    // Cases complémentaires : elles structurent la demande, sans promettre disponibilité
+    // ni créer une réservation. Elles suivent la prestation principale choisie.
+    const OPTIONS_PRESTATIONS = {
+      'Taxi Animalier': [
+        ['famille', 'Transfert vers une famille d’accueil ou un proche'],
+        ['veterinaire', 'Rendez-vous vétérinaire ou clinique'],
+        ['toiletteur', 'Rendez-vous toiletteur'],
+        ['association', 'Remise à une association ou un refuge'],
+        ['autre', 'Autre destination (à préciser dans votre message)']
+      ],
+      'Urgence vétérinaire': [
+        ['veterinaire', 'Transport vers le vétérinaire ou la clinique'],
+        ['retour', 'Retour au domicile après consultation (si possible)'],
+        ['autre', 'Autre précision utile']
+      ],
+      'Livraison à domicile': [
+        ['alimentation', 'Alimentation'],
+        ['medicaments', 'Médicaments (selon ordonnance ou consignes)'],
+        ['accessoires', 'Accessoires ou produits de soin'],
+        ['autre', 'Autre article à préciser']
+      ],
+      'Promenades adaptées': [
+        ['balade', 'Balade et dépense adaptée'],
+        ['hygiene', 'Sortie hygiène'],
+        ['laisse', 'Travail en laisse ou habitudes de sortie'],
+        ['autre', 'Autre besoin à préciser']
+      ],
+      'Visite à domicile': [
+        ['alimentation', 'Alimentation et eau'],
+        ['hygiene', 'Litière ou hygiène'],
+        ['presence', 'Présence et surveillance'],
+        ['promenade', 'Promenade'],
+        ['traitement', 'Traitement selon ordonnance ou consignes fournies'],
+        ['autre', 'Autre besoin à préciser']
+      ],
+      'Avant/après hospitalisation': [
+        ['visite', 'Visite au domicile de l’animal'],
+        ['promenade', 'Promenade'],
+        ['veterinaire', 'Transfert vers le vétérinaire ou la clinique'],
+        ['proche', 'Coordination avec un proche ou un représentant'],
+        ['autre', 'Autre besoin à préciser']
+      ]
+    };
+
+    function updateOptionsPrestations() {
+      if (!DOM.condOptionsPrestations || !DOM.optionsPrestationsList || !DOM.serviceSelect) return;
+      const options = OPTIONS_PRESTATIONS[DOM.serviceSelect.value] || [];
+      DOM.optionsPrestationsList.replaceChildren();
+      if (!options.length) {
+        toggleField(DOM.condOptionsPrestations, false);
+        return;
+      }
+      options.forEach(([value, label]) => {
+        const option = document.createElement('label');
+        option.className = 'prestation-option';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.name = 'options_prestation';
+        input.value = label;
+        input.dataset.option = value;
+        const text = document.createElement('span');
+        text.textContent = label;
+        option.append(input, text);
+        DOM.optionsPrestationsList.append(option);
+      });
+      toggleField(DOM.condOptionsPrestations, true);
     }
 
     function updateRaceLogic() {
@@ -369,6 +439,7 @@
       toggleField(DOM.condDateStandard, false, [DOM.dateInput, DOM.heureInput]);
       toggleField(DOM.condSejour, false, [DOM.dateDebut, DOM.dateFin]);
       toggleField(DOM.condFormule, false, [DOM.formule]);
+      toggleField(DOM.condOptionsPrestations, false);
       toggleField(DOM.condHeureJournee, false, [DOM.heureJournee]);
       toggleField(DOM.condDatePlanifie, false, [DOM.datePlanifie, DOM.heurePlanifie]);
       toggleField(DOM.condAdresseClient, false, [DOM.adresseClient]);
@@ -495,6 +566,7 @@
       }
 
       updateAnimalOptions();
+      updateOptionsPrestations();
       // MAJ races
       updateRaceLogic();
     }
@@ -1095,6 +1167,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
       const typeTransportStr   = data.get('type_transport') || '';
       const messageStr         = data.get('message') || '';
       const infoMedStr         = data.get('info_medicale') || '';
+      const optionsPrestationStr = data.getAll('options_prestation').join(' · ');
       const formuleChoisie     = getFormule(service, DOM.formule ? DOM.formule.value : '');
       const formuleStr         = formuleChoisie ? formuleChoisie.nom + ' (' + formuleChoisie.duree + ')' : '';
 
@@ -1155,6 +1228,7 @@ let villeArrivee = getVilleData(DOM.villeArriveeHidden);
 ═══════════════════════════════════════
 
 [PRESTATION] ${service}${typeTransportStr ? ' -- ' + typeTransportStr : ''}
+${optionsPrestationStr ? '[BESOINS] ' + optionsPrestationStr : ''}
 ${formuleStr ? '[FORMULE] ' + formuleStr : ''}
 ${dateAffichee ? '[DATE] ' + dateAffichee : ''}${heureVal ? ' a ' + heureVal : ''}
 ${sejourStr ? '[PERIODE] ' + sejourStr : ''}
@@ -1200,6 +1274,7 @@ ${notePromoRecap}${noteAndre}${notePackJour}${noteTempsPlaceRecap}==============
 Suite à votre demande pour "${service}", voici la confirmation de votre devis :
 
 [PRESTATION] ${service}
+${optionsPrestationStr ? '[BESOINS] ' + optionsPrestationStr : ''}
 ${formuleStr ? '[FORMULE] ' + formuleStr : ''}
 ${dateAffichee ? '[DATE] ' + dateAffichee + (heureVal ? ' a ' + heureVal : '') : ''}
 
@@ -1256,6 +1331,7 @@ Pour valider votre devis, merci de repondre a ce mail ou de me contacter au 06 8
         frequence: data.get('frequence_jour') || '',
         service: service,
         formule: formuleStr,
+        options_prestation: data.getAll('options_prestation'),
         nom: clientName,
         tel: data.get('phone') || '',
         email: clientEmail,
